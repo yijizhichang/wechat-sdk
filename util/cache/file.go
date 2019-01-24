@@ -43,7 +43,7 @@ func NewFile(fileFullPath string) (*File, error) {
 	file := new(File)
 	file.interval = time.Second * 2
 	file.FileFullPath = absolutePath(fileFullPath)
-	file.fileClient, err = os.OpenFile(file.FileFullPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0660)
+	file.fileClient, err = os.OpenFile(file.FileFullPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0750)
 	file.mux = new(sync.RWMutex)
 	file.data = new(fileString)
 	file.loadFile()

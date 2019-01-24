@@ -159,7 +159,7 @@ func (l *logger) getSizeFileFullName() string {
 func (l *logger) openFile() {
 	defer catchError()
 	var err error
-	l.logfile, err = os.OpenFile(l.getFileFullName(), os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
+	l.logfile, err = os.OpenFile(l.getFileFullName(), os.O_RDWR|os.O_APPEND|os.O_CREATE, 0750)
 	if err != nil {
 		panic("不能打开/创建文件 " + err.Error())
 	}
