@@ -1,12 +1,12 @@
 package example
 
 import (
-	"net/http"
-	"github.com/yijizhichang/wechat-sdk/mp/message"
-	"github.com/yijizhichang/wechat-sdk/mp/message/callback/response"
-	"github.com/yijizhichang/wechat-sdk/mp/message/callback/request"
 	"fmt"
-	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
+	"github.com/yijizhichang/wechat-sdkexamples/wxconf"
+	"github.com/yijizhichang/wechat-sdk/mp/message"
+	"github.com/yijizhichang/wechat-sdk/mp/message/callback/request"
+	"github.com/yijizhichang/wechat-sdk/mp/message/callback/response"
+	"net/http"
 )
 
 //与微信交互服务地址
@@ -19,6 +19,8 @@ func Serve(rw http.ResponseWriter, req *http.Request) {
 		var reStr interface{}
 		var msgType message.MsgType
 		var getCon interface{}
+
+		msgType = message.MsgTypeNothing
 
 		//根据微信回调时的消息类型，来相应获取对应消息明细
 		switch msg.MsgCommon.MsgType {
@@ -76,15 +78,15 @@ func Serve(rw http.ResponseWriter, req *http.Request) {
 			fmt.Println("图文消息：", reStr)
 			msgType = message.MsgTypeNews
 		default:
-			reStr = response.NewText("默认回复你消息吧")
-			msgType = message.MsgTypeText
+			//reStr =""
+			//msgType = message.MsgTypeNothing
 		}
 
 		//转发到客服
-/*		if msg.MsgCommon.MsgType == "text"{
-			reStr = response.NewTransferKf("")
-			msgType = message.MsgTypeTransfer
-		}*/
+		/*		if msg.MsgCommon.MsgType == "text"{
+				reStr = response.NewTransferKf("")
+				msgType = message.MsgTypeTransfer
+			}*/
 
 		return &response.Reply{MsgType: msgType, MsgData: reStr}
 	})
@@ -98,5 +100,3 @@ func Serve(rw http.ResponseWriter, req *http.Request) {
 	//发送回复的消息
 	server.Send()
 }
-
-

@@ -16,6 +16,7 @@ const (
 	MsgTypeNews               = "news"                      //图文消息[限回复]
 	MsgTypeTransfer           = "transfer_customer_service" //消息转发到客服
 	MsgTypeEvent              = "event"                     //事件推送消息
+	MsgTypeNothing            = "nothing"                   //回复空或success
 )
 
 const (

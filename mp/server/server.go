@@ -107,7 +107,7 @@ func (srv *Server) getMessage() (interface{}, error) {
 	if srv.isSafeMode {
 		var encryptedXMLMsg message.EncryptedXMLMsg
 		if err := xml.NewDecoder(srv.Request.Body).Decode(&encryptedXMLMsg); err != nil {
-			srv.WXLog.Error("从body中解析xml失败,err",err)
+			srv.WXLog.Error("从body中解析xml失败,err", err)
 			return nil, fmt.Errorf("从body中解析xml失败,err=%v", err)
 		}
 
@@ -171,6 +171,8 @@ func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 	}
 
 	msgType := reply.MsgType
+
+	srv.WXLog.Debug("被动回复微信消息类型：", msgType)
 	switch msgType {
 	case message.MsgTypeText:
 	case message.MsgTypeImage:
@@ -179,6 +181,8 @@ func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 	case message.MsgTypeMusic:
 	case message.MsgTypeNews:
 	case message.MsgTypeTransfer:
+	case message.MsgTypeNothing:
+		return
 	default:
 		err = response.ErrUnsupportReply
 		return
@@ -213,7 +217,13 @@ func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 //消息发送给微信
 func (srv *Server) Send() (err error) {
 	replyMsg := srv.responseMsg
-	srv.WXLog.Debug("被动回复微信消息内容-加密前：",srv.responseMsg)
+	srv.WXLog.Debug("被动回复微信消息内容-加密前：", srv.responseMsg)
+
+	if replyMsg == nil {
+		srv.String("success")
+		return
+	}
+
 	if srv.isSafeMode {
 		//安全模式下对消息进行加密
 		var encryptedMsg []byte
@@ -232,8 +242,7 @@ func (srv *Server) Send() (err error) {
 			Nonce:        srv.nonce,
 		}
 	}
-	if replyMsg != nil {
-		srv.XML(replyMsg)
-	}
+
+	srv.XML(replyMsg)
 	return
 }
