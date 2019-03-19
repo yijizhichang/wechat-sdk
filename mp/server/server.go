@@ -219,11 +219,6 @@ func (srv *Server) Send() (err error) {
 	replyMsg := srv.responseMsg
 	srv.WXLog.Debug("被动回复微信消息内容-加密前：", srv.responseMsg)
 
-	if replyMsg == nil {
-		srv.String("success")
-		return
-	}
-
 	if srv.isSafeMode {
 		//安全模式下对消息进行加密
 		var encryptedMsg []byte
