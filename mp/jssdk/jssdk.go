@@ -82,10 +82,10 @@ func (j *JSAPISDK) MakeSign(ticket, url string) (sign *Signs) {
 	sign = &Signs{
 		JsapiTicket: ticket,
 		Noncestr:    util.RandomString(16),
-		Timestamp:   strconv.Itoa(int(time.Now().Unix())),
+		Timestamp:   time.Now().Unix(),
 		URL:         url,
 	}
-	sign.Signature = fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", sign.JsapiTicket, sign.Noncestr, sign.Timestamp, url)
+	sign.Signature = fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", sign.JsapiTicket, sign.Noncestr, strconv.Itoa(int(sign.Timestamp)), url)
 	return
 }
 
@@ -98,7 +98,7 @@ type JSAPITicket struct {
 type Signs struct {
 	JsapiTicket string
 	Noncestr    string
-	Timestamp   string
+	Timestamp   int64
 	URL         string
 	Signature   string
 }

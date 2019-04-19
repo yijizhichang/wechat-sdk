@@ -80,8 +80,8 @@ func PostJSON(uri string, obj interface{}, proxyAddr string) ([]byte, error) {
 	}
 
 	dialer := &net.Dialer{
-		Timeout:   time.Duration(1 * int64(time.Second)),
-		KeepAlive: time.Duration(1 * int64(time.Second)),
+		Timeout:   time.Duration(10 * int64(time.Second)),
+		// KeepAlive: time.Duration(1 * int64(time.Second)),
 	}
 
 	var isHttps bool
@@ -163,8 +163,8 @@ func PostMultipartForm(fields []MultipartFormField, uri string, proxyAddr string
 	}
 
 	dialer := &net.Dialer{
-		Timeout:   time.Duration(1 * int64(time.Second)),
-		KeepAlive: time.Duration(1 * int64(time.Second)),
+		Timeout:   time.Duration(10 * int64(time.Second)),
+		// KeepAlive: time.Duration(1 * int64(time.Second)),
 	}
 
 	var isHttps bool
