@@ -2,7 +2,7 @@ package example
 
 import (
 	"fmt"
-	"github.com/yijizhichang/wechat-sdkexamples/wxconf"
+	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
 	"github.com/yijizhichang/wechat-sdk/mp/message"
 	"github.com/yijizhichang/wechat-sdk/mp/message/callback/request"
 	"github.com/yijizhichang/wechat-sdk/mp/message/callback/response"

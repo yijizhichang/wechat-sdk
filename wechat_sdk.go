@@ -5,6 +5,7 @@ import (
 	"github.com/yijizhichang/wechat-sdk/mp/client"
 	"github.com/yijizhichang/wechat-sdk/mp/core"
 	"github.com/yijizhichang/wechat-sdk/mp/custom"
+	"github.com/yijizhichang/wechat-sdk/mp/jssdk"
 	"github.com/yijizhichang/wechat-sdk/mp/media"
 	"github.com/yijizhichang/wechat-sdk/mp/menu"
 	"github.com/yijizhichang/wechat-sdk/mp/message/mass"
@@ -214,4 +215,9 @@ func (wc *Wechat) GetMedia() *media.Media {
 //账户管理
 func (wc *Wechat) GetAccount() *account.Account {
 	return account.NewAccount(wc.Context)
+}
+
+//账户管理
+func (wc *Wechat) GetJSSDK() *jssdk.JSAPISDK {
+	return jssdk.NewJSSDK(wc.Context)
 }
