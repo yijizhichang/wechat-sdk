@@ -85,7 +85,7 @@ func (j *JSAPISDK) MakeSign(ticket, url string) (sign *Signs) {
 		Timestamp:   time.Now().Unix(),
 		URL:         url,
 	}
-	sign.Signature = fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", sign.JsapiTicket, sign.Noncestr, strconv.Itoa(int(sign.Timestamp)), url)
+	sign.Signature = util.SHA1(fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", sign.JsapiTicket, sign.Noncestr, strconv.Itoa(int(sign.Timestamp)), url))
 	return
 }
 
