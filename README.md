@@ -150,6 +150,7 @@ CacheConfig中的RedisClusterConfig，需要填写redisCluster相关配置
 - [菜单管理](mp/menu/README.md)
 - [微信网页授权](mp/oauth2/README.md)
 - [账户管理](mp/account/README.md)
+- [jssdk](mp/jssdk/README.md)
 
 ## 常见问题
 
