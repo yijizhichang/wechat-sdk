@@ -213,4 +213,4 @@
 
 ```
 
-详细Demo：[examples/example/custom.go](examples/example/custom.go)
+详细Demo：[examples/example/custom.go](../../examples/example/custom.go)

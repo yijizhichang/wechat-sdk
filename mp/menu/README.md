@@ -154,4 +154,4 @@
 
 
 
-详细Demo：[examples/example/menu.go](examples/example/menu.go)
+详细Demo：[examples/example/menu.go](../../examples/example/menu.go)

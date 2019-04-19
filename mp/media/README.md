@@ -390,4 +390,4 @@ msg_data_id    	是	Uint32	群发返回的msg_data_id
 user_comment_id	是	Uint32	评论id
 ```
 
-详细Demo：[examples/example/media.go](examples/example/media.go)
+详细Demo：[examples/example/media.go](../../examples/example/media.go)

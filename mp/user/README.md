@@ -182,4 +182,4 @@
 	//fmt.Println("取消拉黑用户：", err)
 ```
 
-详细Demo：[examples/example/user.go](examples/example/user.go)
+详细Demo：[examples/example/user.go](../../examples/example/user.go)

@@ -74,4 +74,4 @@
 
 ```
 
-详细Demo：[examples/example/account.go](examples/example/account.go)
+详细Demo：[examples/example/account.go](../../examples/example/account.go)

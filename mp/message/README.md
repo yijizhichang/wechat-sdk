@@ -251,4 +251,4 @@ Url	：点击图文消息跳转链接
 	log.Println("返回发送模板消息的结果：",re)
 ```
 
-详细Demo：[examples/example/template.go](examples/example/template.go)
+详细Demo：[examples/example/template.go](../../examples/example/template.go)
