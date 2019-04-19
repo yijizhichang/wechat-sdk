@@ -7,6 +7,7 @@ import (
 	flog "github.com/yijizhichang/wechat-sdk/util/log"
 	"io"
 	"math/rand"
+	"os"
 	"sort"
 	"strings"
 	"time"
@@ -89,4 +90,17 @@ func SHA1(str string) string {
 	sha := sha1.New()
 	io.WriteString(sha, str)
 	return fmt.Sprintf("%x", sha.Sum(nil))
+}
+
+func Mkdir(dir string) (e error) {
+	_, er := os.Stat(dir)
+	b := er == nil || os.IsExist(er)
+	if !b {
+		if err := os.MkdirAll(dir, 0750); err != nil {
+			if os.IsPermission(err) {
+				e = err
+			}
+		}
+	}
+	return
 }

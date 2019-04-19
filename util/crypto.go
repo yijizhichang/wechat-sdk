@@ -92,7 +92,7 @@ func DecryptMsg(appID, encryptedMsg, aesKey string) (random, rawMsgXMLBytes []by
 
 	random, rawMsgXMLBytes, getAppIDBytes, err = AESDecryptMsg(encryptedMsgBytes, key)
 	if err != nil {
-		err = fmt.Errorf("消息解密失败(AESDecryptMsg),%v", err,"encryptedMsgBytes:",string(encryptedMsgBytes),"key:",string(key))
+		err = fmt.Errorf("消息解密失败(AESDecryptMsg):%v,encryptedMsgBytes:%v,key:%v", err,string(encryptedMsgBytes),string(key))
 		return
 	}
 	if appID != string(getAppIDBytes) {

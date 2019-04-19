@@ -34,8 +34,8 @@ func HTTPGet(uri string, proxyAddr string) ([]byte, error) {
 	}
 
 	dialer := &net.Dialer{
-		Timeout:   time.Duration(1 * int64(time.Second)),
-		KeepAlive: time.Duration(1 * int64(time.Second)),
+		Timeout:   time.Duration(10 * int64(time.Second)),
+		// KeepAlive: time.Duration(1 * int64(time.Second)),
 	}
 
 	var isHttps bool

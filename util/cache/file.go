@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/yijizhichang/wechat-sdk/util"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"strconv"
 	"sync"
@@ -17,7 +19,7 @@ const (
 )
 
 var (
-	timeLocation, _ = time.LoadLocation("Asia/Chongqing") //当地时间
+	timeLocation, _ = time.LoadLocation("Asia/Chongqing") // 当地时间
 )
 
 type File struct {
@@ -40,9 +42,11 @@ type baseAttr struct {
 
 func NewFile(fileFullPath string) (*File, error) {
 	var err error
+	allPath := absolutePath(fileFullPath)
+	util.Mkdir(path.Dir(allPath))
 	file := new(File)
 	file.interval = time.Second * 2
-	file.FileFullPath = absolutePath(fileFullPath)
+	file.FileFullPath = allPath
 	file.fileClient, err = os.OpenFile(file.FileFullPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0750)
 	file.mux = new(sync.RWMutex)
 	file.data = new(fileString)
@@ -233,7 +237,7 @@ func nowTimeAdd2Nano(t time.Duration) int64 {
 	return time.Now().In(timeLocation).Add(t).UnixNano()
 }
 
-//获取绝对路径
+// 获取绝对路径
 func absolutePath(dir string) (fp string) {
 	fp, _ = filepath.Abs(dir)
 	return

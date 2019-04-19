@@ -88,7 +88,7 @@ func main() {
 	// example.GetSelfMenuInfo() //获取自定义菜单配置
 
 	// example.AccountManage() //二维码管理
-	example.GetJSSign() //jssdk配置
+	// example.GetJSSign() //jssdk配置
 
 	http.HandleFunc("/serve", example.Serve)                               // server 服务
 	http.HandleFunc("/customHeadImg", example.CustomHeadImg)               // 设置客服头像
