@@ -79,6 +79,7 @@ func (ctx *Context) Render(bytes []byte) {
 func (ctx *Context) String(str string) {
 	writeContextType(ctx.Writer, plainContentType)
 	ctx.Render([]byte(str))
+	return
 }
 
 //render to xml
@@ -91,6 +92,16 @@ func (ctx *Context) XML(obj interface{}) {
 
 	ctx.WXLog.Debug("被动回复微信消息内容", string(bytes))
 	ctx.Render(bytes)
+}
+
+func (ctx *Context) ResponseXML(obj interface{}) string {
+	bytes, err := xml.Marshal(obj)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx.WXLog.Debug("被动回复微信消息内容,返回给应用", string(bytes))
+	return string(bytes)
 }
 
 func writeContextType(w http.ResponseWriter, value []string) {

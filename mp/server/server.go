@@ -55,10 +55,27 @@ func (srv *Server) Serve() error {
 		return err
 	}
 
-	//debug
-	//fmt.Println("request msg = ", string(srv.requestRawXMLMsg))
-
 	return srv.buildResponse(response)
+}
+
+//处理微信的请求消息,并返回给应用
+func (srv *Server) ResponseServe() (str string, contentType string, echostrExist bool, err error) {
+	if !srv.Validate() {
+		return "","", false, fmt.Errorf("请求校验失败,(返回给应用)")
+
+	}
+
+	echostr, exists := srv.GetQuery("echostr")
+	if exists {
+		return echostr,"text/plain; charset=utf-8", true, nil
+	}
+
+	response, err := srv.handleRequest()
+	if err != nil {
+		return
+	}
+
+	return "","", false, srv.buildResponse(response)
 }
 
 //验证微信消息真实性
@@ -219,6 +236,11 @@ func (srv *Server) Send() (err error) {
 	replyMsg := srv.responseMsg
 	srv.WXLog.Debug("被动回复微信消息内容-加密前：", srv.responseMsg)
 
+	if replyMsg == nil {
+		srv.String("")
+		return
+	}
+
 	if srv.isSafeMode {
 		//安全模式下对消息进行加密
 		var encryptedMsg []byte
@@ -240,4 +262,37 @@ func (srv *Server) Send() (err error) {
 
 	srv.XML(replyMsg)
 	return
+}
+
+
+//消息发送给应用，由应用发给微信
+func (srv *Server) ResponseSend() (str string, contentType string, err error) {
+	replyMsg := srv.responseMsg
+	srv.WXLog.Debug("被动回复微信消息内容-加密前：（返回给应用）", srv.responseMsg)
+
+	if replyMsg == nil {
+		return "success", "text/plain; charset=utf-8", nil
+	}
+
+	if srv.isSafeMode {
+		//安全模式下对消息进行加密
+		var encryptedMsg []byte
+		encryptedMsg, err = util.EncryptMsg(srv.random, srv.responseRawXMLMsg, srv.AppID, srv.EncodingAESKey)
+		if err != nil {
+			return
+		}
+		//如果获取不到timestamp nonce 则自己生成
+		timestamp := srv.timestamp
+		timestampStr := strconv.FormatInt(timestamp, 10)
+		msgSignature := util.Signature(srv.Token, timestampStr, srv.nonce, string(encryptedMsg))
+		replyMsg = message.ResponseEncryptedXMLMsg{
+			EncryptedMsg: string(encryptedMsg),
+			MsgSignature: msgSignature,
+			Timestamp:    timestamp,
+			Nonce:        srv.nonce,
+		}
+	}
+
+	s := srv.ResponseXML(replyMsg)
+	return s, "application/xml; charset=utf-8", nil
 }

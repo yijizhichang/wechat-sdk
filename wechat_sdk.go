@@ -167,6 +167,12 @@ func (wc *Wechat) GetServer(req *http.Request, writer http.ResponseWriter) *serv
 	return server.NewServer(wc.Context)
 }
 
+// GetResponseServer 消息不直接发给微信，而是返回给调用应用，由应用返回给微信
+func (wc *Wechat) GetResponseServer(req *http.Request) *server.Server {
+	wc.Context.Request = req
+	return server.NewServer(wc.Context)
+}
+
 //获取access_token
 func (wc *Wechat) GetAccessToken() string {
 	accessToken, _ := wc.Context.GetAccessToken()

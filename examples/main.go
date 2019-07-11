@@ -90,7 +90,8 @@ func main() {
 	// example.AccountManage() //二维码管理
 	// example.GetJSSign() //jssdk配置
 
-	http.HandleFunc("/serve", example.Serve)                               // server 服务
+	//http.HandleFunc("/wechat/server", example.Serve)                             // server 服务
+	http.HandleFunc("/wechat/server", example.ResponseServe)               // server 服务 数据先返回应用
 	http.HandleFunc("/customHeadImg", example.CustomHeadImg)               // 设置客服头像
 	http.HandleFunc("/uploadTempMedia", example.UploadTempMedia)           // 上传临时素材
 	http.HandleFunc("/uploadNewsPermanent", example.UploadNewsPermanent)   // 上传永久图文素材

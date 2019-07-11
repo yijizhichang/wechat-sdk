@@ -60,7 +60,10 @@ go get -u github.com/yijizhichang/wechat-sdk
     			FileMaxSize:  1024*1024*1024,		//单个日志文件大小 单位B, 1024 * 1024 * 1024 为1G
     		},
     	}
+	
+	//ps:下面的方法一，方法二取选一个即可
 
+    //方法一(需要传入request和responseWriter)
 	wc := wechat.NewWechat(config)
 
     server := wc.GetServer(request, responseWriter)  // 传入request和responseWriter
@@ -72,6 +75,41 @@ go get -u github.com/yijizhichang/wechat-sdk
     })
     server.Serve()
     server.Send()
+    //方法一结束
+    
+    //方法二(需要传入request, 不需要responseWriter, 返回内容不由包直接返给微信平台，而是返回给应用，由应用返给微信平台)
+    wc := wechat.NewWechat(config)
+
+    server := wc.GetResponseServer(request) // 传入request和responseWriter
+
+    //设置接收消息的处理方法
+    server.SetMessageHandler(func(msg message.MixMessage) *response.Reply {
+        reStr = response.NewText("回复微信")
+        return &response.Reply{MsgType: msgType, MsgData: reStr}
+    })
+    //处理消息接收以及回复 rw http.ResponseWriter
+    str, contentType, echostrExist, err := server.ResponseServe()
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+    if echostrExist { //echostrExist为true时，响应微信平台校验接口
+        header := rw.Header()
+        header["Content-Type"] = []string{contentType}
+        rw.WriteHeader(200)
+        rw.Write([]byte(str))
+        fmt.Println("echostrExist is true",str,contentType)
+        return
+    }
+    //发送回复的消息给微信平台
+    str2, contentType2, err := server.ResponseSend()
+    header := rw.Header()
+    header["Content-Type"] = []string{contentType2}
+    rw.WriteHeader(200)
+    rw.Write([]byte(str2)
+    //方法二结束
+    
+    
 ```
 详细Demo：[examples/example/serve.go](examples/example/serve.go)
 
