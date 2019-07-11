@@ -63,7 +63,7 @@ go get -u github.com/yijizhichang/wechat-sdk
 	
 	//ps:下面的方法一，方法二取选一个即可
 
-    //方法一(需要传入request和responseWriter)
+	//方法一(需要传入request和responseWriter)
 	wc := wechat.NewWechat(config)
 
     server := wc.GetServer(request, responseWriter)  // 传入request和responseWriter
@@ -80,7 +80,7 @@ go get -u github.com/yijizhichang/wechat-sdk
     //方法二(需要传入request, 不需要responseWriter, 返回内容不由包直接返给微信平台，而是返回给应用，由应用返给微信平台)
     wc := wechat.NewWechat(config)
 
-    server := wc.GetResponseServer(request) // 传入request和responseWriter
+    server := wc.GetResponseServer(request) // 传入request
 
     //设置接收消息的处理方法
     server.SetMessageHandler(func(msg message.MixMessage) *response.Reply {
