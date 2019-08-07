@@ -6,20 +6,21 @@ import (
 	"github.com/yijizhichang/wechat-sdk"
 	"github.com/yijizhichang/wechat-sdk/examples/example"
 	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
+	"github.com/yijizhichang/wechat-sdk/examples/cache"
+	wxCache "github.com/yijizhichang/wechat-sdk/util/cache"
 	"net/http"
 )
 
 // 测试参数
-// go run example.go -appid='your appdi' -appsecret='your appsecret' -token='your token' -cache='file' -port=':80'
+// go run example.go -appid='your appdi' -appsecret='your appsecret' -token='your token' -port=':80'
 var appid = flag.String("appid", "your AppID", "appid")
 var appsecret = flag.String("appsecret", "your AppSecret", "appsecret")
 var token = flag.String("token", "your Token", "token")
-var cache = flag.String("cache", "file", "cache")
 var aeskey = flag.String("asekey", "your EncodingAesKey", "asekey")
 var port = flag.String("port", "80", "port")
 
 // 参数配置
-func getWxConfig() *wechat.Config {
+func getWxConfig(cacheModel wxCache.Cache) *wechat.Config {
 	config := &wechat.Config{
 		AppID:            *appid,     // 开发者ID(AppID)
 		AppSecret:        *appsecret, // 开发者PWD AppSecret
@@ -28,29 +29,9 @@ func getWxConfig() *wechat.Config {
 		PayMchId:         "",         // 支付 - 商户 ID
 		PayNotifyUrl:     "",         // 支付 - 接受微信支付结果通知的接口地址
 		PayKey:           "",         // 支付 - 商户后台设置的支付 key
-		CacheModel:       *cache,     // 缓存方式 默认为file，可选 file,redis,redisCluster
+		Cache:            cacheModel, // 缓存方式 可选 file,redis,redisCluster 来实现cache的接口
 		ThirdAccessToken: false,      // 是否使用第三方accessToken
 		ProxyUrl:         "",         // 代理
-		CacheConfig: &wechat.CacheConfig{ // 缓存配置
-			FilePath: "./debug/cache/cache.txt", // 缓存文件路径  CacheModel = "file" 时有效
-			RedisConfig: &wechat.RedisConfig{
-				Addr:     "127.0.0.1:6370", // Redis 地址，CacheModel = "redis" 时有效
-				Password: "your redis pwd", // Redis PWD
-			},
-			RedisClusterConfig: &wechat.RedisClusterConfig{
-				Addr:     []string{"127.0.0.1:6370", "127.0.0.1:6370"}, // RedisCluster 地址，CacheModel = "redisCluster" 时有效
-				Password: "your redis pwd",                             // RedisCluster PWD
-			},
-		},
-		FlogConfig: &wechat.FlogConfig{
-			LogLevel:    1,                  // 日志级别 =0 ALL; =1 DEBUG; =2 INFO; =3 WARN; =4 ERROR; =5 FATAL; =6 ALERT; =7 OFF;  注意：测试可以设置DEBUG;线上设置INFO 或 ERROR
-			IsConsole:   true,               // 是否输出到控制台
-			IsFile:      true,               // 是否写文件
-			FilePath:    "./debug/log/",     // 文件日志路径
-			Filename:    "wechat-sdk",       // 文件名称
-			FileSuffix:  "txt",              // 文件后缀
-			FileMaxSize: 1024 * 1024 * 1024, // 单个日志文件大小 单位B, 1024 * 1024 * 1024 为1G
-		},
 	}
 	return config
 }
@@ -58,9 +39,18 @@ func getWxConfig() *wechat.Config {
 func main() {
 	// NewWechat
 	flag.Parse()
-	wxconf.WechatClient = wechat.NewWechat(getWxConfig())
+	//缓存 -file模式
+	fileCache,_ := cache.NewFile("./debug/cache/cache.txt")
 
-	fmt.Println(*appid, *appsecret, *token, *cache, *port)
+	//缓存 -redis
+	//redisClusterCache, _ := cache.NewRedisCluster(&cache.RedisCluster{
+	//	Addrs:    []string{"127.0.0.1:6379","127.0.0.1:6380"},
+	//	Password: "123456",
+	//})
+
+	wxconf.WechatClient = wechat.NewWechat(getWxConfig(fileCache))
+
+	fmt.Println(*appid, *appsecret, *token, *port)
 
 	// 测试样例
 	// example.SendTemplateMsg()  //模板消息发送
