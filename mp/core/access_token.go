@@ -29,14 +29,12 @@ func (ctx *Context) GetAccessToken() (accessToken string, err error) {
 		thirdVal, thirdErr := ctx.Cache.Get(thirdKey)
 
 		if thirdErr != nil {
-			ctx.WXLog.Error("从缓存中获取共享的accessTokenThird", thirdErr, "缓存方式", ctx.CacheModel)
 			err = thirdErr
 			return
 		}
 
 		if thirdVal != nil {
 			AccessTokenThird := thirdVal.(string)
-			ctx.WXLog.Debug("从缓存中获取共享的accessTokenThird", AccessTokenThird, "缓存方式", ctx.CacheModel)
 			accessToken = AccessTokenThird
 			return
 		}
@@ -47,16 +45,12 @@ func (ctx *Context) GetAccessToken() (accessToken string, err error) {
 	key := AccessTokenCachePrefix + ctx.AppID
 	val, err := ctx.Cache.Get(key)
 
-	if err != nil {
-		ctx.WXLog.Error("从缓存中获取accessToken失败", err, "缓存方式", ctx.CacheModel)
-	}
-
-	ctx.WXLog.Debug("缓存返回结果", val)
+	fmt.Println("cache accessToken test err:", err)
 
 	if val != nil {
+		fmt.Println("accessToken from cache")
 		accessToken = val.(string)
 		if accessToken != "" {
-			ctx.WXLog.Debug("从缓存中获取accessToken", accessToken, "缓存方式", ctx.CacheModel)
 			return
 		}
 
@@ -65,8 +59,7 @@ func (ctx *Context) GetAccessToken() (accessToken string, err error) {
 	//从微信服务器获取
 	accessToken, err = ctx.GetAccessTokenFromServer()
 	if err != nil {
-		err = fmt.Errorf("GetAccessToken error : errormsg=%v", err)
-		ctx.WXLog.Debug("从微信服务器获取accessToken失败", err)
+		err = fmt.Errorf("GetAccessTokenFromMpServer error : errormsg=%v", err)
 		return
 	}
 
@@ -89,8 +82,7 @@ func (ctx *Context) GetAccessTokenFromServer() (accessToken string, err error) {
 	}
 
 	if result.ErrMsg != "" {
-		err = fmt.Errorf("GetAccessTokenFromServer error : errcode=%v , errormsg=%v", result.ErrCode, result.ErrMsg)
-		ctx.WXLog.Error("从微信服务器获取token错误", err)
+		err = fmt.Errorf("GetAccessTokenFromMpServer error : errcode=%v , errormsg=%v", result.ErrCode, result.ErrMsg)
 		return
 	}
 
@@ -103,7 +95,6 @@ func (ctx *Context) GetAccessTokenFromServer() (accessToken string, err error) {
 	if err != nil {
 		return
 	}
-	ctx.WXLog.Debug("从微信服务器获取token", accessToken)
 	return
 }
 

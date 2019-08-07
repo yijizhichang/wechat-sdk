@@ -30,7 +30,6 @@ func (m *Mass) MassPreview(opts ...massPreviewOption) (res resMassPreview, err e
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }

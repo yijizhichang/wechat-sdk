@@ -62,7 +62,6 @@ func (m *Mass) MassSendall(opts ...massOption) (res resMass, err error) {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }
@@ -91,7 +90,6 @@ func (m *Mass) MassSend(opts ...massOption) (res resMass, err error) {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }
@@ -120,7 +118,6 @@ func (m *Mass) MassDel(msgID, articleIDX int) (err error) {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }
@@ -146,7 +143,6 @@ func (m *Mass) MassGet(msgID string) (res resMassGet, err error) {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }
@@ -176,7 +172,6 @@ func (m *Mass) MassSpeedGet() (res MassSpeedGetRes, err error)  {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }
@@ -205,7 +200,6 @@ func (m *Mass) MassSpeedSet(speed int) (res util.WxError, err error)  {
 	}
 	if res.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", res.ErrCode, res.ErrMsg)
-		m.WXLog.Error(massFlag, err)
 	}
 	return
 }

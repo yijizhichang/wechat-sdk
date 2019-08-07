@@ -58,9 +58,7 @@ func (media *Media) UploadTempMedia(fileType, fileName string) (result uploadTem
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("UploadTempMedia error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("新增临时素材错误", err)
 	}
 	return
 }
@@ -110,9 +108,7 @@ func (media *Media) MediaUploadImg(fileName string) (result mediaUploadImgResult
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("MediaUploadImg error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("上传图文消息内的图片错误", err)
 	}
 	return
 }
@@ -167,9 +163,6 @@ func (media *Media) AddNewsPermanent(news *News) (result addNewsPermanentResult,
 	}
 	wxUrl := fmt.Sprintf(MediaAddNewsPermanentURL, accessToken)
 
-	newsJson, _ := json.Marshal(news)
-	media.WXLog.Debug("永久图文素材上传内容", news, "json", string(newsJson))
-
 	response, err := util.PostJSON(wxUrl, news, media.ProxyUrl)
 	if err != nil {
 		return
@@ -180,9 +173,7 @@ func (media *Media) AddNewsPermanent(news *News) (result addNewsPermanentResult,
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("AddNewsPermanent error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("新增永久图文素材错误", err)
 	}
 	return
 }
@@ -211,9 +202,7 @@ func (media *Media) AddMaterialMedia(fileType, fileName string) (result addMater
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("AddMaterialMedia error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("上传永久素材错误", err)
 	}
 	return
 }
@@ -259,8 +248,6 @@ func (media *Media) AddVideoMedia(title, introduction, fileName string) (result 
 		},
 	}
 
-	media.WXLog.Debug("永久视频素材上传内容", fields)
-
 	response, err := util.PostMultipartForm(fields, wxUrl, media.ProxyUrl)
 	if err != nil {
 		return
@@ -271,9 +258,7 @@ func (media *Media) AddVideoMedia(title, introduction, fileName string) (result 
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("AddVideoMedia error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("上传永久视频素材错误", err)
 	}
 	return
 }
@@ -311,9 +296,7 @@ func (media *Media) GetNewsMediaInfo(mediaId string) (result *newsMediaInfoResul
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetNewsMediaInfo error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("获取永久图文素材错误", err)
 	}
 	return
 }
@@ -347,9 +330,7 @@ func (media *Media) GetVideoMediaInfo(mediaId string) (result *videoMediaInfoRes
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetVideoMediaInfo error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("获取永久视频素材错误", err)
 	}
 	return
 }
@@ -401,9 +382,7 @@ func (media *Media) DelMaterialMedia(mediaId string) (result util.WxError, err e
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("DelMaterialMedia error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("删除永久素材错误", err)
 	}
 	return
 }
@@ -443,9 +422,7 @@ func (media *Media) UpdateNewsMedia(postData *UpdateNewsMedia) (result util.WxEr
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("UpdateNewsMedia error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("修改永久图文素材错误", err)
 	}
 	return
 }
@@ -477,9 +454,7 @@ func (media *Media) GetMaterialMediaCount() (result materialMediaCount, err erro
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetMaterialMediaCount error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("获取永久素材总数错误", err)
 	}
 	return
 }
@@ -546,9 +521,7 @@ func (media *Media) GetNewsMediaList(offset, count int32) (result *newsMediaList
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetNewsMediaList error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("获取图文永久素材列表错误", err)
 	}
 	return
 }
@@ -592,9 +565,7 @@ func (media *Media) GetOtherMediaList(mediaType string, offset, count int32) (re
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetOtherMediaList error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("获取其它永久素材列表错误", err)
 	}
 	return
 }

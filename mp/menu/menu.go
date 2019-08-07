@@ -61,7 +61,6 @@ func (m *Menu) SetMenu(buttons ...*Button) (result util.WxError, err error) {
 	}
 	if WxError.ErrCode != 0 {
 		err = fmt.Errorf("errcode-%d,errmsg-%s", WxError.ErrCode, WxError.ErrMsg)
-		m.WXLog.Error(menuFlag, err)
 	}
 	return
 }

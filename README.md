@@ -10,6 +10,10 @@
 ## 安装
 go get -u github.com/yijizhichang/wechat-sdk
 
+##simple分支
+简化包功能
+缓存的方式由应用自己实现sdk中的cache接口来传入，方便应用与包共用一套缓存配置，取消包内打日志
+
 ## 快速开始
 
 微信交互的运行流程:微信服务器把用户消息转到我们的自有服务器（虚线返回部分） 后的处理过程
@@ -36,29 +40,9 @@ go get -u github.com/yijizhichang/wechat-sdk
     		PayMchId:         "",       //支付 - 商户 ID
     		PayNotifyUrl:     "",       //支付 - 接受微信支付结果通知的接口地址
     		PayKey:           "",       //支付 - 商户后台设置的支付 key
-    		CacheModel:       "file",   //缓存方式 默认为file，可选 file,redis,redisCluster
+    		Cache:            cacheModel, //可选 file,redis,redisCluster 来实现cache的接口
     		ThirdAccessToken:  false,	//是否使用第三方accessToken
     		ProxyUrl:          "",		//代理
-    		CacheConfig: &wechat.CacheConfig{  //缓存配置
-    			FilePath: "./util/debug2/cache.txt",   //缓存文件路径  CacheModel = "file" 时有效
-    			RedisConfig: &wechat.RedisConfig{
-    				Addr: "127.0.0.1:6370",	  	//Redis 地址，CacheModel = "redis" 时有效
-    				Password: "your redis pwd",   		//Redis PWD 
-    			},
-    			RedisClusterConfig: &wechat.RedisClusterConfig{
-    				Addr: []string{"127.0.0.1:6370", "127.0.0.1:6370"},		//RedisCluster 地址，CacheModel = "redisCluster" 时有效
-    				Password: "your redis pwd",  									//RedisCluster PWD 
-    			},
-    		},
-    		FlogConfig: &wechat.FlogConfig{
-    			LogLevel: 	  1,					//日志级别 =0 ALL; =1 DEBUG; =2 INFO; =3 WARN; =4 ERROR; =5 FATAL; =6 ALERT; =7 OFF;  注意：测试可以设置DEBUG;线上设置INFO 或 ERROR
-    			IsConsole:    true,					//是否输出到控制台
-    			IsFile:       true,					//是否写文件
-    			FilePath:     "./util/debug/",		//文件日志路径
-    			Filename:     "wechat-sdk",			//文件名称
-    			FileSuffix:   "txt",				//文件后缀
-    			FileMaxSize:  1024*1024*1024,		//单个日志文件大小 单位B, 1024 * 1024 * 1024 为1G
-    		},
     	}
 	
 	//ps:下面的方法一，方法二取选一个即可
@@ -124,29 +108,9 @@ go get -u github.com/yijizhichang/wechat-sdk
             PayMchId:         "",       //支付 - 商户 ID
             PayNotifyUrl:     "",       //支付 - 接受微信支付结果通知的接口地址
             PayKey:           "",       //支付 - 商户后台设置的支付 key
-            CacheModel:       "file",   //缓存方式 默认为file，可选 file,redis,redisCluster
+            CacheModel:       cacheModel,   //缓存方式 可选 file,redis,redisCluster 来实现cache的接口
             ThirdAccessToken:  false,	//是否使用第三方accessToken
             ProxyUrl:          "",		//代理
-            CacheConfig: &wechat.CacheConfig{  //缓存配置
-                FilePath: "./util/debug2/cache.txt",   //缓存文件路径  CacheModel = "file" 时有效
-                RedisConfig: &wechat.RedisConfig{
-                    Addr: "127.0.0.1:6370",	  	//Redis 地址，CacheModel = "redis" 时有效
-                    Password: "your redis pwd",   		//Redis PWD 
-                },
-                RedisClusterConfig: &wechat.RedisClusterConfig{
-                    Addr: []string{"127.0.0.1:6370", "127.0.0.1:6370"},		//RedisCluster 地址，CacheModel = "redisCluster" 时有效
-                    Password: "your redis pwd",  									//RedisCluster PWD 
-                },
-            },
-            FlogConfig: &wechat.FlogConfig{
-                LogLevel: 	  1,					//日志级别 =0 ALL; =1 DEBUG; =2 INFO; =3 WARN; =4 ERROR; =5 FATAL; =6 ALERT; =7 OFF;  注意：测试可以设置DEBUG;线上设置INFO 或 ERROR
-                IsConsole:    true,					//是否输出到控制台
-                IsFile:       true,					//是否写文件
-                FilePath:     "./util/debug/",		//文件日志路径
-                Filename:     "wechat-sdk",			//文件名称
-                FileSuffix:   "txt",				//文件后缀
-                FileMaxSize:  1024*1024*1024,		//单个日志文件大小 单位B, 1024 * 1024 * 1024 为1G
-            },
         }
 ```
 ##### CacheModel 说明：

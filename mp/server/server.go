@@ -124,7 +124,6 @@ func (srv *Server) getMessage() (interface{}, error) {
 	if srv.isSafeMode {
 		var encryptedXMLMsg message.EncryptedXMLMsg
 		if err := xml.NewDecoder(srv.Request.Body).Decode(&encryptedXMLMsg); err != nil {
-			srv.WXLog.Error("从body中解析xml失败,err", err)
 			return nil, fmt.Errorf("从body中解析xml失败,err=%v", err)
 		}
 
@@ -139,34 +138,28 @@ func (srv *Server) getMessage() (interface{}, error) {
 		msgSignature := srv.Query("msg_signature")
 		msgSignatureGen := util.Signature(srv.Token, timestamp, nonce, encryptedXMLMsg.EncryptedMsg)
 		if msgSignature != msgSignatureGen {
-			srv.WXLog.Error("消息不合法，验证签名失败")
 			return nil, fmt.Errorf("消息不合法，验证签名失败")
 		}
 
 		//解密
 		srv.random, rawXMLMsgBytes, err = util.DecryptMsg(srv.AppID, encryptedXMLMsg.EncryptedMsg, srv.EncodingAESKey)
 		if err != nil {
-			srv.WXLog.Error("消息解密失败, err", err)
 			return nil, fmt.Errorf("消息解密失败, err=%v", err)
 		}
 	} else {
 		rawXMLMsgBytes, err = ioutil.ReadAll(srv.Request.Body)
 		if err != nil {
-			srv.WXLog.Error("从body中解析xml失败, err", err)
 			return nil, fmt.Errorf("从body中解析xml失败, err=%v", err)
 		}
 	}
 
 	srv.requestRawXMLMsg = rawXMLMsgBytes
 
-	srv.WXLog.Debug("解析微信消息内容", string(rawXMLMsgBytes))
-
 	return srv.parseRequestMessage(rawXMLMsgBytes)
 }
 
 //xmlMsg to structMsg
 func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg message.MixMessage, err error) {
-	srv.WXLog.Debug("解析微信的消息", string(rawXMLMsgBytes))
 	msg = message.MixMessage{}
 	err = xml.Unmarshal(rawXMLMsgBytes, &msg)
 	return
@@ -180,7 +173,7 @@ func (srv *Server) SetMessageHandler(handler func(message.MixMessage) *response.
 func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 	defer func() {
 		if e := recover(); e != nil {
-			err = fmt.Errorf("panic error: %v\n%s", e, debug.Stack())
+			err = fmt.Errorf("buildResponse error: %v\n%s", e, debug.Stack())
 		}
 	}()
 	if reply == nil {
@@ -189,7 +182,6 @@ func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 
 	msgType := reply.MsgType
 
-	srv.WXLog.Debug("被动回复微信消息类型：", msgType)
 	switch msgType {
 	case message.MsgTypeText:
 	case message.MsgTypeImage:
@@ -234,7 +226,6 @@ func (srv *Server) buildResponse(reply *response.Reply) (err error) {
 //消息发送给微信
 func (srv *Server) Send() (err error) {
 	replyMsg := srv.responseMsg
-	srv.WXLog.Debug("被动回复微信消息内容-加密前：", srv.responseMsg)
 
 	if replyMsg == nil {
 		srv.String("")
@@ -260,16 +251,14 @@ func (srv *Server) Send() (err error) {
 		}
 	}
 
-	srv.XML(replyMsg)
-	return
+	return srv.XML(replyMsg)
+
 }
 
 
 //消息发送给应用，由应用发给微信
 func (srv *Server) ResponseSend() (str string, contentType string, err error) {
 	replyMsg := srv.responseMsg
-	srv.WXLog.Debug("被动回复微信消息内容-加密前：（返回给应用）", srv.responseMsg)
-
 	if replyMsg == nil {
 		return "success", "text/plain; charset=utf-8", nil
 	}
@@ -293,6 +282,9 @@ func (srv *Server) ResponseSend() (str string, contentType string, err error) {
 		}
 	}
 
-	s := srv.ResponseXML(replyMsg)
+	s,err := srv.ResponseXML(replyMsg)
+	if err != nil {
+		return
+	}
 	return s, "application/xml; charset=utf-8", nil
 }

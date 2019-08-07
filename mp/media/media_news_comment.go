@@ -47,9 +47,7 @@ func (media *Media) OpenComment(msgDataId, index uint32) (result util.WxError, e
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("OpenComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("打开已群发文章评论错误", err)
 	}
 	return
 }
@@ -84,9 +82,7 @@ func (media *Media) CloseComment(msgDataId, index uint32) (result util.WxError, 
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("CloseComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("关闭已群发文章评论错误", err)
 	}
 	return
 }
@@ -132,8 +128,6 @@ func (media *Media) GetCommentList(msgDataId, index, begin, count, commentType u
 
 	response, err := util.PostJSON(wxUrl, postData, media.ProxyUrl)
 
-	media.WXLog.Debug("查看指定文章的评论数据", string(response))
-
 	if err != nil {
 		return
 	}
@@ -143,9 +137,7 @@ func (media *Media) GetCommentList(msgDataId, index, begin, count, commentType u
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetCommentList error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("查看指定文章的评论数据错误", err)
 	}
 	return
 }
@@ -182,9 +174,7 @@ func (media *Media) MarkElectComment(msgDataId, index, userCommentId uint32) (re
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("MarkElectComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("将评论标记精选错误", err)
 	}
 	return
 }
@@ -221,9 +211,7 @@ func (media *Media) UnMarkElectComment(msgDataId, index, userCommentId uint32) (
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("UnMarkElectComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("将评论取消精选错误", err)
 	}
 	return
 }
@@ -260,9 +248,7 @@ func (media *Media) DeleteComment(msgDataId, index, userCommentId uint32) (resul
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("DeleteComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("删除评论错误", err)
 	}
 	return
 }
@@ -302,9 +288,7 @@ func (media *Media) ReplayComment(msgDataId, index, userCommentId uint32, conten
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("ReplayComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("回复评论错误", err)
 	}
 	return
 }
@@ -341,9 +325,7 @@ func (media *Media) DeleteReplayComment(msgDataId, index, userCommentId uint32) 
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("DeleteReplayComment error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		media.WXLog.Error("删除回复错误", err)
 	}
 	return
 }

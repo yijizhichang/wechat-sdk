@@ -89,9 +89,7 @@ func (account *Account) CreateQrCodeSceneId(isLimit bool, sceneId int32, expireS
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("CreateQrCodeSceneId error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		account.WXLog.Error("创建二维码（SceneId）错误", err)
 	}
 	return
 }
@@ -125,9 +123,7 @@ func (account *Account) CreateQrCodeSceneStr(isLimit bool, sceneStr string, expi
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("CreateQrCodeSceneStr error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		account.WXLog.Error("创建二维码（SceneStr）错误", err)
 	}
 	return
 }
@@ -172,9 +168,7 @@ func (account *Account) ShortUrl(longUrl string) (result shortUrlResult, err err
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("ShortUrl error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		account.WXLog.Error("长链接转短链接错误", err)
 	}
 	return
 }

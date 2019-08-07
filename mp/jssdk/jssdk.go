@@ -6,7 +6,6 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/yijizhichang/wechat-sdk/mp/core"
 	"github.com/yijizhichang/wechat-sdk/util"
-	"github.com/yijizhichang/wechat-sdk/util/cache"
 	"strconv"
 	"time"
 )
@@ -29,13 +28,12 @@ type JSAPISDK struct {
 func (j *JSAPISDK) GetTicket() (ticket string, err error) {
 	key := JSAPITicketKeyCachePrefix + j.Context.AppID
 	val, err := j.Context.Cache.Get(key)
-	if err != nil && err != redis.Nil && err.Error() != cache.FILENIL {
+	if err != nil && err != redis.Nil {
 		return
 	}
 	if val != nil {
 		ticket = val.(string)
 		if ticket != "" {
-			j.Context.WXLog.Debug("从缓存中获取ticket", ticket, "缓存方式", j.Context.CacheModel)
 			return
 		}
 	}
@@ -45,7 +43,6 @@ func (j *JSAPISDK) GetTicket() (ticket string, err error) {
 	apiTicket, err = j.GetTicketFromServer()
 	if err != nil {
 		err = fmt.Errorf("GetTicket error : errormsg=%v", err)
-		j.Context.WXLog.Debug("从微信服务器获取ticket失败", err)
 		return
 	}
 	err = j.Context.Cache.Set(key, apiTicket.Ticket, time.Duration(apiTicket.ExpiresIn)*time.Second-300)
@@ -58,7 +55,7 @@ func (j *JSAPISDK) GetTicket() (ticket string, err error) {
 func (j *JSAPISDK) GetTicketFromServer() (ticket JSAPITicket, err error) {
 	var accessToken string
 	accessToken, err = j.GetAccessToken()
-	if err != nil && err.Error() != cache.FILENIL {
+	if err != nil {
 		return
 	}
 	uri := TicketURL + accessToken

@@ -57,7 +57,7 @@ func HTTPGet(uri string, proxyAddr string) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer resp.Body.Close()
 	return ioutil.ReadAll(resp.Body)
@@ -115,7 +115,7 @@ func PostJSON(uri string, obj interface{}, proxyAddr string) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil,err
 	}
 	defer resp.Body.Close()
 
@@ -222,7 +222,7 @@ func PostMultipartForm(fields []MultipartFormField, uri string, proxyAddr string
 	req.Header.Set("Content-Type", "multipart/form-data")
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return
 	}
 	defer resp.Body.Close()
 

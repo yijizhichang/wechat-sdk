@@ -17,16 +17,19 @@ import (
 func EncryptMsg(random, rawXMLMsg []byte, appID, aesKey string) (encryptMsg []byte, err error) {
 	defer func() {
 		if e := recover(); e != nil {
-			err = fmt.Errorf("panic error: err=%v", e)
+			err = fmt.Errorf("EncryptMsg error: err=%v", e)
 			return
 		}
 	}()
 	var key []byte
 	key, err = aesKeyDecode(aesKey)
 	if err != nil {
-		panic(err)
+		return
 	}
-	ciphertext := AESEncryptMsg(random, rawXMLMsg, appID, key)
+	ciphertext, err := AESEncryptMsg(random, rawXMLMsg, appID, key)
+	if err != nil {
+		return
+	}
 	encryptMsg = []byte(base64.StdEncoding.EncodeToString(ciphertext))
 	//encryptMsg = []byte(Base64UrlSafeEncode(ciphertext))
 	return
@@ -34,7 +37,7 @@ func EncryptMsg(random, rawXMLMsg []byte, appID, aesKey string) (encryptMsg []by
 
 //AESEncryptMsg ciphertext = AES_Encrypt[random(16B) + msg_len(4B) + rawXMLMsg + appId]
 //参考：github.com/chanxuehong/wechat.v2
-func AESEncryptMsg(random, rawXMLMsg []byte, appID string, aesKey []byte) (ciphertext []byte) {
+func AESEncryptMsg(random, rawXMLMsg []byte, appID string, aesKey []byte) (ciphertext []byte, err error) {
 	const (
 		BlockSize = 32            // PKCS#7
 		BlockMask = BlockSize - 1 // BLOCK_SIZE 为 2^n 时, 可以用 mask 获取针对 BLOCK_SIZE 的余数
@@ -61,7 +64,7 @@ func AESEncryptMsg(random, rawXMLMsg []byte, appID string, aesKey []byte) (ciphe
 	// 加密
 	block, err := aes.NewCipher(aesKey[:])
 	if err != nil {
-		panic(err)
+		return
 	}
 	mode := cipher.NewCBCEncrypter(block, aesKey[:16])
 	mode.CryptBlocks(plaintext, plaintext)
@@ -74,7 +77,7 @@ func AESEncryptMsg(random, rawXMLMsg []byte, appID string, aesKey []byte) (ciphe
 func DecryptMsg(appID, encryptedMsg, aesKey string) (random, rawMsgXMLBytes []byte, err error) {
 	defer func() {
 		if e := recover(); e != nil {
-			err = fmt.Errorf("panic error: err=%v", e)
+			err = fmt.Errorf("DecryptMsg error: err=%v", e)
 			return
 		}
 	}()
@@ -87,7 +90,7 @@ func DecryptMsg(appID, encryptedMsg, aesKey string) (random, rawMsgXMLBytes []by
 	}
 	key, err = aesKeyDecode(aesKey)
 	if err != nil {
-		panic(err)
+		return
 	}
 
 	random, rawMsgXMLBytes, getAppIDBytes, err = AESDecryptMsg(encryptedMsgBytes, key)
@@ -158,7 +161,7 @@ func AESDecryptMsg(ciphertext []byte, aesKey []byte) (random, rawXMLMsg, appID [
 	// 解密
 	block, err := aes.NewCipher(aesKey)
 	if err != nil {
-		panic(err)
+		return
 	}
 	mode := cipher.NewCBCDecrypter(block, aesKey[:16])
 	mode.CryptBlocks(plaintext, ciphertext)

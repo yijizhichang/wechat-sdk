@@ -63,7 +63,6 @@ func (kf *Custom) AddKfAccount(kfAccount, nickName string) (result util.WxError,
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("AddKfAccount error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("添加客服账号错误", err)
 	}
 	return
 }
@@ -99,7 +98,6 @@ func (kf *Custom) UpdateKfAccount(kfAccount, nickName string) (result util.WxErr
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("UpdateKfAccount error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("修改客服账号错误", err)
 	}
 	return
 }
@@ -124,7 +122,6 @@ func (kf *Custom) DelKfAccount(kfAccount string) (result util.WxError, err error
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("DelKfAccount error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("删除客服账号错误", err)
 	}
 	return
 }
@@ -158,7 +155,6 @@ func (kf *Custom) InviteWorker(kfAccount, inviteWx string) (result util.WxError,
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("InviteWorker error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("邀请绑定客服帐号错误", err)
 	}
 	return
 }
@@ -183,7 +179,6 @@ func (kf *Custom) SetHeadImgURL(kfAccount, fileName string) (result util.WxError
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("SetHeadImgURL error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("设置客服帐号的头像错误", err)
 	}
 	return
 }
@@ -217,16 +212,12 @@ func (kf *Custom) GetKfList() (result *kfList, err error) {
 		return
 	}
 
-	kf.WXLog.Debug("获取所有客服账号列表", string(response))
-
 	err = json.Unmarshal(response, &result)
 	if err != nil {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetKfListURL error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("获取所有客服账号错误", err)
 	}
 	return
 }
@@ -256,16 +247,12 @@ func (kf *Custom) GetKfOnlineList() (result *kfOnlineList, err error) {
 		return
 	}
 
-	kf.WXLog.Debug("获取在线客服账号列表", string(response))
-
 	err = json.Unmarshal(response, &result)
 	if err != nil {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetKfOnlineList error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("获取在线客服账号错误", err)
 	}
 	return
 }
@@ -288,9 +275,7 @@ func (kf *Custom) SendMsgByKf(obj interface{}) (result util.WxError, err error) 
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("SendMsgByKf error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("发送客服消息错误", err)
 	}
 	return
 }
@@ -324,7 +309,6 @@ func (kf *Custom) TypingByKf(toUser string) (result util.WxError, err error) {
 	if result.ErrCode != 0 {
 		//打印日志
 		err = fmt.Errorf("TypingByKf error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		kf.WXLog.Error("客服输入状态错误", err)
 	}
 	return
 }

@@ -56,9 +56,7 @@ func (tpl *Template) SetIndustry(industryId1, industryId2 int64) (result util.Wx
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("SetIndustry error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("设置所属行业错误", err)
 	}
 	return
 }
@@ -90,9 +88,7 @@ func (tpl *Template) GetIndustry() (result *getIndustry, err error) {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetIndustry error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("获取设置的行业信息错误", err)
 	}
 	return
 }
@@ -126,9 +122,7 @@ func (tpl *Template) GetAddTemplate(templateIdShort string) (result *addTemplate
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetAddTemplate error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("获得模板ID错误", err)
 	}
 	return
 }
@@ -164,9 +158,7 @@ func (tpl *Template) GetAllPrivateTemplate() (result *templateList, err error) {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetAllPrivateTemplate error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("获取模板列表错误", err)
 	}
 	return
 }
@@ -195,9 +187,7 @@ func (tpl *Template) DelPrivateTemplate(tplId string) (result *util.WxError, err
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("DelPrivateTemplate error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("删除模板错误", err)
 		return
 	}
 	return
@@ -240,19 +230,14 @@ func (tpl *Template) Send(msg *Message) (result *resTemplateSend, err error) {
 	if err != nil {
 		return
 	}
-	tpl.WXLog.Debug("发送模板消息内容", msg, "代理地址", tpl.ProxyUrl)
 
 	err = json.Unmarshal(response, &result)
 	if err != nil {
 		return
 	}
 
-	tpl.WXLog.Debug("发送模板消息返回结果", result, "代理地址", tpl.ProxyUrl)
-
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("DelPrivateTemplate error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
-		tpl.WXLog.Error("发送模板消息错误", err, "代理地址", tpl.ProxyUrl)
 		return
 	}
 	return

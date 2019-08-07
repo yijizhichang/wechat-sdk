@@ -42,9 +42,7 @@ func (kf *Custom) CreateKfSession(kfAccount, openid string) (result util.WxError
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("CreateKfSession error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("创建会话错误", err)
 	}
 	return
 }
@@ -77,9 +75,7 @@ func (kf *Custom) CloseKfSession(kfAccount, openid string) (result util.WxError,
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("CloseKfSession error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("关闭会话错误", err)
 	}
 	return
 }
@@ -108,9 +104,7 @@ func (kf *Custom) GetKfSession(openid string) (result *kfSessionResult, err erro
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetKfSession error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("获取客户会话状态错误", err)
 	}
 	return
 }
@@ -143,9 +137,7 @@ func (kf *Custom) GetKfSessionList(kfAccount string) (result *kfSessionListResul
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetKfSessionList error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("获取客服会话列表错误", err)
 	}
 	return
 }
@@ -179,9 +171,7 @@ func (kf *Custom) GetWaitCaseList() (result *waitCaseResult, err error) {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetWaitCaseList error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("获取未接入会话列表错误", err)
 	}
 	return
 }

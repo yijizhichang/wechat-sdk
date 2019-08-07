@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/sha1"
 	"fmt"
-	flog "github.com/yijizhichang/wechat-sdk/util/log"
 	"io"
 	"math/rand"
 	"os"
@@ -40,12 +39,6 @@ func Int64Default(str *int64, defaultInt64 int64) {
 func BoolDefault(str *bool, defaultBool bool) {
 	if *str == false {
 		*str = defaultBool
-	}
-}
-
-func LevelDefault(str *flog.LEVEL, defaultLevel flog.LEVEL) {
-	if *str == 0 {
-		*str = 4 // 默认Error级别
 	}
 }
 

@@ -3,7 +3,6 @@ package core
 import (
 	"encoding/xml"
 	"github.com/yijizhichang/wechat-sdk/util/cache"
-	flog "github.com/yijizhichang/wechat-sdk/util/log"
 	"net/http"
 	"sync"
 )
@@ -21,9 +20,7 @@ type Context struct {
 	PayKey           string
 	ThirdAccessToken bool
 
-	CacheModel string      //缓存模式
 	Cache      cache.Cache //缓存
-	WXLog      flog.LoggerInterface
 	ProxyUrl   string     //代理地址
 
 	Writer  http.ResponseWriter
@@ -67,41 +64,33 @@ func (ctx *Context) GetAccessTokenLock() *sync.RWMutex {
 }
 
 //render from bytes
-func (ctx *Context) Render(bytes []byte) {
+func (ctx *Context) Render(bytes []byte)(err error){
 	ctx.Writer.WriteHeader(200)
-	_, err := ctx.Writer.Write(bytes)
-	if err != nil {
-		panic(err)
-	}
+	_, err = ctx.Writer.Write(bytes)
+	return
 }
 
 //render from string
 func (ctx *Context) String(str string) {
 	writeContextType(ctx.Writer, plainContentType)
 	ctx.Render([]byte(str))
-	return
 }
 
 //render to xml
-func (ctx *Context) XML(obj interface{}) {
+func (ctx *Context) XML(obj interface{}) (err error) {
 	writeContextType(ctx.Writer, xmlContentType)
 	bytes, err := xml.Marshal(obj)
 	if err != nil {
-		panic(err)
+		return
 	}
-
-	ctx.WXLog.Debug("被动回复微信消息内容", string(bytes))
-	ctx.Render(bytes)
+	err = ctx.Render(bytes)
+	return
 }
 
-func (ctx *Context) ResponseXML(obj interface{}) string {
+func (ctx *Context) ResponseXML(obj interface{}) (s string, err error) {
 	bytes, err := xml.Marshal(obj)
-	if err != nil {
-		panic(err)
-	}
-
-	ctx.WXLog.Debug("被动回复微信消息内容,返回给应用", string(bytes))
-	return string(bytes)
+	s = string(bytes)
+	return
 }
 
 func writeContextType(w http.ResponseWriter, value []string) {

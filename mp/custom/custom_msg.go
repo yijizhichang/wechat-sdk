@@ -53,16 +53,12 @@ func (kf *Custom) GetMsgList(startTimeStr, endTimeStr string,  msgId, number int
 		return
 	}
 
-	kf.WXLog.Debug("获取聊天记录", string(response))
-
 	err = json.Unmarshal(response, &result)
 	if err != nil {
 		return
 	}
 	if result.ErrCode != 0 {
-		//打印日志
 		err = fmt.Errorf("GetMsgList error : errcode=%v , errmsg=%v", result.ErrCode, string(result.ErrMsg))
-		kf.WXLog.Error("获取聊天记录错误", err)
 	}
 	return
 }
