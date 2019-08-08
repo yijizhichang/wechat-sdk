@@ -57,25 +57,25 @@ func NewFile(fileFullPath string) (*File, error) {
 	return file, err
 }
 
-func (f *File) Get(key string) (interface{}, error) {
+func (f *File) Get(key string) (string, error) {
 	is, err := f.IsExist(key)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	if is {
 		v, ok := f.data.Str[key]
 		if ok {
-			return v.Value, nil
+			return v.Value.(string), nil
 		}
 	}
-	return nil, err
+	return "", err
 }
 
-func (f *File) Set(key string, val interface{}, t time.Duration) error {
+func (f *File) Set(key string, val interface{}, t ...time.Duration) error {
 	val = changeType(val)
-	it := nowTimeAdd2Nano(t)
-	if t == 0 {
-		it = 0
+	var it int64
+	if len(t) == 1 {
+		it = nowTimeAdd2Nano(t[0])
 	}
 
 	f.data.Str[key] = baseAttr{

@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"github.com/go-redis/redis"
 	"time"
 )
@@ -23,13 +22,16 @@ func NewRedisCluster(redis2 *RedisCluster) (*RedisCluster, error) {
 	return redis2, err
 }
 
-func (r *RedisCluster) Get(key string) (interface{}, error) {
-	fmt.Println("ttttt",key)
+func (r *RedisCluster) Get(key string) (string, error) {
 	return r.redisClusterClient.Get(key).Result()
 }
 
-func (r *RedisCluster) Set(key string, val interface{}, t time.Duration) error {
-	return r.redisClusterClient.Set(key, val, t).Err()
+func (r *RedisCluster) Set(key string, val interface{}, t ...time.Duration) error {
+	var exp time.Duration
+	if len(t) == 1 {
+		exp = t[0]
+	}
+	return r.redisClusterClient.Set(key, val, exp).Err()
 }
 
 func (r *RedisCluster) IsExist(key string) (bool, error) {
