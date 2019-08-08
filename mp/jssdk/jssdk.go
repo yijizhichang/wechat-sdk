@@ -3,7 +3,6 @@ package jssdk
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-redis/redis"
 	"github.com/yijizhichang/wechat-sdk/mp/core"
 	"github.com/yijizhichang/wechat-sdk/util"
 	"strconv"
@@ -28,14 +27,10 @@ type JSAPISDK struct {
 func (j *JSAPISDK) GetTicket() (ticket string, err error) {
 	key := JSAPITicketKeyCachePrefix + j.Context.AppID
 	val, err := j.Context.Cache.Get(key)
-	if err != nil && err != redis.Nil {
+
+	if val != "" {
+		ticket = val
 		return
-	}
-	if val != nil {
-		ticket = val.(string)
-		if ticket != "" {
-			return
-		}
 	}
 
 	// 从微信服务器获取

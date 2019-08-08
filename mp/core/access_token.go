@@ -26,15 +26,10 @@ func (ctx *Context) GetAccessToken() (accessToken string, err error) {
 	//如果共享其它应用的accessToken,则优先取共享accessToken，共享的accessToken的更新获取机制不在当前项目维护
 	if ctx.ThirdAccessToken {
 		thirdKey := AccessTokenThirdCachePrefix + ctx.AppID
-		thirdVal, thirdErr := ctx.Cache.Get(thirdKey)
+		thirdVal, _ := ctx.Cache.Get(thirdKey)
 
-		if thirdErr != nil {
-			err = thirdErr
-			return
-		}
-
-		if thirdVal != nil {
-			AccessTokenThird := thirdVal.(string)
+		if thirdVal != "" {
+			AccessTokenThird := thirdVal
 			accessToken = AccessTokenThird
 			return
 		}
@@ -47,9 +42,9 @@ func (ctx *Context) GetAccessToken() (accessToken string, err error) {
 
 	fmt.Println("cache accessToken test err:", err)
 
-	if val != nil {
+	if val != "" {
 		fmt.Println("accessToken from cache")
-		accessToken = val.(string)
+		accessToken = val
 		if accessToken != "" {
 			return
 		}
