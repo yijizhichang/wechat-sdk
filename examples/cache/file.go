@@ -21,7 +21,9 @@ var (
 	timeLocation, _ = time.LoadLocation("Asia/Chongqing") // 当地时间
 )
 
+
 type File struct {
+	client       *FileClient
 	fileClient   *os.File
 	data         *fileString
 	FileFullPath string

@@ -1,5 +1,5 @@
 package cache
-
+/*
 import (
 	"github.com/go-redis/redis"
 	"time"
@@ -49,3 +49,6 @@ func (r *RedisCluster) Delete(key string) (bool, error) {
 	}
 	return true, err
 }
+
+
+ */

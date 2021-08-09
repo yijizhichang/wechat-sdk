@@ -1,6 +1,7 @@
 package wechat
 
 import (
+	"fmt"
 	"github.com/yijizhichang/wechat-sdk/mp/account"
 	"github.com/yijizhichang/wechat-sdk/mp/client"
 	"github.com/yijizhichang/wechat-sdk/mp/core"
@@ -74,7 +75,10 @@ func (wc *Wechat) GetResponseServer(req *http.Request) *server.Server {
 
 //获取access_token
 func (wc *Wechat) GetAccessToken() string {
-	accessToken, _ := wc.Context.GetAccessToken()
+	accessToken, err := wc.Context.GetAccessToken()
+	if err != nil {
+		fmt.Printf("mp GetAccessToken Err:%+v",err)
+	}
 	return accessToken
 }
 
