@@ -4,6 +4,7 @@ package core
 import (
 	"encoding/xml"
 	"github.com/yijizhichang/wechat-sdk/util/cache"
+	"io/ioutil"
 	"net/http"
 	"sync"
 )
@@ -14,6 +15,8 @@ var plainContentType = []string{"text/plain; charset=utf-8"}
 type Context struct {
 	CorpID        string  // 企业ID
 	CorpSecret    string  // 应用的凭证密钥; 每个应用有独立的secret，获取到的access_token只能本应用使用，所以每个应用的access_token应该分开来获取
+	Token            string
+	EncodingAESKey   string
 	RasPrivateKey string  // 消息加密私钥
 	ThirdAccessToken bool  //是用其他应用生成的access_token
 
@@ -30,16 +33,23 @@ type Context struct {
 //获取RUL参数值
 func (ctx *Context) Query(key string) string {
 	value, _ := ctx.GetQuery(key)
+	//unValue,_:=url.PathUnescape(value)
 	return value
 }
 
-//获取URL参数值,并返回是否存在key
+//发取URL参数值,并返回是否存在key
 func (ctx *Context) GetQuery(key string) (string, bool) {
 	req := ctx.Request
 	if values, ok := req.URL.Query()[key]; ok && len(values) > 0 {
 		return values[0], true
 	}
 	return "", false
+}
+
+//获取post参数
+func (ctx *Context) PostData()([]byte, error){
+	req := ctx.Request
+	return ioutil.ReadAll(req.Body)
 }
 
 //设置lock

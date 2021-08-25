@@ -14,6 +14,10 @@ const (
 	UpdateCustomerTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/edit_corp_tag?access_token=%s"  //编辑企业客户标签
 	DelCustomerTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/del_corp_tag?access_token=%s"  //删除企业客户标签
 	MarkCustomerTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/mark_tag?access_token=%s"  //编辑客户企业标签
+	GetCustomerStrategyTagListURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get_strategy_tag_list?access_token=%s"  //获取指定规则组下的企业客户标签
+	CreateCustomerStrategyTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/add_strategy_tag?access_token=%s"  //为指定规则组创建企业客户标签
+	UpdateCustomerStrategyTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/edit_strategy_tag?access_token=%s"  //编辑指定规则组下的企业客户标签
+	DelCustomerStrategyTagURL = "https://qyapi.weixin.qq.com/cgi-bin/externalcontact/del_strategy_tag?access_token=%s"  //删除指定规则组下的企业客户标签
 )
 
 //CustomerTag 客户管理
@@ -186,6 +190,137 @@ func (ct *CustomerTag) MarkCustomerTag(accessToken string, req MarkTagReq)(resul
 	}
 	if result.ErrCode != 0 {
 		err = fmt.Errorf("MarkCustomerTag error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+//获取指定规则组下的企业客户标签
+type CustomerStrategyTagReq struct {
+	StrategyId int32    `json:"strategy_id"`
+	TagId      []string `json:"tag_id"`
+	GroupId    []string `json:"group_id"`
+}
+type customerStrategyTagList struct {
+	util.WxError
+	TagGroup []struct {
+		GroupId    string `json:"group_id"`
+		GroupName  string `json:"group_name"`
+		CreateTime int64  `json:"create_time"`
+		Order      int32  `json:"order"`
+		StrategyId int32  `json:"strategy_id"`
+		Tag        []struct {
+			Id         string `json:"id"`
+			Name       string `json:"name"`
+			CreateTime int64  `json:"create_time"`
+			Order      int32  `json:"order"`
+		} `json:"tag"`
+	} `json:"tag_group"`
+}
+func (ct *CustomerTag) GetCustomerStrategyTagList(accessToken string, req CustomerStrategyTagReq)(result *customerStrategyTagList, err error){
+	qyUrl := fmt.Sprintf(GetCustomerStrategyTagListURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetCustomerStrategyTagList error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+//为指定规则组创建企业客户标签
+type CreateCustomerStrategyTagReq struct {
+	StrategyId int32  `json:"strategy_id"`
+	GroupId    string `json:"group_id"`
+	GroupName  string `json:"group_name"`
+	Order      int    `json:"order"`
+	Tag        []struct {
+		Name  string `json:"name"`
+		Order int32  `json:"order"`
+	} `json:"tag"`
+}
+type createCustomerStrategyTagRep struct {
+	util.WxError
+	TagGroup struct {
+		GroupId    string `json:"group_id"`
+		GroupName  string `json:"group_name"`
+		CreateTime int32  `json:"create_time"`
+		Order      int32  `json:"order"`
+		Tag        []struct {
+			Id         string `json:"id"`
+			Name       string `json:"name"`
+			CreateTime int32  `json:"create_time"`
+			Order      int32  `json:"order"`
+		} `json:"tag"`
+	} `json:"tag_group"`
+}
+func (ct *CustomerTag) CreateCustomerStrategyTag(accessToken string, req CreateCustomerStrategyTagReq)(result *createCustomerStrategyTagRep, err error){
+	qyUrl := fmt.Sprintf(CreateCustomerStrategyTagURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("CreateCustomerStrategyTag error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+//编辑指定规则组下的企业客户标签
+type UpdateCustomerStrategyTagReq struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Order int32  `json:"order"`
+}
+func (ct *CustomerTag) UpdateCustomerStrategyTag(accessToken string, req UpdateCustomerStrategyTagReq)(result *util.WxError, err error){
+	qyUrl := fmt.Sprintf(UpdateCustomerStrategyTagURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("UpdateCustomerStrategyTag error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+//删除指定规则组下的企业客户标签
+type DelCustomerStrategyTagReq struct {
+	TagId   []string `json:"tag_id"`
+	GroupId []string `json:"group_id"`
+}
+func (ct *CustomerTag) DelCustomerStrategyTag(accessToken string, req DelCustomerStrategyTagReq)(result *util.WxError, err error){
+	qyUrl := fmt.Sprintf(DelCustomerStrategyTagURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("DelCustomerStrategyTagURL error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
 	}
 	return
 }

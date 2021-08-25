@@ -12,7 +12,7 @@ import (
 )
 
 // 测试参数
-// go run example.go -appid='your appdi' -appsecret='your appsecret' -token='your token' -port=':80'
+// go run example.go -appid='your appdi' -appsecret='your appsecret' -token='your token' -port='80'
 var appid = flag.String("appid", "your AppID", "appid")
 var appsecret = flag.String("appsecret", "your AppSecret", "appsecret")
 var token = flag.String("token", "your Token", "token")
@@ -20,7 +20,7 @@ var aeskey = flag.String("asekey", "your EncodingAesKey", "asekey")
 var port = flag.String("port", "80", "port")
 
 //qw
-// go run main.go -cropid='your cropid' -cropsecret='your cropsecret' -rpkey='your rpkey' -port=':80'
+// go run main.go -cropid='your cropid' -token='your token' -aeskey='your aeskey' -cropsecret='your cropsecret' -rpkey='your rpkey' -port='80'
 var cropid = flag.String("cropid", "your CorpID", "cropid")
 var cropsecret = flag.String("cropsecret", "your CorpSecret", "cropsecret")
 var rpkey = flag.String("rpkey", "your RasPrivateKey", "rpkey")
@@ -48,6 +48,8 @@ func getQyWechatConfig(fileCache cache.FileClient) *wechat.QyConfig{
 		CorpID:       *cropid,     // 企业ID
 		CorpSecret:   *cropsecret, // 应用的凭证密钥; 每个应用有独立的secret，获取到的access_token只能本应用使用，所以每个应用的access_token应该分开来获取
 		RasPrivateKey: 	*rpkey,  // 消息加密私钥
+		Token:            *token,     // 令牌(Token)
+		EncodingAESKey:   *aeskey,    // 消息加解密密钥 EncodingAESKey
 		ThirdAccessToken: 	false,    //是用其他应用生成的access_token
 		Cache:      fileCache, //缓存
 		ProxyUrl:   "",      //代理地址
@@ -117,7 +119,7 @@ func main() {
 	}
 	fileCache := cache.NewFileClient(file)
 	wxconf.QyWechatClint = wechat.NewQyWechat(getQyWechatConfig(fileCache))
-	fmt.Printf("qy param:", *cropid, *cropsecret, *rpkey)
+	fmt.Printf("qy param:", *cropid, *token, *aeskey, *cropsecret, *rpkey)
 
 	//测试
 	//example.QyAccessToken()  //获取企业access_token
@@ -140,7 +142,8 @@ func main() {
 	example.QyGetCustomerView(token) // 获取客户详情
 
 
-
+	http.HandleFunc("/wechat/qy/server", example.QyServe)                             // server 服务
+	//http.HandleFunc("/wechat/qy/server", example.QyResponseServe)               // server 服务 数据先返回应用
 
 	err = http.ListenAndServe("127.0.0.1:"+*port, nil)
 	if err != nil {

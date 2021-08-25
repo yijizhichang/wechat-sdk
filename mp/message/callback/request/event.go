@@ -92,7 +92,7 @@ func GetLocationEvent(msg *message.MixMessage) (locationEvent *LocationEvent) {
 type MenuEvent struct {
 	message.MsgCommon
 	Event    message.EventType `xml:"Event" json:"Event"`         //事件类型 CLICK/VIEW
-	EventKey string            `xml:"Longitude" json:"Longitude"` //事件KEY值，与自定义菜单接口中KEY值对应，如果是view，key为跳转URL
+	EventKey string            `xml:"EventKey" json:"EventKey"` //事件KEY值，与自定义菜单接口中KEY值对应，如果是view，key为跳转URL
 }
 
 func GetMenuEvent(msg *message.MixMessage) (menuEvent *MenuEvent) {

@@ -36,11 +36,11 @@ type CreateDepartmentReq struct {
 	Order int32 `json:"order"`
 }
 
-type CreateDepartmentRep struct {
+type createDepartmentRep struct {
 	util.WxError
 	Id int32 `json:"id"`
 }
-func (d *Department) CreateDepartment (accessToken string, req CreateDepartmentReq) (result CreateDepartmentRep, err error) {
+func (d *Department) CreateDepartment (accessToken string, req CreateDepartmentReq) (result *createDepartmentRep, err error) {
 	qyUrl := fmt.Sprintf(CreateDepartmentURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, d.ProxyUrl)
@@ -59,7 +59,7 @@ func (d *Department) CreateDepartment (accessToken string, req CreateDepartmentR
 }
 
 //更新部门
-func (d *Department) UpdateDepartment (accessToken string, req CreateDepartmentReq) (result util.WxError, err error) {
+func (d *Department) UpdateDepartment (accessToken string, req CreateDepartmentReq) (result *util.WxError, err error) {
 	qyUrl := fmt.Sprintf(UpdateDepartmentURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, d.ProxyUrl)
@@ -78,7 +78,7 @@ func (d *Department) UpdateDepartment (accessToken string, req CreateDepartmentR
 }
 
 //删除部门
-func (d *Department) DelDepartment (accessToken string, id int32) (result util.WxError, err error) {
+func (d *Department) DelDepartment (accessToken string, id int32) (result *util.WxError, err error) {
 	qyUrl := fmt.Sprintf(DelDepartmentURL, accessToken, id)
 
 	response, err := util.HTTPGet(qyUrl, d.ProxyUrl)

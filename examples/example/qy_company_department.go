@@ -27,7 +27,7 @@ func QyGetDepartment(token string){
 func QyGetDepartmentSimpleUserList(token string){
 
 	departmentUser := wxconf.QyWechatClint.GetDepartmentUser()
-	res, err := departmentUser.GetDepartmentSimpleUserList(token,7,0)
+	res, err := departmentUser.GetDepartmentSimpleUserList(token,5,0)
 	if err != nil {
 		fmt.Printf("QyGetDepartmentSimpleUserList GetDepartmentSimpleUserList Err: %+v",err)
 	}
