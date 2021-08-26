@@ -31,7 +31,7 @@ type CreateKfServicerReq struct {
 	OpenKfid   string   `json:"open_kfid"`
 	UseridList []string `json:"userid_list"`
 }
-type createKfServicerRep struct {
+type CreateKfServicerRep struct {
 	util.WxError
 	ResultList []struct {
 		Userid  string `json:"userid"`
@@ -39,7 +39,7 @@ type createKfServicerRep struct {
 		Errmsg  string `json:"errmsg"`
 	} `json:"result_list"`
 }
-func (kf *KefuServicer) CreateKfServicer(accessToken string, req CreateKfServicerReq)(result *createKfServicerRep, err error){
+func (kf *KefuServicer) CreateKfServicer(accessToken string, req CreateKfServicerReq)(result *CreateKfServicerRep, err error){
 	qyUrl := fmt.Sprintf(CreateKfServicerURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -62,7 +62,7 @@ type DelKfServicerReq struct {
 	OpenKfid   string   `json:"open_kfid"`
 	UseridList []string `json:"userid_list"`
 }
-type delKfServicerRep struct {
+type DelKfServicerRep struct {
 	util.WxError
 	ResultList []struct {
 		Userid  string `json:"userid"`
@@ -70,7 +70,7 @@ type delKfServicerRep struct {
 		Errmsg  string `json:"errmsg"`
 	} `json:"result_list"`
 }
-func (kf *KefuServicer) DelKfServicer(accessToken string, req DelKfServicerReq)(result *delKfServicerRep, err error){
+func (kf *KefuServicer) DelKfServicer(accessToken string, req DelKfServicerReq)(result *DelKfServicerRep, err error){
 	qyUrl := fmt.Sprintf(DelKfServicerURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -89,14 +89,14 @@ func (kf *KefuServicer) DelKfServicer(accessToken string, req DelKfServicerReq)(
 }
 
 //获取接待人员列表
-type kfServicerList struct {
+type KfServicerList struct {
 	util.WxError
 	ServicerList []struct {
 		Userid string `json:"userid"`
 		Status int32  `json:"status"`
 	} `json:"servicer_list"`
 }
-func (kf *KefuServicer) GetKfServicerList(accessToken string)(result *kfServicerList, err error){
+func (kf *KefuServicer) GetKfServicerList(accessToken string)(result *KfServicerList, err error){
 	qyUrl := fmt.Sprintf(GetKfServicerListURL, accessToken)
 
 	response, err := util.HTTPGet(qyUrl, kf.ProxyUrl)

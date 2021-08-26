@@ -66,12 +66,12 @@ type attachmentItem struct {
 		MediaId string `json:"media_id"`
 	} `json:"video,omitempty"`
 }
-type createCusMsgTplRep struct {
+type CreateCusMsgTplRep struct {
 	util.WxError
 	FailList []string `json:"fail_list"`
 	Msgid string `json:"msgid"`
 }
-func (cm *CustomerMsg) CreateCustomerMsgTemplate(accessToken string, req CreateCusMsgTplReq)(result *createCusMsgTplRep, err error){
+func (cm *CustomerMsg) CreateCustomerMsgTemplate(accessToken string, req CreateCusMsgTplReq)(result *CreateCusMsgTplRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyMsgTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -100,7 +100,7 @@ type CustomerGroupMsgListReq struct {
 	Limit int32 `json:"limit"`
 	Cursor string `json:"cursor"`
 }
-type customerGroupMsgList struct {
+type CustomerGroupMsgList struct {
 	util.WxError
 	GroupMsgList []groupMsgItem `json:"group_msg_list"`
 	NextCursor string `json:"next_cursor"`
@@ -115,7 +115,7 @@ type groupMsgItem struct {
 	} `json:"text"`
 	Attachments []attachmentItem `json:"attachments"`
 }
-func (cm *CustomerMsg) GetCustomerGroupMsgList(accessToken string, req CustomerGroupMsgListReq)(result *customerGroupMsgList, err error){
+func (cm *CustomerMsg) GetCustomerGroupMsgList(accessToken string, req CustomerGroupMsgListReq)(result *CustomerGroupMsgList, err error){
 	qyUrl := fmt.Sprintf(GetQyGroupMsgListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -139,7 +139,7 @@ type CustomerGroupMsgTaskReq struct {
 	Limit int32 `json:"limit"`
 	Cursor string `json:"cursor"`
 }
-type customerGroupMsgTask struct {
+type CustomerGroupMsgTask struct {
 	util.WxError
 	TaskList []taskItem `json:"task_list"`
 	NextCursor string `json:"next_cursor"`
@@ -149,7 +149,7 @@ type taskItem struct {
 	Status int32 `json:"status"`
 	SendTime int64 `json:"send_time"`
 }
-func (cm *CustomerMsg) GetCustomerGroupMsgTask(accessToken string, req CustomerGroupMsgTaskReq)(result *customerGroupMsgTask, err error){
+func (cm *CustomerMsg) GetCustomerGroupMsgTask(accessToken string, req CustomerGroupMsgTaskReq)(result *CustomerGroupMsgTask, err error){
 	qyUrl := fmt.Sprintf(GetQyGroupMsgTaskURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -175,10 +175,10 @@ type SendWelcomeMsgReq struct {
 	} `json:"text"`
 	Attachments []attachmentItem `json:"attachments"`
 }
-type sendWelcomeMsgRep struct {
+type SendWelcomeMsgRep struct {
 	util.WxError
 }
-func (cm *CustomerMsg) SendWelcomeMsg(accessToken string, req SendWelcomeMsgReq)(result *sendWelcomeMsgRep, err error){
+func (cm *CustomerMsg) SendWelcomeMsg(accessToken string, req SendWelcomeMsgReq)(result *SendWelcomeMsgRep, err error){
 	qyUrl := fmt.Sprintf(QySendWelcomeMsgURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -226,11 +226,11 @@ type CreateGroupWelcomeTemplateReq struct {
 	Agentid int64 `json:"agentid"`
 	Notify int32 `json:"notify"`
 }
-type createGroupWelcomeTemplateRep struct {
+type CreateGroupWelcomeTemplateRep struct {
 	util.WxError
 	TemplateId string `json:"template_id"`
 }
-func (cm *CustomerMsg) CreateGroupWelcomeTemplate(accessToken string, req CreateGroupWelcomeTemplateReq)(result *createGroupWelcomeTemplateRep, err error){
+func (cm *CustomerMsg) CreateGroupWelcomeTemplate(accessToken string, req CreateGroupWelcomeTemplateReq)(result *CreateGroupWelcomeTemplateRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyGroupWelcomeTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -278,10 +278,10 @@ type UpdateGroupWelcomeTemplateReq struct {
 	} `json:"file"`
 	Agentid int64 `json:"agentid"`
 }
-type updateGroupWelcomeTemplateRep struct {
+type UpdateGroupWelcomeTemplateRep struct {
 	util.WxError
 }
-func (cm *CustomerMsg) UpdateGroupWelcomeTemplate(accessToken string, req UpdateGroupWelcomeTemplateReq)(result *updateGroupWelcomeTemplateRep, err error){
+func (cm *CustomerMsg) UpdateGroupWelcomeTemplate(accessToken string, req UpdateGroupWelcomeTemplateReq)(result *UpdateGroupWelcomeTemplateRep, err error){
 	qyUrl := fmt.Sprintf(UpdateQyGroupWelcomeTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -303,7 +303,7 @@ func (cm *CustomerMsg) UpdateGroupWelcomeTemplate(accessToken string, req Update
 type GroupWelcomeTemplateReq struct {
 	TemplateId string `json:"template_id"`
 }
-type groupWelcomeTemplateRep struct {
+type GroupWelcomeTemplateRep struct {
 	util.WxError
 	Text struct{
 		Content string `json:"content"`
@@ -331,7 +331,7 @@ type groupWelcomeTemplateRep struct {
 		MediaId	string `json:"media_id"`
 	} `json:"file"`
 }
-func (cm *CustomerMsg) GetGroupWelcomeTemplate(accessToken string, req GroupWelcomeTemplateReq)(result *groupWelcomeTemplateRep, err error){
+func (cm *CustomerMsg) GetGroupWelcomeTemplate(accessToken string, req GroupWelcomeTemplateReq)(result *GroupWelcomeTemplateRep, err error){
 	qyUrl := fmt.Sprintf(GetQyGroupWelcomeTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
@@ -354,10 +354,10 @@ type DelGroupWelcomeTemplateReq struct {
 	TemplateId string `json:"template_id"`
 	Agentid int64 `json:"agentid"`
 }
-type delGroupWelcomeTemplateRep struct {
+type DelGroupWelcomeTemplateRep struct {
 	util.WxError
 }
-func (cm *CustomerMsg) DelGroupWelcomeTemplate(accessToken string, req DelGroupWelcomeTemplateReq)(result *delGroupWelcomeTemplateRep, err error){
+func (cm *CustomerMsg) DelGroupWelcomeTemplate(accessToken string, req DelGroupWelcomeTemplateReq)(result *DelGroupWelcomeTemplateRep, err error){
 	qyUrl := fmt.Sprintf(DelQyGroupWelcomeTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)

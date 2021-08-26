@@ -109,7 +109,7 @@ func (du *DepartmentUser) CreateUser (accessToken string, req CreateUserReq) (re
 }
 
 //获取用户
-type userView struct {
+type UserView struct {
 	util.WxError
 	Userid         string `json:"userid"`
 	Name           string `json:"name"`
@@ -167,7 +167,7 @@ type userView struct {
 		} `json:"external_attr"`
 	} `json:"external_profile"`
 }
-func (du *DepartmentUser) GetUser (accessToken string, userid string) (result *userView, err error) {
+func (du *DepartmentUser) GetUser (accessToken string, userid string) (result *UserView, err error) {
 	qyUrl := fmt.Sprintf(GetUserURL, accessToken, userid)
 
 	response, err := util.HTTPGet(qyUrl, du.ProxyUrl)
@@ -258,7 +258,7 @@ func (du *DepartmentUser) UpdateUser (accessToken string, req UpdateUserReq) (re
 }
 
 //删除用户
-func (du *DepartmentUser) DelUser (accessToken string, userid string) (result *userView, err error) {
+func (du *DepartmentUser) DelUser (accessToken string, userid string) (result *UserView, err error) {
 	qyUrl := fmt.Sprintf(DelUserURL, accessToken, userid)
 
 	response, err := util.HTTPGet(qyUrl, du.ProxyUrl)
@@ -299,7 +299,7 @@ func (du *DepartmentUser) DelUserBatch (accessToken string, req DelUserBatchReq)
 }
 
 //获取部门成员
-type simpleUserList struct {
+type SimpleUserList struct {
 	util.WxError
 	Userlist []struct {
 		Userid     string `json:"userid"`
@@ -308,7 +308,7 @@ type simpleUserList struct {
 		OpenUserid string `json:"open_userid"`
 	} `json:"userlist"`
 }
-func (du *DepartmentUser) GetDepartmentSimpleUserList (accessToken string, departmentId int32, fetchChild int32) (result *simpleUserList, err error) {
+func (du *DepartmentUser) GetDepartmentSimpleUserList (accessToken string, departmentId int32, fetchChild int32) (result *SimpleUserList, err error) {
 	qyUrl := fmt.Sprintf(GetUserSimpleListURL, accessToken, departmentId, fetchChild)
 
 	response, err := util.HTTPGet(qyUrl, du.ProxyUrl)
@@ -327,7 +327,7 @@ func (du *DepartmentUser) GetDepartmentSimpleUserList (accessToken string, depar
 }
 
 //获取部门成员详情
-type userList struct {
+type UserList struct {
 	util.WxError
 	Userlist []struct {
 		Userid         string `json:"userid"`
@@ -385,7 +385,7 @@ type userList struct {
 		} `json:"external_profile"`
 	} `json:"userlist"`
 }
-func (du *DepartmentUser) GetDepartmentUserList (accessToken string, departmentId int32, fetchChild int32) (result *userList, err error) {
+func (du *DepartmentUser) GetDepartmentUserList (accessToken string, departmentId int32, fetchChild int32) (result *UserList, err error) {
 	qyUrl := fmt.Sprintf(GetUserListURL, accessToken, departmentId, fetchChild)
 
 	response, err := util.HTTPGet(qyUrl, du.ProxyUrl)
@@ -407,11 +407,11 @@ func (du *DepartmentUser) GetDepartmentUserList (accessToken string, departmentI
 type ConvertToOpenidReq struct {
 	Userid string `json:"userid"`
 }
-type convertToOpenidRep struct {
+type ConvertToOpenidRep struct {
 	util.WxError
 	Openid  string `json:"openid"`
 }
-func (du *DepartmentUser) ConvertToOpenid (accessToken string, req ConvertToOpenidReq) (result *convertToOpenidRep, err error) {
+func (du *DepartmentUser) ConvertToOpenid (accessToken string, req ConvertToOpenidReq) (result *ConvertToOpenidRep, err error) {
 	qyUrl := fmt.Sprintf(ConvertToOpenidURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, du.ProxyUrl)
@@ -454,13 +454,13 @@ type BatchInviteReq struct {
 	Party []int32 `json:"party"`
 	Tag   []int32 `json:"tag"`
 }
-type batchInviteRep struct {
+type BatchInviteRep struct {
 	util.WxError
 	Invaliduser  []string `json:"invaliduser"`
 	Invalidparty []int32 `json:"invalidparty"`
 	Invalidtag   []int32 `json:"invalidtag"`
 }
-func (du *DepartmentUser) BatchInvite (accessToken string, req BatchInviteReq) (result *batchInviteRep, err error) {
+func (du *DepartmentUser) BatchInvite (accessToken string, req BatchInviteReq) (result *BatchInviteRep, err error) {
 	qyUrl := fmt.Sprintf(BatchInviteURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, du.ProxyUrl)
@@ -479,11 +479,11 @@ func (du *DepartmentUser) BatchInvite (accessToken string, req BatchInviteReq) (
 }
 
 //获取加入企业二维码
-type joinCorpQrcodeRep struct {
+type JoinCorpQrcodeRep struct {
 	util.WxError
 	JoinQrcode string `json:"join_qrcode"`
 }
-func (du *DepartmentUser) GetJoinCorpQrcode (accessToken string, sizeType int32) (result *joinCorpQrcodeRep, err error) {
+func (du *DepartmentUser) GetJoinCorpQrcode (accessToken string, sizeType int32) (result *JoinCorpQrcodeRep, err error) {
 	qyUrl := fmt.Sprintf(GetJoinCorpQrcodeURL, accessToken, sizeType)
 
 	response, err := util.HTTPGet(qyUrl, du.ProxyUrl)
@@ -505,11 +505,11 @@ func (du *DepartmentUser) GetJoinCorpQrcode (accessToken string, sizeType int32)
 type ActiveStatReq struct {
 	Date string `json:"date"`
 }
-type activeStatRep struct {
+type ActiveStatRep struct {
 	util.WxError
 	ActiveCnt int32  `json:"active_cnt"`
 }
-func (du *DepartmentUser) GetActiveStat (accessToken string, req ActiveStatReq) (result *activeStatRep, err error) {
+func (du *DepartmentUser) GetActiveStat (accessToken string, req ActiveStatReq) (result *ActiveStatRep, err error) {
 	qyUrl := fmt.Sprintf(GetActiveStatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, du.ProxyUrl)

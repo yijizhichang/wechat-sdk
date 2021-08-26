@@ -28,7 +28,7 @@ func NewMessage(context *core.Context) *Message {
 }
 
 //发送消息
-type sendMessageRep struct {
+type SendMessageRep struct {
 	util.WxError
 	Invaliduser  string `json:"invaliduser"`
 	Invalidparty string `json:"invalidparty"`
@@ -36,7 +36,7 @@ type sendMessageRep struct {
 	Msgid        string `json:"msgid"`
 	ResponseCode string `json:"response_code"`
 }
-type updateMessageRep struct {
+type UpdateMessageRep struct {
 	util.WxError
 	Invaliduser []string `json:"invaliduser"`
 }
@@ -55,7 +55,7 @@ type SendTextMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTextMessage(accessToken string, req SendTextMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTextMessage(accessToken string, req SendTextMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -87,7 +87,7 @@ type SendImageMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendImageMessage(accessToken string, req SendImageMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendImageMessage(accessToken string, req SendImageMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -118,7 +118,7 @@ type SendVoiceMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendVoiceMessage(accessToken string, req SendVoiceMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendVoiceMessage(accessToken string, req SendVoiceMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -152,7 +152,7 @@ type SendVideoMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendVideoMessage(accessToken string, req SendVideoMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendVideoMessage(accessToken string, req SendVideoMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -184,7 +184,7 @@ type SendFileMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendFileMessage(accessToken string, req SendFileMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendFileMessage(accessToken string, req SendFileMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -219,7 +219,7 @@ type SendTextCardMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTextCardMessage(accessToken string, req SendTextCardMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTextCardMessage(accessToken string, req SendTextCardMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -258,7 +258,7 @@ type SendNewsMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendNewsMessage(accessToken string, req SendNewsMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendNewsMessage(accessToken string, req SendNewsMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -298,7 +298,7 @@ type SendMpNewsMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendMpNewsMessage(accessToken string, req SendMpNewsMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendMpNewsMessage(accessToken string, req SendMpNewsMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -329,7 +329,7 @@ type SendMarkdownMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendMarkdownMessage(accessToken string, req SendMarkdownMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendMarkdownMessage(accessToken string, req SendMarkdownMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -368,7 +368,7 @@ type SendMiniprogramMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendMiniprogramMessage(accessToken string, req SendMiniprogramMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendMiniprogramMessage(accessToken string, req SendMiniprogramMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -433,7 +433,7 @@ type SendTemplateCardTextMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTemplateCardTextMessage(accessToken string, req SendTemplateCardTextMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTemplateCardTextMessage(accessToken string, req SendTemplateCardTextMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -501,7 +501,7 @@ type SendTemplateCardNewsMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTemplateCardNewsMessage(accessToken string, req SendTemplateCardNewsMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTemplateCardNewsMessage(accessToken string, req SendTemplateCardNewsMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -561,7 +561,7 @@ type SendTemplateCardButtonMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTemplateCardButtonMessage(accessToken string, req SendTemplateCardButtonMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTemplateCardButtonMessage(accessToken string, req SendTemplateCardButtonMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -615,7 +615,7 @@ type SendTemplateCardVoteMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTemplateCardVoteMessage(accessToken string, req SendTemplateCardVoteMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTemplateCardVoteMessage(accessToken string, req SendTemplateCardVoteMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -669,7 +669,7 @@ type SendTemplateCardMultipleMessageReq struct {
 	EnableDuplicateCheck   int32 `json:"enable_duplicate_check"`
 	DuplicateCheckInterval int32 `json:"duplicate_check_interval"`
 }
-func (m *Message) SendTemplateCardMultipleMessage(accessToken string, req SendTemplateCardMultipleMessageReq)(result *sendMessageRep, err error){
+func (m *Message) SendTemplateCardMultipleMessage(accessToken string, req SendTemplateCardMultipleMessageReq)(result *SendMessageRep, err error){
 	qyUrl := fmt.Sprintf(QySendMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -701,7 +701,7 @@ type UpdateTemplateCardButtonReq struct {
 		ReplaceName string `json:"replace_name"`
 	} `json:"button"`
 }
-func (m *Message) UpdateTemplateCardButton(accessToken string, req UpdateTemplateCardButtonReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardButton(accessToken string, req UpdateTemplateCardButtonReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -763,7 +763,7 @@ type UpdateTemplateCardTextMessageReq struct {
 		} `json:"card_action"`
 	} `json:"template_card"`
 }
-func (m *Message) UpdateTemplateCardTextMessage(accessToken string, req UpdateTemplateCardTextMessageReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardTextMessage(accessToken string, req UpdateTemplateCardTextMessageReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -828,7 +828,7 @@ type UpdateTemplateCardNewsMessageReq struct {
 		} `json:"card_action"`
 	} `json:"template_card"`
 }
-func (m *Message) UpdateTemplateCardNewsMessage(accessToken string, req UpdateTemplateCardNewsMessageReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardNewsMessage(accessToken string, req UpdateTemplateCardNewsMessageReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -885,7 +885,7 @@ type UpdateTemplateCardButtonInteractionMessageReq struct {
 		ReplaceText string `json:"replace_text"`
 	} `json:"template_card"`
 }
-func (m *Message) UpdateTemplateCardButtonInteractionMessage(accessToken string, req UpdateTemplateCardButtonInteractionMessageReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardButtonInteractionMessage(accessToken string, req UpdateTemplateCardButtonInteractionMessageReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -937,7 +937,7 @@ type UpdateTemplateCardVoteMessageReq struct {
 		ReplaceText string `json:"replace_text"`
 	} `json:"template_card"`
 }
-func (m *Message) UpdateTemplateCardVoteMessage(accessToken string, req UpdateTemplateCardVoteMessageReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardVoteMessage(accessToken string, req UpdateTemplateCardVoteMessageReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -991,7 +991,7 @@ type UpdateTemplateCardMultipleMessageReq struct {
 		ReplaceText string `json:"replace_text"`
 	} `json:"template_card"`
 }
-func (m *Message) UpdateTemplateCardMultipleMessage(accessToken string, req UpdateTemplateCardMultipleMessageReq)(result *updateMessageRep, err error){
+func (m *Message) UpdateTemplateCardMultipleMessage(accessToken string, req UpdateTemplateCardMultipleMessageReq)(result *UpdateMessageRep, err error){
 	qyUrl := fmt.Sprintf(QyUpdateTemplateCardMessageURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -1037,7 +1037,7 @@ func (m *Message) QyRecallMessage(accessToken string, req RecallMessageReq)(resu
 type QyMessageStatisticsReq struct {
 	TimeType int `json:"time_type"`
 }
-type qyMessageStatisticsRep struct {
+type QyMessageStatisticsRep struct {
 	util.WxError
 	Statistics []struct {
 		Agentid int    `json:"agentid"`
@@ -1045,7 +1045,7 @@ type qyMessageStatisticsRep struct {
 		Count   int    `json:"count"`
 	} `json:"statistics"`
 }
-func (m *Message) GetQyMessageStatistics(accessToken string, req QyMessageStatisticsReq)(result *qyMessageStatisticsRep, err error){
+func (m *Message) GetQyMessageStatistics(accessToken string, req QyMessageStatisticsReq)(result *QyMessageStatisticsRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMessageStatisticsURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)

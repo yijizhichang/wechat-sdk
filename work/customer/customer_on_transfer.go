@@ -32,14 +32,14 @@ type CreateCustomerOnTransferReq struct {
 	ExternalUserid     []string `json:"external_userid"`
 	TransferSuccessMsg string   `json:"transfer_success_msg"`
 }
-type createCustomerOnTransferRep struct {
+type CreateCustomerOnTransferRep struct {
 	util.WxError
 	Customer []struct {
 		ExternalUserid string `json:"external_userid"`
 		Errcode        int    `json:"errcode"`
 	} `json:"customer"`
 }
-func (cot *CustomerOnTransfer) CreateCustomerOnTransfer(accessToken string, req CreateCustomerOnTransferReq)(result *createCustomerOnTransferRep, err error){
+func (cot *CustomerOnTransfer) CreateCustomerOnTransfer(accessToken string, req CreateCustomerOnTransferReq)(result *CreateCustomerOnTransferRep, err error){
 	qyUrl := fmt.Sprintf(CreateCustomerOnTransferURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cot.ProxyUrl)
@@ -63,7 +63,7 @@ type CustomerOnTransferReq struct {
 	TakeoverUserid string `json:"takeover_userid"`
 	Cursor         string `json:"cursor"`
 }
-type customerOnTransferRep struct {
+type CustomerOnTransferRep struct {
 	util.WxError
 	Customer []struct {
 		ExternalUserid string `json:"external_userid"`
@@ -72,7 +72,7 @@ type customerOnTransferRep struct {
 	} `json:"customer"`
 	NextCursor string `json:"next_cursor"`
 }
-func (cot *CustomerOnTransfer) GetCustomerOnTransfer(accessToken string, req CustomerOnTransferReq)(result *customerOnTransferRep, err error){
+func (cot *CustomerOnTransfer) GetCustomerOnTransfer(accessToken string, req CustomerOnTransferReq)(result *CustomerOnTransferRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerOnTransferURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cot.ProxyUrl)

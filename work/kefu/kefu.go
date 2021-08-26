@@ -32,7 +32,7 @@ func NewKefu(context *core.Context) *Kefu {
 type KfCustomerListReq struct {
 	ExternalUseridList []string `json:"external_userid_list"`
 }
-type kfCustomerListRep struct {
+type KfCustomerListRep struct {
 	util.WxError
 	CustomerList []struct {
 		ExternalUserid string `json:"external_userid"`
@@ -43,7 +43,7 @@ type kfCustomerListRep struct {
 	} `json:"customer_list"`
 	InvalidExternalUserid []string `json:"invalid_external_userid"`
 }
-func (kf *KefuAccount) GetKfCustomerList(accessToken string, req KfCustomerListReq)(result *kfCustomerListRep, err error){
+func (kf *KefuAccount) GetKfCustomerList(accessToken string, req KfCustomerListReq)(result *KfCustomerListRep, err error){
 	qyUrl := fmt.Sprintf(GetKfCustomerListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -62,7 +62,7 @@ func (kf *KefuAccount) GetKfCustomerList(accessToken string, req KfCustomerListR
 }
 
 //获取配置的专员与客户群
-type kfCustomerUpgradeServiceConfig struct {
+type KfCustomerUpgradeServiceConfig struct {
 	util.WxError
 	MemberRange struct {
 		UseridList       []string `json:"userid_list"`
@@ -72,7 +72,7 @@ type kfCustomerUpgradeServiceConfig struct {
 		ChatIdList []string `json:"chat_id_list"`
 	} `json:"groupchat_range"`
 }
-func (kf *KefuAccount) GetKfCustomerUpgradeServiceConfig(accessToken string)(result *kfCustomerUpgradeServiceConfig, err error){
+func (kf *KefuAccount) GetKfCustomerUpgradeServiceConfig(accessToken string)(result *KfCustomerUpgradeServiceConfig, err error){
 	qyUrl := fmt.Sprintf(GetKfCustomerUpgradeServiceConfigURL, accessToken)
 
 	response, err := util.HTTPGet(qyUrl, kf.ProxyUrl)

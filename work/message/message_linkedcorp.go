@@ -24,7 +24,7 @@ func NewMessageLinkedCorp(context *core.Context) *MessageLinkedCorp {
 	return m
 }
 
-type sendLinkedCorpRep struct {
+type SendLinkedCorpRep struct {
 	util.WxError
 	Invaliduser  []string `json:"invaliduser"`
 	Invalidparty []string `json:"invalidparty"`
@@ -43,7 +43,7 @@ type SendTextQyLinkedCorpReq struct {
 	} `json:"text"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendTextQyLinkedCorp(accessToken string, req SendTextQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendTextQyLinkedCorp(accessToken string, req SendTextQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -75,7 +75,7 @@ type SendImageQyLinkedCorpReq struct {
 	} `json:"image"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendImageQyLinkedCorp(accessToken string, req SendImageQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendImageQyLinkedCorp(accessToken string, req SendImageQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -106,7 +106,7 @@ type SendVoiceQyLinkedCorpReq struct {
 		MediaId string `json:"media_id"`
 	} `json:"voice"`
 }
-func (m *Message) SendVoiceQyLinkedCorp(accessToken string, req SendVoiceQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendVoiceQyLinkedCorp(accessToken string, req SendVoiceQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -140,7 +140,7 @@ type SendVideoQyLinkedCorpReq struct {
 	} `json:"video"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendVideoQyLinkedCorp(accessToken string, req SendVideoQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendVideoQyLinkedCorp(accessToken string, req SendVideoQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -172,7 +172,7 @@ type SendFileQyLinkedCorpReq struct {
 	} `json:"file"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendFileQyLinkedCorp(accessToken string, req SendFileQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendFileQyLinkedCorp(accessToken string, req SendFileQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -206,7 +206,7 @@ type SendTextCardQyLinkedCorpReq struct {
 		Btntxt      string `json:"btntxt"`
 	} `json:"textcard"`
 }
-func (m *Message) SendTextCardQyLinkedCorp(accessToken string, req SendTextCardQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendTextCardQyLinkedCorp(accessToken string, req SendTextCardQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -243,7 +243,7 @@ type SendNewsQyLinkedCorpReq struct {
 		} `json:"articles"`
 	} `json:"news"`
 }
-func (m *Message) SendNewsQyLinkedCorp(accessToken string, req SendNewsQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendNewsQyLinkedCorp(accessToken string, req SendNewsQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -282,7 +282,7 @@ type SendMpNewsQyLinkedCorpReq struct {
 	} `json:"mpnews"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendMpNewsQyLinkedCorp(accessToken string, req SendMpNewsQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendMpNewsQyLinkedCorp(accessToken string, req SendMpNewsQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -313,7 +313,7 @@ type SendMarkdownQyLinkedCorpReq struct {
 		Content string `json:"content"`
 	} `json:"markdown"`
 }
-func (m *Message) SendMarkdownQyLinkedCorp(accessToken string, req SendMarkdownQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendMarkdownQyLinkedCorp(accessToken string, req SendMarkdownQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -350,7 +350,7 @@ type SendMiniprogramQyLinkedCorpReq struct {
 		} `json:"content_item"`
 	} `json:"miniprogram_notice"`
 }
-func (m *Message) SendMiniprogramQyLinkedCorp(accessToken string, req SendMiniprogramQyLinkedCorpReq)(result *sendLinkedCorpRep, err error){
+func (m *Message) SendMiniprogramQyLinkedCorp(accessToken string, req SendMiniprogramQyLinkedCorpReq)(result *SendLinkedCorpRep, err error){
 	qyUrl := fmt.Sprintf(SendQyLinkedCorpURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)

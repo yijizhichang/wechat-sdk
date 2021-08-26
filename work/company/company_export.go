@@ -32,11 +32,11 @@ type ExportSimpleUserReq struct {
 	EncodingAeskey string `json:"encoding_aeskey"`
 	BlockSize      int32  `json:"block_size"`
 }
-type exportSimpleUserRep struct {
+type ExportSimpleUserRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (ce *CompanyExport) QyExportSimpleUser (accessToken string, req ExportSimpleUserReq) (result *exportSimpleUserRep, err error) {
+func (ce *CompanyExport) QyExportSimpleUser (accessToken string, req ExportSimpleUserReq) (result *ExportSimpleUserRep, err error) {
 	qyUrl := fmt.Sprintf(QyExportSimpleUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ce.ProxyUrl)
@@ -59,11 +59,11 @@ type ExportUserReq struct {
 	EncodingAeskey string `json:"encoding_aeskey"`
 	BlockSize      int    `json:"block_size"`
 }
-type exportUserRep struct {
+type ExportUserRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (ce *CompanyExport) QyExportUser (accessToken string, req ExportUserReq) (result *exportUserRep, err error) {
+func (ce *CompanyExport) QyExportUser (accessToken string, req ExportUserReq) (result *ExportUserRep, err error) {
 	qyUrl := fmt.Sprintf(QyExportUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ce.ProxyUrl)
@@ -86,11 +86,11 @@ type ExportDepartmentReq struct {
 	EncodingAeskey string `json:"encoding_aeskey"`
 	BlockSize      int64    `json:"block_size"`
 }
-type exportDepartmentRep struct {
+type ExportDepartmentRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (ce *CompanyExport) QyExportDepartment (accessToken string, req ExportDepartmentReq) (result *exportDepartmentRep, err error) {
+func (ce *CompanyExport) QyExportDepartment (accessToken string, req ExportDepartmentReq) (result *ExportDepartmentRep, err error) {
 	qyUrl := fmt.Sprintf(QyExportDepartmentURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ce.ProxyUrl)
@@ -114,11 +114,11 @@ type ExportTagUserReq struct {
 	EncodingAeskey string `json:"encoding_aeskey"`
 	BlockSize      int32  `json:"block_size"`
 }
-type exportTagUserRep struct {
+type ExportTagUserRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (ce *CompanyExport) QyExportTagUser (accessToken string, req ExportTagUserReq) (result *exportTagUserRep, err error) {
+func (ce *CompanyExport) QyExportTagUser (accessToken string, req ExportTagUserReq) (result *ExportTagUserRep, err error) {
 	qyUrl := fmt.Sprintf(QyExportTagUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ce.ProxyUrl)
@@ -137,7 +137,7 @@ func (ce *CompanyExport) QyExportTagUser (accessToken string, req ExportTagUserR
 }
 
 //获取导出结果
-type exportResultRep struct {
+type ExportResultRep struct {
 	util.WxError
 	Status   int32    `json:"status"`
 	DataList []struct {
@@ -146,7 +146,7 @@ type exportResultRep struct {
 		Md5  string      `json:"md5"`
 	} `json:"data_list"`
 }
-func (ce *CompanyExport) QyExportResult (accessToken string, jobId string) (result *exportResultRep, err error) {
+func (ce *CompanyExport) QyExportResult (accessToken string, jobId string) (result *ExportResultRep, err error) {
 	qyUrl := fmt.Sprintf(QyExportResultURL, accessToken, jobId)
 
 	response, err := util.HTTPGet(qyUrl, ce.ProxyUrl)

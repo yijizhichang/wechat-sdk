@@ -87,12 +87,12 @@ type CreateCustomerContactWayReq struct {
 		} `json:"miniprogram"`
 	} `json:"conclusions"`
 }
-type createCustomerContactWayRep struct {
+type CreateCustomerContactWayRep struct {
 	util.WxError
 	ConfigId string `json:"config_id"`
 	QrCode   string `json:"qr_code"`
 }
-func (cfw *CustomerFollow) CreateCustomerContactWay(accessToken string, req CreateCustomerContactWayReq)(result *createCustomerContactWayRep, err error){
+func (cfw *CustomerFollow) CreateCustomerContactWay(accessToken string, req CreateCustomerContactWayReq)(result *CreateCustomerContactWayRep, err error){
 	qyUrl := fmt.Sprintf(CreateCustomerContactWayURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cfw.ProxyUrl)
@@ -114,7 +114,7 @@ func (cfw *CustomerFollow) CreateCustomerContactWay(accessToken string, req Crea
 type CustomerContactWayReq struct {
 	ConfigId string `json:"config_id"`
 }
-type customerContactWayRep struct {
+type CustomerContactWayRep struct {
 	util.WxError
 	ContactWay struct {
 		ConfigId      string   `json:"config_id"`
@@ -153,7 +153,7 @@ type customerContactWayRep struct {
 		} `json:"conclusions"`
 	} `json:"contact_way"`
 }
-func (cfw *CustomerFollow) GetCustomerContactWay(accessToken string, req CustomerContactWayReq)(result *customerContactWayRep, err error){
+func (cfw *CustomerFollow) GetCustomerContactWay(accessToken string, req CustomerContactWayReq)(result *CustomerContactWayRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerContactWayURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cfw.ProxyUrl)

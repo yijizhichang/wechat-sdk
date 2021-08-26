@@ -44,7 +44,7 @@ type MomentListReq struct {
 	Cursor     string `json:"cursor"`
 	Limit      int32    `json:"limit"`
 }
-type momentListRep struct {
+type MomentListRep struct {
 	util.WxError
 	NextCursor string `json:"next_cursor"`
 	MomentList []struct {
@@ -74,7 +74,7 @@ type momentListRep struct {
 		} `json:"location"`
 	} `json:"moment_list"`
 }
-func (cmt *CustomerMoment) GetQyMomentList(accessToken string, req MomentListReq)(result *momentListRep, err error){
+func (cmt *CustomerMoment) GetQyMomentList(accessToken string, req MomentListReq)(result *MomentListRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -98,7 +98,7 @@ type MomentTaskReq struct {
 	Cursor   string `json:"cursor"`
 	Limit    int    `json:"limit"`
 }
-type momentTaskRep struct {
+type MomentTaskRep struct {
 	util.WxError
 	NextCursor string `json:"next_cursor"`
 	TaskList   []struct {
@@ -106,7 +106,7 @@ type momentTaskRep struct {
 		PublishStatus int    `json:"publish_status"`
 	} `json:"task_list"`
 }
-func (cmt *CustomerMoment) GetQyMomentTask(accessToken string, req MomentTaskReq)(result *momentTaskRep, err error){
+func (cmt *CustomerMoment) GetQyMomentTask(accessToken string, req MomentTaskReq)(result *MomentTaskRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentTaskURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -131,7 +131,7 @@ type MomentCustomerListReq struct {
 	Cursor   string `json:"cursor"`
 	Limit    int32  `json:"limit"`
 }
-type momentCustomerListRep struct {
+type MomentCustomerListRep struct {
 	util.WxError
 	NextCursor   string `json:"next_cursor"`
 	CustomerList []struct {
@@ -139,7 +139,7 @@ type momentCustomerListRep struct {
 		ExternalUserid string `json:"external_userid"`
 	} `json:"customer_list"`
 }
-func (cmt *CustomerMoment) GetQyMomentCustomerList(accessToken string, req MomentCustomerListReq)(result *momentCustomerListRep, err error){
+func (cmt *CustomerMoment) GetQyMomentCustomerList(accessToken string, req MomentCustomerListReq)(result *MomentCustomerListRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentCustomerListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -164,14 +164,14 @@ type MomentSendResultReq struct {
 	Cursor   string `json:"cursor"`
 	Limit    int32  `json:"limit"`
 }
-type momentSendResultRep struct {
+type MomentSendResultRep struct {
 	util.WxError
 	NextCursor   string `json:"next_cursor"`
 	CustomerList []struct {
 		ExternalUserid string `json:"external_userid"`
 	} `json:"customer_list"`
 }
-func (cmt *CustomerMoment) GetQyMomentSendResult(accessToken string, req MomentSendResultReq)(result *momentSendResultRep, err error){
+func (cmt *CustomerMoment) GetQyMomentSendResult(accessToken string, req MomentSendResultReq)(result *MomentSendResultRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentSendResultURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -194,7 +194,7 @@ type MomentCommentsReq struct {
 	MomentId string `json:"moment_id"`
 	Userid   string `json:"userid"`
 }
-type momentCommentsRep struct {
+type MomentCommentsRep struct {
 	util.WxError
 	CommentList []struct {
 		ExternalUserid string `json:"external_userid,omitempty"`
@@ -207,7 +207,7 @@ type momentCommentsRep struct {
 		Userid         string `json:"userid,omitempty"`
 	} `json:"like_list"`
 }
-func (cmt *CustomerMoment) GetQyMomentComments(accessToken string, req MomentCommentsReq)(result *momentCommentsRep, err error){
+func (cmt *CustomerMoment) GetQyMomentComments(accessToken string, req MomentCommentsReq)(result *MomentCommentsRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentCommentsURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -230,14 +230,14 @@ type QyMomentStrategyReq struct {
 	Cursor string `json:"cursor"`
 	Limit  int32  `json:"limit"`
 }
-type qyMomentStrategyList struct {
+type QyMomentStrategyList struct {
 	util.WxError
 	Strategy []struct {
 		StrategyId int32 `json:"strategy_id"`
 	} `json:"strategy"`
 	NextCursor string `json:"next_cursor"`
 }
-func (cmt *CustomerMoment) GetQyMomentStrategyList(accessToken string, req QyMomentStrategyReq)(result *qyMomentStrategyList, err error){
+func (cmt *CustomerMoment) GetQyMomentStrategyList(accessToken string, req QyMomentStrategyReq)(result *QyMomentStrategyList, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentStrategyListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -259,7 +259,7 @@ func (cmt *CustomerMoment) GetQyMomentStrategyList(accessToken string, req QyMom
 type QyMomentStrategyViewReq struct {
 	StrategyId int32 `json:"strategy_id"`
 }
-type qyMomentStrategyViewRep struct {
+type QyMomentStrategyViewRep struct {
 	util.WxError
 	Strategy struct {
 		StrategyId   int32    `json:"strategy_id"`
@@ -273,7 +273,7 @@ type qyMomentStrategyViewRep struct {
 		} `json:"privilege"`
 	} `json:"strategy"`
 }
-func (cmt *CustomerMoment) GetQyMomentStrategyView(accessToken string, req QyMomentStrategyViewReq)(result *qyMomentStrategyViewRep, err error){
+func (cmt *CustomerMoment) GetQyMomentStrategyView(accessToken string, req QyMomentStrategyViewReq)(result *QyMomentStrategyViewRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentStrategyViewURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -297,7 +297,7 @@ type QyMomentStrategyRangeReq struct {
 	Cursor     string `json:"cursor"`
 	Limit      int32  `json:"limit"`
 }
-type qyMomentStrategyRangeRep struct {
+type QyMomentStrategyRangeRep struct {
 	util.WxError
 	Range   []struct {
 		Type    int32  `json:"type"`
@@ -306,7 +306,7 @@ type qyMomentStrategyRangeRep struct {
 	} `json:"range"`
 	NextCursor string `json:"next_cursor"`
 }
-func (cmt *CustomerMoment) GetQyMomentStrategyRange(accessToken string, req QyMomentStrategyRangeReq)(result *qyMomentStrategyRangeRep, err error){
+func (cmt *CustomerMoment) GetQyMomentStrategyRange(accessToken string, req QyMomentStrategyRangeReq)(result *QyMomentStrategyRangeRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMomentStrategyRangeURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)
@@ -339,11 +339,11 @@ type CreateQyMomentStrategyReq struct {
 		Partyid int32  `json:"partyid,omitempty"`
 	} `json:"range"`
 }
-type createQyMomentStrategyRep struct {
+type CreateQyMomentStrategyRep struct {
 	util.WxError
 	StrategyId int    `json:"strategy_id"`
 }
-func (cmt *CustomerMoment) CreateQyMomentStrategy(accessToken string, req CreateQyMomentStrategyReq)(result *createQyMomentStrategyRep, err error){
+func (cmt *CustomerMoment) CreateQyMomentStrategy(accessToken string, req CreateQyMomentStrategyReq)(result *CreateQyMomentStrategyRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyMomentStrategyURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cmt.ProxyUrl)

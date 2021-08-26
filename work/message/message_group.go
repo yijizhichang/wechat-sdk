@@ -36,11 +36,11 @@ type CreateQyAppChatReq struct {
 	Userlist []string `json:"userlist"`
 	Chatid   string   `json:"chatid"`
 }
-type createQyAppChatRep struct {
+type CreateQyAppChatRep struct {
 	util.WxError
 	Chatid  string `json:"chatid"`
 }
-func (m *Message) CreateQyAppChat(accessToken string, req CreateQyAppChatReq)(result *createQyAppChatRep, err error){
+func (m *Message) CreateQyAppChat(accessToken string, req CreateQyAppChatReq)(result *CreateQyAppChatRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)

@@ -37,11 +37,11 @@ type CreateBatchSyncUserReq struct {
 		Encodingaeskey string `json:"encodingaeskey"`
 	} `json:"callback"`
 }
-type createBatchSyncUserRep struct {
+type CreateBatchSyncUserRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (cb *CompanyBatch) CreateBatchSyncUser (accessToken string, req CreateBatchSyncUserReq) (result *createBatchSyncUserRep, err error) {
+func (cb *CompanyBatch) CreateBatchSyncUser (accessToken string, req CreateBatchSyncUserReq) (result *CreateBatchSyncUserRep, err error) {
 	qyUrl := fmt.Sprintf(CreateBatchSyncUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cb.ProxyUrl)
@@ -69,11 +69,11 @@ type CreateBatchReplaceUserReq struct {
 		Encodingaeskey string `json:"encodingaeskey"`
 	} `json:"callback"`
 }
-type createBatchReplaceUserRep struct {
+type CreateBatchReplaceUserRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (cb *CompanyBatch) CreateBatchReplaceUser (accessToken string, req CreateBatchReplaceUserReq) (result *createBatchReplaceUserRep, err error) {
+func (cb *CompanyBatch) CreateBatchReplaceUser (accessToken string, req CreateBatchReplaceUserReq) (result *CreateBatchReplaceUserRep, err error) {
 	qyUrl := fmt.Sprintf(CreateBatchReplaceUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cb.ProxyUrl)
@@ -100,11 +100,11 @@ type CreateBatchReplacePartyReq struct {
 		Encodingaeskey string `json:"encodingaeskey"`
 	} `json:"callback"`
 }
-type createBatchReplacePartyRep struct {
+type CreateBatchReplacePartyRep struct {
 	util.WxError
 	Jobid   string `json:"jobid"`
 }
-func (cb *CompanyBatch) CreateBatchReplaceParty (accessToken string, req CreateBatchReplacePartyReq) (result *createBatchReplacePartyRep, err error) {
+func (cb *CompanyBatch) CreateBatchReplaceParty (accessToken string, req CreateBatchReplacePartyReq) (result *CreateBatchReplacePartyRep, err error) {
 	qyUrl := fmt.Sprintf(CreateBatchReplacePartyURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cb.ProxyUrl)
@@ -123,7 +123,7 @@ func (cb *CompanyBatch) CreateBatchReplaceParty (accessToken string, req CreateB
 }
 
 //获取异步任务结果
-type batchResultRep struct {
+type BatchResultRep struct {
 	util.WxError
 	Status     int32    `json:"status"`
 	Type       string `json:"type"`
@@ -137,7 +137,7 @@ type batchResultRep struct {
 		Partyid int32    `json:"partyid,omitempty"`
 	} `json:"result"`
 }
-func (cb *CompanyBatch) GetBatchResult (accessToken string, jobid string) (result *batchResultRep, err error) {
+func (cb *CompanyBatch) GetBatchResult (accessToken string, jobid string) (result *BatchResultRep, err error) {
 	qyUrl := fmt.Sprintf(GetBatchResultURL, accessToken, jobid)
 
 	response, err := util.HTTPGet(qyUrl, cb.ProxyUrl)

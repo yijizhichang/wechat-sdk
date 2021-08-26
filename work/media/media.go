@@ -28,13 +28,13 @@ func NewMedia(context *core.Context) *Media {
 }
 
 //上传临时素材
-type uploadQyTempMediaReq struct {
+type UploadQyTempMediaReq struct {
 	util.WxError
 	Type      string `json:"type"`
 	MediaId   string `json:"media_id"`
 	CreatedAt string `json:"created_at"`
 }
-func (m *Media) UploadQyTempMedia(accessToken, fileType, fieldname, filename string)(result *uploadQyTempMediaReq, err error){
+func (m *Media) UploadQyTempMedia(accessToken, fileType, fieldname, filename string)(result *UploadQyTempMediaReq, err error){
 	qyUrl := fmt.Sprintf(UploadQyTempMediaURL, accessToken, fileType)
 
 	response, err := util.PostFile(fieldname, filename ,qyUrl, m.ProxyUrl)
@@ -53,11 +53,11 @@ func (m *Media) UploadQyTempMedia(accessToken, fileType, fieldname, filename str
 }
 
 //上传图片
-type uploadQyImgMediaReq struct {
+type UploadQyImgMediaReq struct {
 	util.WxError
 	Url     string `json:"url"`
 }
-func (m *Media) UploadQyImgMedia(accessToken, fieldname, filename string)(result *uploadQyImgMediaReq, err error){
+func (m *Media) UploadQyImgMedia(accessToken, fieldname, filename string)(result *UploadQyImgMediaReq, err error){
 	qyUrl := fmt.Sprintf(UploadQyImgMediaURL, accessToken)
 
 	response, err := util.PostFile(fieldname, filename ,qyUrl, m.ProxyUrl)

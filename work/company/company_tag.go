@@ -31,14 +31,14 @@ func NewCompanyTag(context *core.Context) *CompanyTag {
 }
 
 //获取标签列表
-type companyTagList struct {
+type CompanyTagList struct {
 	util.WxError
 	Taglist []struct {
 		Tagid   int32  `json:"tagid"`
 		Tagname string `json:"tagname"`
 	} `json:"taglist"`
 }
-func (ct *CompanyTag) GetCompanyTag (accessToken string) (result *companyTagList, err error) {
+func (ct *CompanyTag) GetCompanyTag (accessToken string) (result *CompanyTagList, err error) {
 	qyUrl := fmt.Sprintf(GetCompanyTagURL, accessToken)
 
 	response, err := util.HTTPGet(qyUrl, ct.ProxyUrl)
@@ -61,11 +61,11 @@ type CreateCompanyTagReq struct {
 	Tagname string `json:"tagname"`
 	Tagid   int32  `json:"tagid"`
 }
-type createCompanyTagRep struct {
+type CreateCompanyTagRep struct {
 	util.WxError
 	Tagid   int32    `json:"tagid"`
 }
-func (ct *CompanyTag) CreateCompanyTag (accessToken string, req CreateCompanyTagReq) (result *createCompanyTagRep, err error) {
+func (ct *CompanyTag) CreateCompanyTag (accessToken string, req CreateCompanyTagReq) (result *CreateCompanyTagRep, err error) {
 	qyUrl := fmt.Sprintf(CreateCompanyTagURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
@@ -126,7 +126,7 @@ func (ct *CompanyTag) DelCompanyTag (accessToken string, tagId int32) (result *u
 }
 
 //获取标签成员
-type companyTagUserList struct {
+type CompanyTagUserList struct {
 	util.WxError
 	Tagname  string `json:"tagname"`
 	Userlist []struct {
@@ -135,7 +135,7 @@ type companyTagUserList struct {
 	} `json:"userlist"`
 	Partylist []int32 `json:"partylist"`
 }
-func (ct *CompanyTag) GetCompanyTagUser (accessToken string, tagId int32) (result *companyTagUserList, err error) {
+func (ct *CompanyTag) GetCompanyTagUser (accessToken string, tagId int32) (result *CompanyTagUserList, err error) {
 	qyUrl := fmt.Sprintf(GetCompanyTagUserURL, accessToken, tagId)
 
 	response, err := util.HTTPGet(qyUrl, ct.ProxyUrl)
@@ -159,12 +159,12 @@ type CreateCompanyTagUserReq struct {
 	Userlist  []string   `json:"userlist"`
 	Partylist []int32    `json:"partylist"`
 }
-type createCompanyTagUserRep struct {
+type CreateCompanyTagUserRep struct {
 	util.WxError
 	Invalidlist  string `json:"invalidlist,omitempty"`
 	Invalidparty []int32 `json:"invalidparty,omitempty"`
 }
-func (ct *CompanyTag) CreateCompanyTagUser (accessToken string, req CreateCompanyTagUserReq) (result *createCompanyTagUserRep, err error) {
+func (ct *CompanyTag) CreateCompanyTagUser (accessToken string, req CreateCompanyTagUserReq) (result *CreateCompanyTagUserRep, err error) {
 	qyUrl := fmt.Sprintf(CreateCompanyTagUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
@@ -188,12 +188,12 @@ type DelCompanyTagUserReq struct {
 	Userlist  []string `json:"userlist"`
 	Partylist []int32  `json:"partylist"`
 }
-type delCompanyTagUserRep struct {
+type DelCompanyTagUserRep struct {
 	util.WxError
 	Invalidlist  string `json:"invalidlist,omitempty"`
 	Invalidparty []int32 `json:"invalidparty,omitempty"`
 }
-func (ct *CompanyTag) DelCompanyTagUser (accessToken string, req DelCompanyTagUserReq) (result *delCompanyTagUserRep, err error) {
+func (ct *CompanyTag) DelCompanyTagUser (accessToken string, req DelCompanyTagUserReq) (result *DelCompanyTagUserRep, err error) {
 	qyUrl := fmt.Sprintf(DelCompanyTagUserURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)

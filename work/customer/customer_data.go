@@ -34,7 +34,7 @@ type CustomerBehaviorDataReq struct {
 	StartTime int64 `json:"start_time"`
 	EndTime int64 `json:"end_time"`
 }
-type customerBehaviorDataRep struct {
+type CustomerBehaviorDataRep struct {
 	util.WxError
 	BehaviorData []behaviorData `json:"behavior_data"`
 }
@@ -48,7 +48,7 @@ type behaviorData struct {
 	NewApplyCnt int64 `json:"new_apply_cnt"`
 	NewContactCnt int64 `json:"new_contact_cnt"`
 }
-func (cd *CustomerData) GetCustomerBehaviorData(accessToken string, req CustomerBehaviorDataReq)(result *customerBehaviorDataRep, err error){
+func (cd *CustomerData) GetCustomerBehaviorData(accessToken string, req CustomerBehaviorDataReq)(result *CustomerBehaviorDataRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerBehaviorDataURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cd.ProxyUrl)
@@ -78,7 +78,7 @@ type CustomerGroupChatDataReq struct {
 	Offset   int32 `json:"offset"`
 	Limit    int32 `json:"limit"`
 }
-type customerGroupChatDataRep struct {
+type CustomerGroupChatDataRep struct {
 	util.WxError
 	Total      int64    `json:"total"`
 	NextOffset int64    `json:"next_offset"`
@@ -96,7 +96,7 @@ type customerGroupChatDataRep struct {
 		} `json:"data"`
 	} `json:"items"`
 }
-func (cd *CustomerData) GetCustomerGroupChatData(accessToken string, req CustomerGroupChatDataReq)(result *customerGroupChatDataRep, err error){
+func (cd *CustomerData) GetCustomerGroupChatData(accessToken string, req CustomerGroupChatDataReq)(result *CustomerGroupChatDataRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerGroupChatDataURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cd.ProxyUrl)
@@ -122,7 +122,7 @@ type CustomerGroupChatByDayDataReq struct {
 		UseridList []string `json:"userid_list"`
 	} `json:"owner_filter"`
 }
-type customerGroupChatByDayDataRep struct {
+type CustomerGroupChatByDayDataRep struct {
 	util.WxError
 	Items   []struct {
 		StatTime int64 `json:"stat_time"`
@@ -138,7 +138,7 @@ type customerGroupChatByDayDataRep struct {
 		} `json:"data"`
 	} `json:"items"`
 }
-func (cd *CustomerData) GetCustomerGroupChatByDayData(accessToken string, req CustomerGroupChatByDayDataReq)(result *customerGroupChatByDayDataRep, err error){
+func (cd *CustomerData) GetCustomerGroupChatByDayData(accessToken string, req CustomerGroupChatByDayDataReq)(result *CustomerGroupChatByDayDataRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerGroupChatDataByDayURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cd.ProxyUrl)

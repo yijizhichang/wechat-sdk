@@ -26,7 +26,7 @@ func NewAgent(context *core.Context) *Agent {
 }
 
 //获取指定的应用详情
-type qyAgentViewRep struct {
+type QyAgentViewRep struct {
 	util.WxError
 	Agentid        int32  `json:"agentid"`
 	Name           string `json:"name"`
@@ -49,7 +49,7 @@ type qyAgentViewRep struct {
 	Isreportenter      int32  `json:"isreportenter"`
 	HomeUrl            string `json:"home_url"`
 }
-func (a *Agent) GetQyAgentView(accessToken string, agentId int32)(result *qyAgentViewRep, err error){
+func (a *Agent) GetQyAgentView(accessToken string, agentId int32)(result *QyAgentViewRep, err error){
 	qyUrl := fmt.Sprintf(GetQyAgentViewURL, accessToken, agentId)
 
 	response, err := util.HTTPGet(qyUrl, a.ProxyUrl)
@@ -69,7 +69,7 @@ func (a *Agent) GetQyAgentView(accessToken string, agentId int32)(result *qyAgen
 }
 
 //获取access_token对应的应用列表
-type qyAgentList struct {
+type QyAgentList struct {
 	util.WxError
 	Agentlist []struct {
 		Agentid       int32  `json:"agentid"`
@@ -77,7 +77,7 @@ type qyAgentList struct {
 		SquareLogoUrl string `json:"square_logo_url"`
 	} `json:"agentlist"`
 }
-func (a *Agent) GetQyAgentList(accessToken string)(result *qyAgentList, err error){
+func (a *Agent) GetQyAgentList(accessToken string)(result *QyAgentList, err error){
 	qyUrl := fmt.Sprintf(GetQyAgentListURL, accessToken)
 
 	response, err := util.HTTPGet(qyUrl, a.ProxyUrl)

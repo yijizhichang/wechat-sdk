@@ -34,12 +34,12 @@ func NewCompanyLinkedCorp(context *core.Context) *CompanyLinkedCorp {
 type LinkedCorpPermReq struct {
 
 }
-type linkedCorpPermRep struct {
+type LinkedCorpPermRep struct {
 	util.WxError
 	Userids       []string `json:"userids"`
 	DepartmentIds []string `json:"department_ids"`
 }
-func (clc *CompanyLinkedCorp) GetLinkedCorpPermList (accessToken string, req LinkedCorpPermReq) (result *linkedCorpPermRep, err error) {
+func (clc *CompanyLinkedCorp) GetLinkedCorpPermList (accessToken string, req LinkedCorpPermReq) (result *LinkedCorpPermRep, err error) {
 	qyUrl := fmt.Sprintf(GetLinkedCorpPermListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, clc.ProxyUrl)
@@ -61,7 +61,7 @@ func (clc *CompanyLinkedCorp) GetLinkedCorpPermList (accessToken string, req Lin
 type LinkedCorpUserInfoReq struct {
 	Userid string `json:"userid"`
 }
-type linkedCorpUserInfoRep struct {
+type LinkedCorpUserInfoRep struct {
 	util.WxError
 	UserInfo struct {
 		Userid     string   `json:"userid"`
@@ -88,7 +88,7 @@ type linkedCorpUserInfoRep struct {
 		} `json:"extattr"`
 	} `json:"user_info"`
 }
-func (clc *CompanyLinkedCorp) GetLinkedCorpUserInfo (accessToken string, req LinkedCorpUserInfoReq) (result *linkedCorpUserInfoRep, err error) {
+func (clc *CompanyLinkedCorp) GetLinkedCorpUserInfo (accessToken string, req LinkedCorpUserInfoReq) (result *LinkedCorpUserInfoRep, err error) {
 	qyUrl := fmt.Sprintf(GetLinkedCorpUserInfoURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, clc.ProxyUrl)
@@ -111,7 +111,7 @@ type LinkedCorpUserSimpleListReq struct {
 	DepartmentId string `json:"department_id"`
 	FetchChild   bool   `json:"fetch_child"`
 }
-type linkedCorpUserSimpleListRep struct {
+type LinkedCorpUserSimpleListRep struct {
 	util.WxError
 	Userlist []struct {
 		Userid     string   `json:"userid"`
@@ -120,7 +120,7 @@ type linkedCorpUserSimpleListRep struct {
 		Corpid     string   `json:"corpid"`
 	} `json:"userlist"`
 }
-func (clc *CompanyLinkedCorp) GetLinkedCorpUserSimpleList (accessToken string, req LinkedCorpUserSimpleListReq) (result *linkedCorpUserSimpleListRep, err error) {
+func (clc *CompanyLinkedCorp) GetLinkedCorpUserSimpleList (accessToken string, req LinkedCorpUserSimpleListReq) (result *LinkedCorpUserSimpleListRep, err error) {
 	qyUrl := fmt.Sprintf(GetLinkedCorpUserSimpleListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, clc.ProxyUrl)
@@ -143,7 +143,7 @@ type LinkedCorpUserListReq struct {
 	DepartmentId string `json:"department_id"`
 	FetchChild   bool   `json:"fetch_child"`
 }
-type linkedCorpUserListRep struct {
+type LinkedCorpUserListRep struct {
 	util.WxError
 	Userlist []struct {
 		Userid     string   `json:"userid"`
@@ -170,7 +170,7 @@ type linkedCorpUserListRep struct {
 		} `json:"extattr"`
 	} `json:"userlist"`
 }
-func (clc *CompanyLinkedCorp) GetLinkedCorpUserList (accessToken string, req LinkedCorpUserListReq) (result *linkedCorpUserListRep, err error) {
+func (clc *CompanyLinkedCorp) GetLinkedCorpUserList (accessToken string, req LinkedCorpUserListReq) (result *LinkedCorpUserListRep, err error) {
 	qyUrl := fmt.Sprintf(GetLinkedCorpUserListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, clc.ProxyUrl)
@@ -192,7 +192,7 @@ func (clc *CompanyLinkedCorp) GetLinkedCorpUserList (accessToken string, req Lin
 type LinkedCorpDepartmentListReq struct {
 	DepartmentId string `json:"department_id"`
 }
-type linkedCorpDepartmentListRep struct {
+type LinkedCorpDepartmentListRep struct {
 	util.WxError
 	DepartmentList []struct {
 		DepartmentId   string `json:"department_id"`
@@ -201,7 +201,7 @@ type linkedCorpDepartmentListRep struct {
 		Order          int32  `json:"order"`
 	} `json:"department_list"`
 }
-func (clc *CompanyLinkedCorp) GetLinkedCorpDepartmentList (accessToken string, req LinkedCorpDepartmentListReq) (result *linkedCorpDepartmentListRep, err error) {
+func (clc *CompanyLinkedCorp) GetLinkedCorpDepartmentList (accessToken string, req LinkedCorpDepartmentListReq) (result *LinkedCorpDepartmentListRep, err error) {
 	qyUrl := fmt.Sprintf(GetLinkedCorpDepartmentListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, clc.ProxyUrl)

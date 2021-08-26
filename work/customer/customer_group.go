@@ -35,7 +35,7 @@ type CusGroupReq struct {
 	Cursor string `json:"cursor"`
 	Limit int32 `json:"limit"`
 }
-type cusGroupList struct {
+type CusGroupList struct {
 	util.WxError
 	GroupChatList []groupChatItem `json:"group_chat_list"`
 	NextCursor string `json:"next_cursor"`
@@ -44,7 +44,7 @@ type groupChatItem struct {
 	ChatId string `json:"chat_id"`
 	Status int32 `json:"status"`
 }
-func (cg *CustomerGroup) GetCustomerGroupList(accessToken string, req CusGroupReq)(result *cusGroupList, err error){
+func (cg *CustomerGroup) GetCustomerGroupList(accessToken string, req CusGroupReq)(result *CusGroupList, err error){
 	qyUrl := fmt.Sprintf(GetCustomerGroupListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cg.ProxyUrl)
@@ -67,7 +67,7 @@ type CusGroupViewReq struct {
 	ChatId string `json:"chat_id"`
 	NeedName int32 `json:"need_name"`
 }
-type cusGroupView struct {
+type CusGroupView struct {
 	util.WxError
 	GroupChat struct{
 		ChatId string `json:"chat_id"`
@@ -94,7 +94,7 @@ type memberItem struct {
 type adminItem struct {
 	Userid string `json:"userid"`
 }
-func (cg *CustomerGroup) GetCustomerGroupView(accessToken string, req CusGroupViewReq)(result *cusGroupView, err error){
+func (cg *CustomerGroup) GetCustomerGroupView(accessToken string, req CusGroupViewReq)(result *CusGroupView, err error){
 	qyUrl := fmt.Sprintf(GetCustomerGroupViewURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cg.ProxyUrl)
@@ -116,11 +116,11 @@ func (cg *CustomerGroup) GetCustomerGroupView(accessToken string, req CusGroupVi
 type CusGroupOpengidReq struct {
 	Opengid string `json:"opengid"`  //小程序在微信获取到的群ID
 }
-type cusGroupChatId struct {
+type CusGroupChatId struct {
 	util.WxError
 	ChatId string `json:"chat_id"`  //客户群ID，可以用来调用获取客户群详情
 }
-func (cg *CustomerGroup) GetCustomerGroupChatId(accessToken string, req CusGroupOpengidReq)(result *cusGroupChatId, err error){
+func (cg *CustomerGroup) GetCustomerGroupChatId(accessToken string, req CusGroupOpengidReq)(result *CusGroupChatId, err error){
 	qyUrl := fmt.Sprintf(GetOpengidToChatidURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cg.ProxyUrl)

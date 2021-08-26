@@ -32,12 +32,12 @@ type KfConverseStateReq struct {
 	OpenKfid       string `json:"open_kfid"`
 	ExternalUserid string `json:"external_userid"`
 }
-type kfConverseStateRep struct {
+type KfConverseStateRep struct {
 	util.WxError
 	ServiceState   int32  `json:"service_state"`
 	ServicerUserid string `json:"servicer_userid"`
 }
-func (kf *KefuServicer) GetKfConverseState(accessToken string, req KfConverseStateReq)(result *kfConverseStateRep, err error){
+func (kf *KefuServicer) GetKfConverseState(accessToken string, req KfConverseStateReq)(result *KfConverseStateRep, err error){
 	qyUrl := fmt.Sprintf(GetKfConverseStateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -86,7 +86,7 @@ type SyncKfConverseMsgReq struct {
 	Token  string `json:"token"`
 	Limit  int32  `json:"limit"`
 }
-type syncKfConverseMsgRep struct {
+type SyncKfConverseMsgRep struct {
 	util.WxError
 	NextCursor string `json:"next_cursor"`
 	HasMore    int32  `json:"has_more"`
@@ -171,7 +171,7 @@ type syncKfConverseMsgRep struct {
 		} `json:"event"`
 	} `json:"msg_list"`
 }
-func (kf *KefuServicer) SyncKfConverseMsg(accessToken string, req SyncKfConverseMsgReq)(result *syncKfConverseMsgRep, err error){
+func (kf *KefuServicer) SyncKfConverseMsg(accessToken string, req SyncKfConverseMsgReq)(result *SyncKfConverseMsgRep, err error){
 	qyUrl := fmt.Sprintf(SyncKfConverseMsgURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -249,11 +249,11 @@ type SendKfConverseMsgReq struct {
 		Longitude float64  `json:"longitude"`
 	} `json:"location,omitempty"`
 }
-type sendKfConverseMsgRep struct {
+type SendKfConverseMsgRep struct {
 	util.WxError
 	Msgid   string `json:"msgid"`
 }
-func (kf *KefuServicer) SendKfConverseMsg(accessToken string, req SendKfConverseMsgReq)(result *sendKfConverseMsgRep, err error){
+func (kf *KefuServicer) SendKfConverseMsg(accessToken string, req SendKfConverseMsgReq)(result *SendKfConverseMsgRep, err error){
 	qyUrl := fmt.Sprintf(SendKfConverseMsgURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)

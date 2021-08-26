@@ -36,11 +36,11 @@ type CreateDepartmentReq struct {
 	Order int32 `json:"order"`
 }
 
-type createDepartmentRep struct {
+type CreateDepartmentRep struct {
 	util.WxError
 	Id int32 `json:"id"`
 }
-func (d *Department) CreateDepartment (accessToken string, req CreateDepartmentReq) (result *createDepartmentRep, err error) {
+func (d *Department) CreateDepartment (accessToken string, req CreateDepartmentReq) (result *CreateDepartmentRep, err error) {
 	qyUrl := fmt.Sprintf(CreateDepartmentURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, d.ProxyUrl)
@@ -97,7 +97,7 @@ func (d *Department) DelDepartment (accessToken string, id int32) (result *util.
 }
 
 //获取部门列表
-type departmentListRep struct {
+type DepartmentListRep struct {
 	util.WxError
 	Department []departmentItem `json:"department"`
 }
@@ -108,7 +108,7 @@ type departmentItem struct {
 	Parentid int32 `json:"parentid"`
 	Order int32 `json:"order"`
 }
-func (d *Department) GetDepartmentList (accessToken string, id int32) (result *departmentListRep, err error) {
+func (d *Department) GetDepartmentList (accessToken string, id int32) (result *DepartmentListRep, err error) {
 	qyUrl := fmt.Sprintf(GetDepartmentListURL, accessToken, id)
 
 	response, err := util.HTTPGet(qyUrl, d.ProxyUrl)

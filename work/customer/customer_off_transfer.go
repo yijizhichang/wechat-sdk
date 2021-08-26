@@ -33,7 +33,7 @@ type CustomerOffUnassignedReq struct {
 	Cursor   string   `json:"cursor"`
 	PageSize int32    `json:"page_size"`
 }
-type customerOffUnassignedList struct {
+type CustomerOffUnassignedList struct {
 	util.WxError
 	Info    []struct {
 		HandoverUserid string `json:"handover_userid"`
@@ -43,7 +43,7 @@ type customerOffUnassignedList struct {
 	IsLast     bool   `json:"is_last"`
 	NextCursor string `json:"next_cursor"`
 }
-func (cft *CustomerOffTransfer) GetCustomerOffUnassignedList(accessToken string, req CustomerOffUnassignedReq)(result *customerOffUnassignedList, err error){
+func (cft *CustomerOffTransfer) GetCustomerOffUnassignedList(accessToken string, req CustomerOffUnassignedReq)(result *CustomerOffUnassignedList, err error){
 	qyUrl := fmt.Sprintf(GetCustomerOffUnassignedListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cft.ProxyUrl)
@@ -67,14 +67,14 @@ type CreateCustomerOffTransferReq struct {
 	TakeoverUserid string   `json:"takeover_userid"`
 	ExternalUserid []string `json:"external_userid"`
 }
-type createCustomerOffTransferRep struct {
+type CreateCustomerOffTransferRep struct {
 	util.WxError
 	Customer []struct {
 		ExternalUserid string `json:"external_userid"`
 		Errcode        int32    `json:"errcode"`
 	} `json:"customer"`
 }
-func (cft *CustomerOffTransfer) CreateCustomerOffTransfer(accessToken string, req CreateCustomerOffTransferReq)(result *createCustomerOffTransferRep, err error){
+func (cft *CustomerOffTransfer) CreateCustomerOffTransfer(accessToken string, req CreateCustomerOffTransferReq)(result *CreateCustomerOffTransferRep, err error){
 	qyUrl := fmt.Sprintf(CreateCustomerOffTransferURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cft.ProxyUrl)
@@ -98,7 +98,7 @@ type CustomerOffTransferResultReq struct {
 	TakeoverUserid string `json:"takeover_userid"`
 	Cursor         string `json:"cursor"`
 }
-type customerOffTransferResultRep struct {
+type CustomerOffTransferResultRep struct {
 	util.WxError
 	Customer []struct {
 		ExternalUserid string `json:"external_userid"`
@@ -107,7 +107,7 @@ type customerOffTransferResultRep struct {
 	} `json:"customer"`
 	NextCursor string `json:"next_cursor"`
 }
-func (cft *CustomerOffTransfer) GetCustomerOffTransferResult(accessToken string, req CustomerOffTransferResultReq)(result *customerOffTransferResultRep, err error){
+func (cft *CustomerOffTransfer) GetCustomerOffTransferResult(accessToken string, req CustomerOffTransferResultReq)(result *CustomerOffTransferResultRep, err error){
 	qyUrl := fmt.Sprintf(GetCustomerOffTransferResultURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cft.ProxyUrl)
@@ -130,7 +130,7 @@ type CreateCustomerOffGroupChatTransferReq struct {
 	ChatIdList []string `json:"chat_id_list"`
 	NewOwner   string   `json:"new_owner"`
 }
-type createCustomerOffGroupChatTransferRep struct {
+type CreateCustomerOffGroupChatTransferRep struct {
 	util.WxError
 	FailedChatList []struct {
 		ChatId  string `json:"chat_id"`
@@ -138,7 +138,7 @@ type createCustomerOffGroupChatTransferRep struct {
 		Errmsg  string `json:"errmsg"`
 	} `json:"failed_chat_list"`
 }
-func (cft *CustomerOffTransfer) CreateCustomerOffGroupChatTransfer(accessToken string, req CreateCustomerOffGroupChatTransferReq)(result *createCustomerOffGroupChatTransferRep, err error){
+func (cft *CustomerOffTransfer) CreateCustomerOffGroupChatTransfer(accessToken string, req CreateCustomerOffGroupChatTransferReq)(result *CreateCustomerOffGroupChatTransferRep, err error){
 	qyUrl := fmt.Sprintf(CreateCustomerOffGroupChatTransferURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, cft.ProxyUrl)

@@ -34,11 +34,11 @@ func NewCustomer(context *core.Context) *Customer {
 }
 
 //获取客户列表
-type cusList struct {
+type CusList struct {
 	util.WxError
 	ExternalUserid []string `json:"external_userid"`
 }
-func (c *Customer) GetQyCustomerList(accessToken, userid string)(result *cusList, err error){
+func (c *Customer) GetQyCustomerList(accessToken, userid string)(result *CusList, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerListURL, accessToken, userid)
 
 	response, err := util.HTTPGet(qyUrl, c.ProxyUrl)
@@ -57,7 +57,7 @@ func (c *Customer) GetQyCustomerList(accessToken, userid string)(result *cusList
 }
 
 //获取客户详情
-type cusView struct {
+type CusView struct {
 	util.WxError
 	ExternalContact struct{
 		ExternalUserid  string  `json:"external_userid"`
@@ -110,7 +110,7 @@ type tagItem struct {
 	TagId string `json:"tag_id"`
 	Type int64 `json:"type"`
 }
-func (c *Customer) GetQyCustomerView(accessToken, externalUserid, cursor string)(result *cusView, err error){
+func (c *Customer) GetQyCustomerView(accessToken, externalUserid, cursor string)(result *CusView, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerViewURL, accessToken, externalUserid, cursor)
 
 	response, err := util.HTTPGet(qyUrl, c.ProxyUrl)
@@ -129,7 +129,7 @@ func (c *Customer) GetQyCustomerView(accessToken, externalUserid, cursor string)
 }
 
 //批量获取客户详情
-type cusViewBatch struct {
+type CusViewBatch struct {
 	util.WxError
 	ExternalContactList []externalContactItem `json:"external_contact_list"`
 }
@@ -167,7 +167,7 @@ type CusViewBatchReq struct {
 	Cursor  string  `json:"cursor"`
 	Limit   int     `json:"limit"`
 }
-func (c *Customer) GetQyCustomerViewBatch(accessToken string, req CusViewBatchReq)(result *cusViewBatch, err error){
+func (c *Customer) GetQyCustomerViewBatch(accessToken string, req CusViewBatchReq)(result *CusViewBatch, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerViewBatchURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, c.ProxyUrl)
@@ -220,14 +220,14 @@ type CustomerStrategyReq struct {
 	Cursor string `json:"cursor"`
 	Limit  int32  `json:"limit"`
 }
-type customerStrategyRep struct {
+type CustomerStrategyRep struct {
 	util.WxError
 	Strategy []struct {
 		StrategyId int32 `json:"strategy_id"`
 	} `json:"strategy"`
 	NextCursor string `json:"next_cursor"`
 }
-func (c *Customer) GetQyCustomerStrategyList(accessToken string, req CustomerStrategyReq)(result *customerStrategyRep, err error){
+func (c *Customer) GetQyCustomerStrategyList(accessToken string, req CustomerStrategyReq)(result *CustomerStrategyRep, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerStrategyListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, c.ProxyUrl)
@@ -250,7 +250,7 @@ func (c *Customer) GetQyCustomerStrategyList(accessToken string, req CustomerStr
 type CustomerStrategyViewReq struct {
 	StrategyId int `json:"strategy_id"`
 }
-type customerStrategyViewRep struct {
+type CustomerStrategyViewRep struct {
 	util.WxError
 	Strategy struct {
 		StrategyId   int32      `json:"strategy_id"`
@@ -282,7 +282,7 @@ type customerStrategyViewRep struct {
 		} `json:"privilege"`
 	} `json:"strategy"`
 }
-func (c *Customer) GetQyCustomerStrategyView(accessToken string, req CustomerStrategyViewReq)(result *customerStrategyViewRep, err error){
+func (c *Customer) GetQyCustomerStrategyView(accessToken string, req CustomerStrategyViewReq)(result *CustomerStrategyViewRep, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerStrategyViewURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, c.ProxyUrl)
@@ -307,7 +307,7 @@ type CustomerStrategyRangeReq struct {
 	Cursor     string   `json:"cursor"`
 	Limit      int32    `json:"limit"`
 }
-type customerStrategyRangeRep struct {
+type CustomerStrategyRangeRep struct {
 	util.WxError
 	Range   []struct {
 		Type    int32  `json:"type"`
@@ -316,7 +316,7 @@ type customerStrategyRangeRep struct {
 	} `json:"range"`
 	NextCursor string `json:"next_cursor"`
 }
-func (c *Customer) GetQyCustomerStrategyRange(accessToken string, req CustomerStrategyRangeReq)(result *customerStrategyRangeRep, err error){
+func (c *Customer) GetQyCustomerStrategyRange(accessToken string, req CustomerStrategyRangeReq)(result *CustomerStrategyRangeRep, err error){
 	qyUrl := fmt.Sprintf(GetQyCustomerStrategyRangeURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, c.ProxyUrl)
@@ -367,11 +367,11 @@ type CreateCustomerStrategyReq struct {
 		Partyid int32   `json:"partyid,omitempty"`
 	} `json:"range"`
 }
-type createCustomerStrategyRep struct {
+type CreateCustomerStrategyRep struct {
 	util.WxError
 	StrategyId int32    `json:"strategy_id"`
 }
-func (c *Customer) CreateQyCustomerStrategy(accessToken string, req CreateCustomerStrategyReq)(result *createCustomerStrategyRep, err error){
+func (c *Customer) CreateQyCustomerStrategy(accessToken string, req CreateCustomerStrategyReq)(result *CreateCustomerStrategyRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyCustomerStrategyURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, c.ProxyUrl)

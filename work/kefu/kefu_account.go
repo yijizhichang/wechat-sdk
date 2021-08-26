@@ -33,11 +33,11 @@ type CreateKfAccountReq struct {
 	Name    string `json:"name"`
 	MediaId string `json:"media_id"`
 }
-type createKfAccountRep struct {
+type CreateKfAccountRep struct {
 	util.WxError
 	OpenKfid string `json:"open_kfid"`
 }
-func (kf *KefuAccount) CreateKfAccount(accessToken string, req CreateKfAccountReq)(result *createKfAccountRep, err error){
+func (kf *KefuAccount) CreateKfAccount(accessToken string, req CreateKfAccountReq)(result *CreateKfAccountRep, err error){
 	qyUrl := fmt.Sprintf(CreateKfAccountURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)
@@ -102,7 +102,7 @@ func (kf *KefuAccount) UpdateKfAccount(accessToken string, req UpdateKfAccountRe
 }
 
 //获取客服帐号列表
-type kfAccountList struct {
+type KfAccountList struct {
 	util.WxError
 	AccountList []struct {
 		OpenKfid string `json:"open_kfid"`
@@ -110,7 +110,7 @@ type kfAccountList struct {
 		Avatar   string `json:"avatar"`
 	} `json:"account_list"`
 }
-func (kf *KefuAccount) GetKfAccountList(accessToken string)(result *kfAccountList, err error){
+func (kf *KefuAccount) GetKfAccountList(accessToken string)(result *KfAccountList, err error){
 	qyUrl := fmt.Sprintf(GetKfAccountListURL, accessToken)
 
 	response, err := util.HTTPGet(qyUrl, kf.ProxyUrl)
@@ -133,11 +133,11 @@ type KfContactWayReq struct {
 	OpenKfid string `json:"open_kfid"`
 	Scene    string `json:"scene"`
 }
-type kfContactWayRep struct {
+type KfContactWayRep struct {
 	util.WxError
 	Url     string `json:"url"`
 }
-func (kf *KefuAccount) GetKfContactWay(accessToken string, req KfContactWayReq)(result *kfContactWayRep, err error){
+func (kf *KefuAccount) GetKfContactWay(accessToken string, req KfContactWayReq)(result *KfContactWayRep, err error){
 	qyUrl := fmt.Sprintf(GetKfContactWayURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, kf.ProxyUrl)

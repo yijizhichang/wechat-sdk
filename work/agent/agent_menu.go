@@ -63,7 +63,7 @@ func (am *AgentMenu) CreateQyMenu(accessToken string, req CreateQyMenuReq)(resul
 }
 
 //获取菜单
-type qyMenuRep struct {
+type QyMenuRep struct {
 	util.WxError
 	Button []struct {
 		Name string `json:"name"`
@@ -81,7 +81,7 @@ type qyMenuRep struct {
 
 	} `json:"button"`
 }
-func (am *AgentMenu) GetQyMenu(accessToken string, agentId int32)(result *qyMenuRep, err error){
+func (am *AgentMenu) GetQyMenu(accessToken string, agentId int32)(result *QyMenuRep, err error){
 	qyUrl := fmt.Sprintf(GetQyMenuURL, accessToken, agentId)
 
 	response, err := util.HTTPGet(qyUrl, am.ProxyUrl)

@@ -37,7 +37,7 @@ type CusTagReq struct {
 	TagId []string `json:"tag_id"`
 	GroupId []string `json:"group_id"`
 }
-type cusTagList struct {
+type CusTagList struct {
 	util.WxError
 	TagGroup []tagGroupItem `json:"tag_group"`
 }
@@ -56,7 +56,7 @@ type cusTagItem struct {
 	Order int32 `json:"order"`
 	Deleted bool `json:"deleted"`
 }
-func (ct *CustomerTag) GetCustomerTagList(accessToken string, req CusTagReq)(result *cusTagList, err error){
+func (ct *CustomerTag) GetCustomerTagList(accessToken string, req CusTagReq)(result *CusTagList, err error){
 	qyUrl := fmt.Sprintf(GetCustomerTagListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
@@ -200,7 +200,7 @@ type CustomerStrategyTagReq struct {
 	TagId      []string `json:"tag_id"`
 	GroupId    []string `json:"group_id"`
 }
-type customerStrategyTagList struct {
+type CustomerStrategyTagList struct {
 	util.WxError
 	TagGroup []struct {
 		GroupId    string `json:"group_id"`
@@ -216,7 +216,7 @@ type customerStrategyTagList struct {
 		} `json:"tag"`
 	} `json:"tag_group"`
 }
-func (ct *CustomerTag) GetCustomerStrategyTagList(accessToken string, req CustomerStrategyTagReq)(result *customerStrategyTagList, err error){
+func (ct *CustomerTag) GetCustomerStrategyTagList(accessToken string, req CustomerStrategyTagReq)(result *CustomerStrategyTagList, err error){
 	qyUrl := fmt.Sprintf(GetCustomerStrategyTagListURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)
@@ -245,7 +245,7 @@ type CreateCustomerStrategyTagReq struct {
 		Order int32  `json:"order"`
 	} `json:"tag"`
 }
-type createCustomerStrategyTagRep struct {
+type CreateCustomerStrategyTagRep struct {
 	util.WxError
 	TagGroup struct {
 		GroupId    string `json:"group_id"`
@@ -260,7 +260,7 @@ type createCustomerStrategyTagRep struct {
 		} `json:"tag"`
 	} `json:"tag_group"`
 }
-func (ct *CustomerTag) CreateCustomerStrategyTag(accessToken string, req CreateCustomerStrategyTagReq)(result *createCustomerStrategyTagRep, err error){
+func (ct *CustomerTag) CreateCustomerStrategyTag(accessToken string, req CreateCustomerStrategyTagReq)(result *CreateCustomerStrategyTagRep, err error){
 	qyUrl := fmt.Sprintf(CreateCustomerStrategyTagURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, ct.ProxyUrl)

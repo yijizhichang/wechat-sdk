@@ -32,14 +32,14 @@ func (o *Oauth2) GetQyOauth2AuthorizeURL(redirectUri string, state string)(url s
 }
 
 //获取访问用户身份
-type userInfoByCode struct {
+type UserInfoByCode struct {
 	util.WxError
 	UserId         string `json:"UserId"`
 	DeviceId       string `json:"DeviceId"`
 	OpenId         string `json:"OpenId"`
 	ExternalUserid string `json:"external_userid"`
 }
-func (o *Oauth2) GetUserInfoByCode(accessToken string, code string)(result *userInfoByCode, err error){
+func (o *Oauth2) GetUserInfoByCode(accessToken string, code string)(result *UserInfoByCode, err error){
 	qyUrl := fmt.Sprintf(GetUserInfoByCodeURL, accessToken, code)
 
 	response, err := util.HTTPGet(qyUrl, o.ProxyUrl)

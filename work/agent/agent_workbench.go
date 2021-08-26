@@ -79,7 +79,7 @@ func (aw *AgentWorkbench) SetWorkbenchTemplate(accessToken string, req SetWorkbe
 type WorkbenchTemplateReq struct {
 	Agentid int `json:"agentid"`
 }
-type workbenchTemplateRep struct {
+type WorkbenchTemplateRep struct {
 	util.WxError
 	Agentid int32  `json:"agentid"`
 	Type    string `json:"type"`
@@ -110,7 +110,7 @@ type workbenchTemplateRep struct {
 	} `json:"webview,omitempty"`
 	ReplaceUserData bool `json:"replace_user_data"`
 }
-func (aw *AgentWorkbench) GetWorkbenchTemplate(accessToken string, req WorkbenchTemplateReq)(result *workbenchTemplateRep, err error){
+func (aw *AgentWorkbench) GetWorkbenchTemplate(accessToken string, req WorkbenchTemplateReq)(result *WorkbenchTemplateRep, err error){
 	qyUrl := fmt.Sprintf(GetWorkbenchTemplateURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, aw.ProxyUrl)
