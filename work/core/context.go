@@ -19,6 +19,7 @@ type Context struct {
 	EncodingAESKey   string
 	RasPrivateKey string  // 消息加密私钥
 	ThirdAccessToken bool  //是用其他应用生成的access_token
+	Debug  bool  //为true时会打印一些调试信息
 
 	Cache      cache.Cache //缓存
 	ProxyUrl   string      //代理地址

@@ -28,7 +28,7 @@ type QyConfig struct {
 	Token               string    // 令牌(Token)
 	EncodingAESKey      string    // 消息加解密密钥 EncodingAESKey
 	ThirdAccessToken 	bool    //是用其他应用生成的access_token
-
+	Debug               bool    //为true时会打印一些调试信息
 	Cache      cache.Cache //缓存
 	ProxyUrl   string      //代理地址
 }
@@ -47,7 +47,7 @@ func copyConfigToQyContext(cfg *QyConfig, context *core.Context) {
 	context.EncodingAESKey = cfg.EncodingAESKey
 	context.RasPrivateKey = cfg.RasPrivateKey
 	context.ThirdAccessToken = cfg.ThirdAccessToken
-
+    context.Debug = cfg.Debug
 	context.Cache = cfg.Cache
 	context.ProxyUrl = cfg.ProxyUrl
 

@@ -42,13 +42,19 @@ func (ctx *Context) GetAccessToken(corpSecret string) (accessToken string, err e
 	val, err := ctx.Cache.Get(key)
 
 	if err != nil {
-		fmt.Println("qy cache accessToken ctx.Cache.Get Err: %+v",err)
+		if ctx.Debug {
+			fmt.Println("qy cache accessToken ctx.Cache.Get Err: %+v",err)
+		}
 	}else{
-		fmt.Println("qy cache accessToken test corpSecret: %s, val: %+v",corpSecret, val)
+		if ctx.Debug {
+			fmt.Println("qy cache accessToken test corpSecret: %s, val: %+v",corpSecret, val)
+		}
 	}
 
 	if val != "" {
-		fmt.Println("qy accessToken from cache: %s",val)
+		if ctx.Debug {
+			fmt.Println("qy accessToken from cache: %s",val)
+		}
 		accessToken = val
 		if accessToken != "" {
 			return
@@ -60,6 +66,9 @@ func (ctx *Context) GetAccessToken(corpSecret string) (accessToken string, err e
 	if err != nil {
 		err = fmt.Errorf("GetAccessTokenFromMpServer error : errormsg=%v", err)
 		return
+	}
+	if ctx.Debug {
+		fmt.Println("qy accessToken from QyWxServer api: %s",accessToken)
 	}
 	return
 }
