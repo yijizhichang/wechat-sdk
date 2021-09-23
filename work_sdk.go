@@ -159,21 +159,21 @@ func (qw *QyWechat) GetKefu() *kefu.Kefu {
 }
 
 //--身份验证--//
-func (qw *QyWechat) NewOauth2() *oauth2.Oauth2 {
+func (qw *QyWechat) GetOauth2() *oauth2.Oauth2 {
 	return oauth2.NewOauth2(qw.Context)
 }
 
 //--应用管理--//
 //应用管理-应用设置
-func (qw *QyWechat) NewAgent() *agent.Agent {
+func (qw *QyWechat) GetAgent() *agent.Agent {
 	return agent.NewAgent(qw.Context)
 }
 //应用管理-自定义菜单
-func (qw *QyWechat) NewAgentMenu() *agent.AgentMenu {
+func (qw *QyWechat) GetAgentMenu() *agent.AgentMenu {
 	return agent.NewAgentMenu(qw.Context)
 }
 //应用管理-设置工作台自定义展示
-func (qw *QyWechat) NewAgentWorkbench() *agent.AgentWorkbench {
+func (qw *QyWechat) GetAgentWorkbench() *agent.AgentWorkbench {
 	return agent.NewAgentWorkbench(qw.Context)
 }
 
