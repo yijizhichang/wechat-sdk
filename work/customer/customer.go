@@ -163,7 +163,7 @@ type followInfoItem struct {
 	State string `json:"state"`
 }
 type CusViewBatchReq struct {
-	Userid  string  `json:"userid"`
+	UseridList  []string  `json:"userid_list"`
 	Cursor  string  `json:"cursor"`
 	Limit   int     `json:"limit"`
 }
