@@ -75,9 +75,10 @@ type CusGroupView struct {
 		Owner string `json:"owner"`
 		CreateTime int64 `json:"create_time"`
 		Notice string `json:"notice"`
+		MemberList []memberItem `json:"member_list"`
+		AdminList []adminItem `json:"admin_list"`
 	} `json:"group_chat"`
-	MemberList []memberItem `json:"member_list"`
-	AdminList []adminItem `json:"admin_list"`
+
 }
 type memberItem struct {
 	Userid string `json:"userid"`
