@@ -132,7 +132,7 @@ func (c *Customer) GetQyCustomerView(accessToken, externalUserid, cursor string)
 type CusViewBatch struct {
 	util.WxError
 	ExternalContactList []externalContactItem `json:"external_contact_list"`
-	NextCursor string `json:"next_cursor"`
+	NextCursor string `json:"next_cursor"`  //游标
 }
 type externalContactItem struct {
 	ExternalContact struct{
