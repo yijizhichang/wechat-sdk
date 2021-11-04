@@ -43,20 +43,18 @@ func NewServer(context *core.Context) *Server {
 
 //处理企业微信的请求消息
 func (srv *Server) Serve() error {
-	// post 方式无echostr参数, 是不是不用验证？ todo
-	echoStr, cryptErr := srv.Validate()
-	if cryptErr != nil {
-		return fmt.Errorf("请求校验失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
-	}
-
 	//echostr 存在的话是GET URL 验证，post 方式，无此参数
 	_, exists := srv.GetQuery("echostr")
 	if exists {
-		srv.String(string(echoStr))
+		echoStr, cryptErr := srv.Validate()
+		if cryptErr != nil {
+			return fmt.Errorf("微信验证URL有效性失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
+		}
+		srv.String(string(echoStr))  //响应回复微信
 		return nil
 	}
 
-    //处理 wxPostData 时参数解析
+    //如果是post请求，处理 wxPostData 时参数解析
 	response, err := srv.handleRequest()
 	if err != nil {
 		return err
@@ -107,8 +105,11 @@ func (srv *Server) handleRequest() (reply *response.Reply, err error) {
 	//set openID
 	//srv.openID = srv.Query("openid")
 
+	fmt.Println("qwServer handleRequest 11111")
+
 	var msg interface{}
 	msg, err = srv.getMessage()
+	fmt.Println("qwServer handleRequest msg")
 	if err != nil {
 		return
 	}
@@ -116,6 +117,8 @@ func (srv *Server) handleRequest() (reply *response.Reply, err error) {
 	if !success {
 		err = errors.New("消息类型转换失败")
 	}
+
+	fmt.Println("qwServer handleRequest 2222")
 	srv.requestMsg = mixMessage
 	reply = srv.messageHandler(mixMessage)
 	return
@@ -128,20 +131,26 @@ func (srv *Server) GetOpenID() string {
 
 //解析微信的消息
 func (srv *Server) getMessage() (interface{}, error) {
+	fmt.Println("qwservice 解析post 数据开始....")
 	var rawXMLMsgBytes []byte
 	//if srv.isSafeMode { //企微默认为加密方式传输
 		reqTimestamp := srv.Query("timestamp")  //时间戳(timestamp)
 		reqNonce := srv.Query("nonce")  //随机数字串(nonce)
 		reqMsgSign := srv.Query("msg_signature")  //包括消息体签名(msg_signature)
 		reqData, err := srv.PostData()  //post请求的密文数据
+
+	fmt.Println("qwservice 解析post 2222", reqData)
+
 		if err != nil {
 			return nil, fmt.Errorf("获取postData失败,err=%v", err)
 		}
+	fmt.Println("qwservice 解析post 3333", reqData)
+
 		msg, cryptErr := srv.wxcrypt.DecryptMsg(reqMsgSign, reqTimestamp, reqNonce, reqData)
 		if cryptErr != nil {
 			return nil, fmt.Errorf("从body中解析xml失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
 		}
-
+	fmt.Println("qwservice 解析post 44444", reqData)
 		srv.requestRawXMLMsg = msg
 		return srv.parseRequestMessage(rawXMLMsgBytes)
 	//}
