@@ -29,7 +29,7 @@ func NewDepartment(context *core.Context) *Department {
 
 //创建部门
 type CreateDepartmentReq struct {
-	Id int32 `json:"id"`
+	Id int32 `json:"id,omitempty"`
 	Name string `json:"name"`
 	NameEn string `json:"name_en"`
 	Parentid int32 `json:"parentid"`
