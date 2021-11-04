@@ -128,6 +128,7 @@ func main() {
 	if err != nil {
 		fmt.Printf("GetQyAccessToken Err: %+v",err)
 	}
+	fmt.Println("token=%s",token)
 	//example.QyGetCustomerTagList(token)  //获取企业标签库
 	//example.QyCreateCustomerTag(token)  //创建企业标签
 	//example.QyUpdateCustomerTag(token)  //修改企业标签
@@ -139,10 +140,10 @@ func main() {
 	//example.QyGetDepartmentUserList(token) //获取部门成员详细
 
 	//example.QyGetCustomerList(token) // 获取指定客户下的外部联系人external_userid
-	example.QyGetCustomerView(token) // 获取客户详情
+	//example.QyGetCustomerView(token) // 获取客户详情
 
 
-	http.HandleFunc("/wechat/qy/server", example.QyServe)                             // server 服务
+	http.HandleFunc("/qw/server", example.QyServe)                             // server 服务
 	//http.HandleFunc("/wechat/qy/server", example.QyResponseServe)               // server 服务 数据先返回应用
 
 	err = http.ListenAndServe("127.0.0.1:"+*port, nil)

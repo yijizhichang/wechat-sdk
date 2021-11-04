@@ -18,9 +18,10 @@ import (
 
 //与微信交互服务地址
 func QyServe(rw http.ResponseWriter, req *http.Request) {
-
+	fmt.Println("QyServe 1111")
 	// 传入request和responseWriter
 	server := wxconf.QyWechatClint.GetQyServer(req, rw)
+	fmt.Println("QyServe 2222")
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *response.Reply {
 		var reStr interface{}
@@ -28,6 +29,10 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 		var getCon interface{}
 
 		msgType = message.MsgTypeNothing
+
+		fmt.Println("QyServe 3333")
+		fmt.Println("msg %+v", msg)
+		fmt.Println("msg agentid %+v", msg.AgentID)
 
 		//根据微信回调时的消息类型，来相应获取对应消息明细
 		switch msg.MsgCommon.MsgType {
