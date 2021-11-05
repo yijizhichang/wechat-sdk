@@ -36,6 +36,25 @@ const (
 	EventTemplateSendJobFinish           = "TEMPLATESENDJOBFINISH" //发送模板消息推送通知
 	EventEnterAgent                      = "enter_agent"           //进入应用
 	EventKfMsgOrEvent                    = "kf_msg_or_event"       //客服会话
+	EventChangeExternalContact           = "change_external_contact"  //客户事件
+	EventChangeExternalChat              = "change_external_chat"  //客户群事件
+	EventChangeExternalTag               = "change_external_tag"  //企业客户标签事件
+	EventBatchJobResult                  = "batch_job_result" //异步任务完成事件推送
+)
+
+const(
+	//事件 ChangeType
+	ChangeTypeAddExternalContact         ChangeType = "add_external_contact"  //添加企业客户事件
+	ChangeTypeEditExternalContact                   = "edit_external_contact"  //编辑企业客户事件
+	ChangeTypeAddHalfExternalContact                = "add_half_external_contact"  //外部联系人免验证添加成员事件
+	ChangeTypeDelExternalContact                    = "del_external_contact"  //删除企业客户事件
+	ChangeTypeDelFollowUser                         = "del_follow_user"  //删除跟进成员事件
+	ChangeTypeTransferFail                          = "transfer_fail"  //客户接替失败事件
+	ChangeTypeCreate                                = "create"  //客户群创建事件
+	ChangeTypeUpdate                                = "update"  //客户群变更事件
+	ChangeTypeDismiss                               = "dismiss"  //客户群解散事件
+	ChangeTypeDelete                                = "delete"  //企业客户标签删除事件
+	ChangeTypeShuffle                               = "shuffle"  //企业客户标签重排事件
 )
 
 //消息类型
@@ -43,20 +62,10 @@ type MsgType string
 
 //事件类型
 type EventType string
+type ChangeType string
 
 //图片事件
 type EventPic string
-
-//消息公共字段
-type MsgCommon struct {
-	XMLName      xml.Name `xml:"xml"`
-	ToUserName   string   `xml:"ToUserName"`
-	FromUserName string   `xml:"FromUserName"`
-	CreateTime   int64    `xml:"CreateTime"`
-	MsgType      MsgType  `xml:"MsgType"`
-	AgentID      int64    `xml:"AgentID,omitempty"`
-	Token        string   `xml:"Token,omitempty"`
-}
 
 //安全模式下的消息
 type EncryptedXMLMsg struct {
@@ -83,7 +92,10 @@ type ScanCodeInfo struct {
 
 type SendPicsInfo struct {
 	Count   int32      `xml:"Count"`
-	PicList []EventPic `xml:"PicList>item"`
+	PicList []PicMd5Sum `xml:"PicList>item"`
+}
+type PicMd5Sum struct {
+	PicMd5Sum string `xml:"PicMd5Sum"`
 }
 
 type SendLocationInfo struct {
@@ -94,32 +106,67 @@ type SendLocationInfo struct {
 	Poiname   string  `xml:"Poiname"`
 }
 
+type BatchJob struct {
+	JobId string `xml:"JobId"`
+	JobType string `xml:"JobType"`
+	ErrCode int64 `xml:"ErrCode"`
+	ErrMsg string `xml:"ErrMsg"`
+}
+
+//消息公共字段
+type MsgCommon struct {
+	XMLName      xml.Name `xml:"xml"`
+	ToUserName   string   `xml:"ToUserName"`
+	FromUserName string   `xml:"FromUserName"`
+	CreateTime   int64    `xml:"CreateTime"`
+	MsgType      MsgType  `xml:"MsgType"`
+	AgentID      int64    `xml:"AgentID,omitempty"`
+	Token        string   `xml:"Token,omitempty"`
+	Event        EventType  `xml:"Event,omitempty"`
+}
+//通讯录员工，部门，卡片，审批状态通知事件 todo
 type MixMessage struct {
 	MsgCommon
+	//客户联系消息字段
+	ChangeType     ChangeType   `xml:"ChangeType"`
+	UserID         string   `xml:"UserID"`
+	ExternalUserID string   `xml:"ExternalUserID"`
+	State          string   `xml:"State,omitempty"`
+	WelcomeCode    string   `xml:"WelcomeCode,omitempty"`
+	Source         string   `xml:"Source,omitempty"`
+	FailReason     string   `xml:"FailReason,omitempty"`
+	ChatId         string   `xml:"ChatId,omitempty"`
+	UpdateDetail   string   `xml:"UpdateDetail,omitempty"`
+	JoinScene      int64    `xml:"JoinScene,omitempty"`
+	QuitScene      int64    `xml:"QuitScene,omitempty"`
+	MemChangeCnt   int64    `xml:"MemChangeCnt,omitempty"`
+	Id             string   `xml:"Id,omitempty"` //标签或标签组的ID
+	TagType        string   `xml:"TagType,omitempty"`  //创建标签时，此项为tag，创建标签组时，此项为tag_group
+	StrategyId     int64    `xml:"StrategyId,omitempty"`  //标签或标签组所属的规则组id，只回调给“客户联系”应用
+
 
 	//基本消息
-	MsgID        int64   `xml:"MsgId"`
-	Content      string  `xml:"Content"`
-	Recognition  string  `xml:"Recognition"`
-	PicURL       string  `xml:"PicUrl"`
-	MediaID      string  `xml:"MediaId"`
-	Format       string  `xml:"Format"`
-	ThumbMediaID string  `xml:"ThumbMediaId"`
-	LocationX    float64 `xml:"Location_X"`
-	LocationY    float64 `xml:"Location_Y"`
-	Scale        float64 `xml:"Scale"`
-	Label        string  `xml:"Label"`
-	Title        string  `xml:"Title"`
-	Description  string  `xml:"Description"`
-	URL          string  `xml:"Url"`
-	AppType      string  `xml:"AppType"`
+	MsgID        int64   `xml:"MsgId,omitempty"`
+	Content      string  `xml:"Content,omitempty"`
+	PicURL       string  `xml:"PicUrl,omitempty"`
+	MediaID      string  `xml:"MediaId,omitempty"`
+	Format       string  `xml:"Format,omitempty"`
+	ThumbMediaID string  `xml:"ThumbMediaId,omitempty"`
+	LocationX    float64 `xml:"Location_X,omitempty"`
+	LocationY    float64 `xml:"Location_Y,omitempty"`
+	Scale        float64 `xml:"Scale,omitempty"`
+	Label        string  `xml:"Label,omitempty"`
+	AppType      string  `xml:"AppType,omitempty"`
+	Title        string  `xml:"Title,omitempty"`
+	Description  string  `xml:"Description,omitempty"`
+	URL          string  `xml:"Url,omitempty"`
+
 
 	//事件相关
-	Event       EventType `xml:"Event"`
-	EventKey    string    `xml:"EventKey"`
-	Ticket      string    `xml:"Ticket"`
-	Latitude    float64   `xml:"Latitude"`
-	Longitude   float64   `xml:"Longitude"`
+	EventKey    string    `xml:"EventKey,omitempty"`
+	Ticket      string    `xml:"Ticket,omitempty"`
+	Latitude    float64   `xml:"Latitude,omitempty"`
+	Longitude   float64   `xml:"Longitude,omitempty"`
 	Precision   float64   `xml:"Precision"`
 	MenuID      string    `xml:"MenuId"`
 	Status      string    `xml:"Status"`
@@ -129,6 +176,8 @@ type MixMessage struct {
 	ErrCode     int64     `xml:"ErrCode"`
 	ErrMsg      string    `xml:"ErrMsg"`
 
+
+	BatchJob  BatchJob `xml:"BatchJob,omitempty"`
 	ScanCodeInfo ScanCodeInfo `xml:"ScanCodeInfo"`
 	SendPicsInfo SendPicsInfo `xml:"SendPicsInfo"`
 	SendLocationInfo SendLocationInfo `xml:"SendLocationInfo"`

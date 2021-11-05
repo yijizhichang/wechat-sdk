@@ -17,7 +17,7 @@ import (
 //Server struct
 type Server struct {
 	*core.Context
-	openID         string
+	AgentID         string
 	messageHandler func(message.MixMessage) *response.Reply
 
 	requestRawXMLMsg  []byte
@@ -95,65 +95,52 @@ func (srv *Server) Validate() ([]byte, *util.CryptError) {
 
 //处理微信的请求
 func (srv *Server) handleRequest() (reply *response.Reply, err error) {
-	//安全模式判断
-	/*srv.isSafeMode = false
-	encryptType := srv.Query("encrypt_type")
-	if encryptType == "aes" {
-		srv.isSafeMode = true
-	}*/
-
-	//set openID
-	//srv.openID = srv.Query("openid")
-
-	fmt.Println("qwServer handleRequest 11111")
-
 	var msg interface{}
-	msg, err = srv.getMessage()
-	fmt.Println("qwServer handleRequest msg")
+	msg, err = srv.getMessage()  //解析微信信息
 	if err != nil {
 		return
 	}
-	mixMessage, success := msg.(message.MixMessage)
+	mixMessage, success := msg.(message.MixMessage)  //消息转结构体
 	if !success {
-		err = errors.New("消息类型转换失败")
+		err = errors.New("企微消息体类型转换失败")
 	}
-
-	fmt.Println("qwServer handleRequest 2222")
+	//解析好的消息返回
 	srv.requestMsg = mixMessage
 	reply = srv.messageHandler(mixMessage)
 	return
 }
 
-//GetOpenID return openID
-func (srv *Server) GetOpenID() string {
-	return srv.openID
+//GetAgentID return agetnID
+func (srv *Server) GetAgentID() string {
+	return srv.AgentID
 }
 
-//解析微信的消息
+//解析微信的消息并返回消息结构体
 func (srv *Server) getMessage() (interface{}, error) {
-	fmt.Println("qwservice 解析post 数据开始....")
 	var rawXMLMsgBytes []byte
-	//if srv.isSafeMode { //企微默认为加密方式传输
-		reqTimestamp := srv.Query("timestamp")  //时间戳(timestamp)
-		reqNonce := srv.Query("nonce")  //随机数字串(nonce)
-		reqMsgSign := srv.Query("msg_signature")  //包括消息体签名(msg_signature)
-		reqData, err := srv.PostData()  //post请求的密文数据
+    //企微默认为加密方式传输
+	reqTimestamp := srv.Query("timestamp")  //时间戳(timestamp)
+	reqNonce := srv.Query("nonce")  //随机数字串(nonce)
+	reqMsgSign := srv.Query("msg_signature")  //包括消息体签名(msg_signature)
+	reqData, err := srv.PostData()  //post请求的密文数据
 
-	fmt.Println("qwservice 解析post 2222", reqData)
+	//根据 post请求的密文数据 AgentID 可以区分是哪个应用来的数据，可以区分解析格式 //todo
 
-		if err != nil {
-			return nil, fmt.Errorf("获取postData失败,err=%v", err)
-		}
-	fmt.Println("qwservice 解析post 3333", reqData)
+	if err != nil {
+		return nil, fmt.Errorf("获取企业微信postData失败,err=%v", err)
+	}
 
-		msg, cryptErr := srv.wxcrypt.DecryptMsg(reqMsgSign, reqTimestamp, reqNonce, reqData)
-		if cryptErr != nil {
-			return nil, fmt.Errorf("从body中解析xml失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
-		}
-	fmt.Println("qwservice 解析post 44444", reqData)
-		srv.requestRawXMLMsg = msg
-		return srv.parseRequestMessage(rawXMLMsgBytes)
-	//}
+	rawXMLMsgBytes, cryptErr := srv.wxcrypt.DecryptMsg(reqMsgSign, reqTimestamp, reqNonce, reqData)
+	if cryptErr != nil {
+		return nil, fmt.Errorf("从body中解析xml失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
+	}
+	//调试日志
+	if srv.Debug {
+		fmt.Println("qwService 解析微信post reqData:%s, msg:%s", string(reqData), string(rawXMLMsgBytes))
+	}
+
+	srv.requestRawXMLMsg = rawXMLMsgBytes
+	return srv.parseRequestMessage(rawXMLMsgBytes)
 }
 
 //xmlMsg to structMsg
@@ -235,37 +222,26 @@ func (srv *Server) Send() (err error) {
 		return
 	}
 
-	//if srv.isSafeMode {
-		//如果获取不到timestamp nonce 则自己生成
-		timestamp := srv.timestamp
-		reqTimestamp := strconv.FormatInt(timestamp, 10)
-		encryptMsg, cryptErr := srv.wxcrypt.EncryptMsg(string(srv.responseRawXMLMsg), reqTimestamp, srv.nonce)
-		if cryptErr != nil {
-			return fmt.Errorf("回复企微加密失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
-		}
+	//如果获取不到timestamp nonce 则自己生成
+	timestamp := srv.timestamp
+	reqTimestamp := strconv.FormatInt(timestamp, 10)
+	encryptMsg, cryptErr := srv.wxcrypt.EncryptMsg(string(srv.responseRawXMLMsg), reqTimestamp, srv.nonce)
+	if cryptErr != nil {
+		return fmt.Errorf("被动响应，回复企微加密失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
+	}
+	msgSignature := util.Signature(srv.Token, reqTimestamp, srv.nonce, string(encryptMsg))
+	replyMsg = message.ResponseEncryptedXMLMsg{
+		EncryptedMsg: string(encryptMsg),
+		MsgSignature: msgSignature,
+		Timestamp:    timestamp,
+		Nonce:        srv.nonce,
+	}
 
-/*
-		//安全模式下对消息进行加密
-		var encryptedMsg []byte
-		encryptedMsg, err = util.EncryptMsg(srv.random, srv.responseRawXMLMsg, srv.AppID, srv.EncodingAESKey)
-		if err != nil {
-			return
-		}
-		//如果获取不到timestamp nonce 则自己生成
-		timestamp := srv.timestamp
-		timestampStr := strconv.FormatInt(timestamp, 10)
-		msgSignature := util.Signature(srv.Token, timestampStr, srv.nonce, string(encryptedMsg))
-		replyMsg = message.ResponseEncryptedXMLMsg{
-			EncryptedMsg: string(encryptedMsg),
-			MsgSignature: msgSignature,
-			Timestamp:    timestamp,
-			Nonce:        srv.nonce,
-		}
- */
-	//}
+	if srv.Debug {
+		fmt.Println("被动响应内容：%+v",replyMsg)
+	}
 
-	return srv.XML(string(encryptMsg))
-
+	return srv.XML(replyMsg)
 }
 
 
@@ -276,14 +252,26 @@ func (srv *Server) ResponseSend() (str string, contentType string, err error) {
 		return "success", "text/plain; charset=utf-8", nil
 	}
 
+	//如果获取不到timestamp nonce 则自己生成
 	timestamp := srv.timestamp
 	reqTimestamp := strconv.FormatInt(timestamp, 10)
 	encryptMsg, cryptErr := srv.wxcrypt.EncryptMsg(string(srv.responseRawXMLMsg), reqTimestamp, srv.nonce)
 	if cryptErr != nil {
 		return "", "text/plain; charset=utf-8",fmt.Errorf("回复企微加密失败,wxErrCode=%v, wxErrMsg=%v",cryptErr.ErrCode, cryptErr.ErrMsg)
 	}
+	msgSignature := util.Signature(srv.Token, reqTimestamp, srv.nonce, string(encryptMsg))
+	replyMsg = message.ResponseEncryptedXMLMsg{
+		EncryptedMsg: string(encryptMsg),
+		MsgSignature: msgSignature,
+		Timestamp:    timestamp,
+		Nonce:        srv.nonce,
+	}
 
-	s,err := srv.ResponseXML(string(encryptMsg))
+	if srv.Debug {
+		fmt.Println("被动响应内容：%+v",replyMsg)
+	}
+
+	s,err := srv.ResponseXML(replyMsg)
 	if err != nil {
 		return
 	}
