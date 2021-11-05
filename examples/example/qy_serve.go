@@ -8,6 +8,7 @@
 package example
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
 	"github.com/yijizhichang/wechat-sdk/work/message"
@@ -32,7 +33,8 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 
 		fmt.Println("QyServe 3333")
 		fmt.Println("msg %+v", msg)
-		fmt.Println("msg agentid %+v", msg.AgentID)
+		msgJson,_ := json.Marshal(msg)
+		fmt.Println("msgJson",string(msgJson))
 
 		//根据微信回调时的消息类型，来相应获取对应消息明细
 		switch msg.MsgCommon.MsgType {
@@ -68,7 +70,8 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 		}
 		fmt.Println("test消息明细：", getCon)
 
-		//根据业务需求,被动回复微信消息
+		//一般默认回复空
+		//有窗口互动业务的，根据业务需求,被动回复微信消息如公众号，
 		switch msg.Content {
 		case "1":
 			reStr = response.NewText("回复文件消息")
@@ -90,8 +93,8 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 			fmt.Println("图文消息：", reStr)
 			msgType = message.MsgTypeNews
 		default:
-			//reStr =""
-			//msgType = message.MsgTypeNothing
+			reStr =""
+			msgType = message.MsgTypeNothing
 		}
 
 		//转发到客服
@@ -109,7 +112,7 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	//发送回复的消息
+	//被动响应 发送回复的消息
 	server.Send()
 }
 
