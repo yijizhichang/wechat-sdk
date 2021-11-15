@@ -15,6 +15,7 @@ const (
 	GetQySsoQrConnectURL = "https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=%s"  //构造独立窗口登录二维码
 	GetJsapiTicketURL = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=%s"  //获取企业的jsapi_ticket
 	GetAgentJsapiTicketURL = "https://qyapi.weixin.qq.com/cgi-bin/ticket/get?access_token=%s&type=agent_config"  //获取应用的jsapi_ticket
+	GetCode2SessionURL = "https://qyapi.weixin.qq.com/cgi-bin/miniprogram/jscode2session?access_token=%s&js_code=%s&grant_type=%s" //code2Session
 	QwJsapiTicketCachePrefix = "wechat_qy_jsapi_ticket_"
 	QwAgentJsapiTicketCachePrefix = "wechat_qy_agent_jsapi_ticket_"
 )
@@ -131,7 +132,6 @@ func (o *Oauth2) GetJsapiTicket(token string)(ticket string, err error){
 	return
 }
 
-
 //获取应用的jsapi_ticket
 func (o *Oauth2) GetAgentJsapiTicket(token string, agentId string)(ticket string, err error){
 	//优先从缓存中获取
@@ -188,4 +188,27 @@ func (o *Oauth2) GetAgentJsapiTicket(token string, agentId string)(ticket string
 	return
 }
 
+//Code2Session
+type repCode2Session struct {
+	util.WxError
+	Corpid string `json:"corpid"`
+	Userid string `json:"userid"`
+	SessionKey string `json:"session_key"`
+}
+func (o *Oauth2) GetCode2Session(token string, jsCode string, grantType string)(result *repCode2Session, err error){
+	qyUrl := fmt.Sprintf(GetCode2SessionURL, token, jsCode, grantType)
 
+	response, err := util.HTTPGet(qyUrl, o.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetCode2Session error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
