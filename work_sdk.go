@@ -197,7 +197,7 @@ func (qw *QyWechat) GetMessageLinkedCorp() *message.MessageLinkedCorp {
 
 
 //--素材管理--//
-func (qw *QyWechat) GetNewMedia() *media.Media {
+func (qw *QyWechat) GetMedia() *media.Media {
 	return media.NewMedia(qw.Context)
 }
 
@@ -208,6 +208,6 @@ func (qw *QyWechat) GetNewMedia() *media.Media {
 //--效率工具--//
 
 //直播
-func (qw *QyWechat) GetNewLiving() *tools.Living {
+func (qw *QyWechat) GetLiving() *tools.Living {
 	return tools.NewLiving(qw.Context)
 }
