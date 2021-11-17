@@ -11,6 +11,7 @@ import (
 	"github.com/yijizhichang/wechat-sdk/work/message"
 	"github.com/yijizhichang/wechat-sdk/work/oauth2"
 	"github.com/yijizhichang/wechat-sdk/work/server"
+	"github.com/yijizhichang/wechat-sdk/work/tools"
 	"net/http"
 	"sync"
 )
@@ -205,3 +206,8 @@ func (qw *QyWechat) GetNewMedia() *media.Media {
 
 
 //--效率工具--//
+
+//直播
+func (qw *QyWechat) GetNewLiving() *tools.Living {
+	return tools.NewLiving(qw.Context)
+}
