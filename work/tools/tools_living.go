@@ -235,7 +235,7 @@ type LivingInfoRep struct {
 		SubscribeCount        int64    `json:"subscribe_count"`
 	} `json:"living_info"`
 }
-func (l *Living) GetLivingInfo(accessToken string, livingid string)(result *UserAllLivingidRep, err error){
+func (l *Living) GetLivingInfo(accessToken string, livingid string)(result *LivingInfoRep, err error){
 	qyUrl := fmt.Sprintf(QyLivingGetLivingInfoURL, accessToken, livingid)
 
 	response, err := util.HTTPGet(qyUrl, l.ProxyUrl)
