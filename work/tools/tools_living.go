@@ -189,7 +189,8 @@ type UserAllLivingidReq struct {
 }
 type UserAllLivingidRep struct {
 	util.WxError
-	LivingCode string `json:"living_code"`
+	NextCursor   string   `json:"next_cursor"`
+	LivingidList []string `json:"livingid_list"`
 }
 func (l *Living) GetUserAllLivingid(accessToken string, req UserAllLivingidReq)(result *UserAllLivingidRep, err error){
 	qyUrl := fmt.Sprintf(QyLivingGetUserAllLivingIdURL, accessToken)
