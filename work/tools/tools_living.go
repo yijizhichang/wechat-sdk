@@ -269,6 +269,8 @@ type WatchStatRep struct {
 			WatchTime int64  `json:"watch_time"`
 			IsComment int64  `json:"is_comment"`
 			IsMic     int64  `json:"is_mic"`
+			InvitorUserid  string `json:"invitor_userid"`
+			InvitorExternalUserid string `json:"invitor_external_userid"`
 		} `json:"users"`
 		ExternalUsers []struct {
 			ExternalUserid string `json:"external_userid"`
@@ -277,6 +279,8 @@ type WatchStatRep struct {
 			WatchTime      int64  `json:"watch_time"`
 			IsComment      int64  `json:"is_comment"`
 			IsMic          int64  `json:"is_mic"`
+			InvitorUserid  string `json:"invitor_userid"`
+			InvitorExternalUserid string `json:"invitor_external_userid"`
 		} `json:"external_users"`
 	} `json:"stat_info"`
 }
