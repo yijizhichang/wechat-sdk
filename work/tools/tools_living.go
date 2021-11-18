@@ -184,8 +184,8 @@ func (l *Living) GetLivingCode(accessToken string, req LivingCodeReq)(result *Li
 //获取成员直播ID列表
 type UserAllLivingidReq struct {
 	Userid string `json:"userid"`
-	Cursor string `json:"cursor"`
-	Limit  int64  `json:"limit"`
+	Cursor string `json:"cursor,omitempty"`
+	Limit  int64  `json:"limit,omitempty"`
 }
 type UserAllLivingidRep struct {
 	util.WxError
