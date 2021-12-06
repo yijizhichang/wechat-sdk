@@ -70,13 +70,13 @@ type CusView struct {
 		Gender int64 `json:"gender"`
 		Unionid string `json:"unionid"`
 		ExternalProfile struct{
-			ExternalAttr []externalAttrItem `json:"external_attr"`
+			ExternalAttr []ExternalAttrItem `json:"external_attr"`
 		} `json:"external_profile"`
 	} `json:"external_contact"`
-	FollowUser []followUserItem `json:"follow_user"`
+	FollowUser []FollowUserItem `json:"follow_user"`
 	NextCursor string `json:"next_cursor"`
 }
-type externalAttrItem struct {
+type ExternalAttrItem struct {
 	Type int64 `json:"type"`
 	Name string `json:"name"`
 	Text struct{
@@ -92,19 +92,19 @@ type externalAttrItem struct {
 		Title string `json:"title"`
 	} `json:"miniprogram,omitempty"`
 }
-type followUserItem struct {
+type FollowUserItem struct {
 	Userid string `json:"userid"`
 	Remark string `json:"remark"`
 	Description string `json:"description"`
 	Createtime int64 `json:"createtime"`
-	Tags []tagItem `json:"tags"`
+	Tags []TagItem `json:"tags"`
 	RemarkCorpName string `json:"remark_corp_name"`
 	RemarkMobiles []string `json:"remark_mobiles"`
 	OperUserid string `json:"oper_userid"`
 	AddWay int64 `json:"add_way"`
 	State string `json:"state"`
 }
-type tagItem struct {
+type TagItem struct {
 	GroupName string `json:"group_name"`
 	TagName string `json:"tag_name"`
 	TagId string `json:"tag_id"`
@@ -131,10 +131,10 @@ func (c *Customer) GetQyCustomerView(accessToken, externalUserid, cursor string)
 //批量获取客户详情
 type CusViewBatch struct {
 	util.WxError
-	ExternalContactList []externalContactItem `json:"external_contact_list"`
+	ExternalContactList []ExternalContactItem `json:"external_contact_list"`
 	NextCursor string `json:"next_cursor"`  //游标
 }
-type externalContactItem struct {
+type ExternalContactItem struct {
 	ExternalContact struct{
 		ExternalUserid  string  `json:"external_userid"`
 		Name string `json:"name"`
@@ -146,17 +146,17 @@ type externalContactItem struct {
 		Gender int64 `json:"gender"`
 		Unionid string `json:"unionid"`
 		ExternalProfile struct{
-			ExternalAttr []externalAttrItem `json:"external_attr"`
+			ExternalAttr []ExternalAttrItem `json:"external_attr"`
 		} `json:"external_profile"`
 	} `json:"external_contact"`
-	FollowInfo followInfoItem `json:"follow_info"`
+	FollowInfo FollowInfoItem `json:"follow_info"`
 }
-type followInfoItem struct {
+type FollowInfoItem struct {
 	Userid string `json:"userid"`
 	Remark string `json:"remark"`
 	Description string `json:"description"`
 	Createtime int64 `json:"createtime"`
-	Tags []tagItem `json:"tags"`
+	Tags []TagItem `json:"tags"`
 	RemarkCorpName string `json:"remark_corp_name"`
 	RemarkMobiles []string `json:"remark_mobiles"`
 	OperUserid string `json:"oper_userid"`
