@@ -105,6 +105,7 @@ type departmentItem struct {
 	Id  int32  `json:"id"`
 	Name string `json:"name"`
 	NameEn string `json:"name_en"`
+	DepartmentLeader []string `json:"department_leader"`
 	Parentid int32 `json:"parentid"`
 	Order int32 `json:"order"`
 }
