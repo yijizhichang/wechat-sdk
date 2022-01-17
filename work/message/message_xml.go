@@ -40,6 +40,7 @@ const (
 	EventChangeExternalChat              = "change_external_chat"  //客户群事件
 	EventChangeExternalTag               = "change_external_tag"  //企业客户标签事件
 	EventBatchJobResult                  = "batch_job_result" //异步任务完成事件推送
+	EventChangeContact                   = "change_contact"  //部门变更通知
 )
 
 const(
@@ -55,6 +56,9 @@ const(
 	ChangeTypeDismiss                               = "dismiss"  //客户群解散事件
 	ChangeTypeDelete                                = "delete"  //企业客户标签删除事件
 	ChangeTypeShuffle                               = "shuffle"  //企业客户标签重排事件
+	ChangeTypeCreateParty                           = "create_party"  //新增部门事件
+	ChangeTypeUpdateParty                           = "update_party"  //更新部门事件
+	ChangeTypeDeleteParty                           = "delete_party"  //删除部门事件
 )
 
 //消息类型
@@ -140,7 +144,7 @@ type MixMessage struct {
 	JoinScene      int64    `xml:"JoinScene,omitempty"`
 	QuitScene      int64    `xml:"QuitScene,omitempty"`
 	MemChangeCnt   int64    `xml:"MemChangeCnt,omitempty"`
-	Id             string   `xml:"Id,omitempty"` //标签或标签组的ID
+	Id             string   `xml:"Id,omitempty"` //标签或标签组的ID/部门Id
 	TagType        string   `xml:"TagType,omitempty"`  //创建标签时，此项为tag，创建标签组时，此项为tag_group
 	StrategyId     int64    `xml:"StrategyId,omitempty"`  //标签或标签组所属的规则组id，只回调给“客户联系”应用
 
@@ -161,6 +165,10 @@ type MixMessage struct {
 	Description  string  `xml:"Description,omitempty"`
 	URL          string  `xml:"Url,omitempty"`
 
+	//通讯录-部门变更  //Id 部门Id与其他共用
+	Name 		string `xml:"Name"`
+	ParentId 	string `xml:"ParentId"`
+	Order       int32  `xml:"Order"`
 
 	//事件相关
 	EventKey    string    `xml:"EventKey,omitempty"`
