@@ -212,7 +212,7 @@ func (qw *QyWechat) GetLiving() *tools.Living {
 	return tools.NewLiving(qw.Context)
 }
 
-//直播
+//日历
 func (qw *QyWechat) GetCalendar() *tools.Calendar {
 	return tools.NewCalendar(qw.Context)
 }
