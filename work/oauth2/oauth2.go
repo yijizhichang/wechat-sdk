@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	GetQyOauth2AuthorizeURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s#wechat_redirect"  //发送应用消息
+	GetQyOauth2AuthorizeURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s#wechat_redirect"  //构造网页授权链接
 	GetUserInfoByCodeURL = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s"  //获取访问用户身份
 	GetQySsoQrConnectURL = "https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=%s"  //构造独立窗口登录二维码
 	GetJsapiTicketURL = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=%s"  //获取企业的jsapi_ticket

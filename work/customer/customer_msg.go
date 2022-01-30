@@ -167,6 +167,42 @@ func (cm *CustomerMsg) GetCustomerGroupMsgTask(accessToken string, req CustomerG
 	return
 }
 
+//获取企业群发成员执行结果
+type CustomerGroupMsgSendResultReq struct {
+	Msgid  string `json:"msgid"`
+	Userid string `json:"userid"`
+	Limit  int32  `json:"limit"`
+	Cursor string `json:"cursor"`
+}
+type CustomerGroupMsgSendResult struct {
+	util.WxError
+	NextCursor string `json:"next_cursor"`
+	SendList   []struct {
+		ExternalUserid string `json:"external_userid"`
+		ChatId         string `json:"chat_id"`
+		Userid         string `json:"userid"`
+		Status         int32  `json:"status"`
+		SendTime       int32  `json:"send_time"`
+	} `json:"send_list"`
+}
+func (cm *CustomerMsg) GetQyGroupMsgSendResult(accessToken string, req CustomerGroupMsgSendResultReq)(result *CustomerGroupMsgSendResult, err error){
+	qyUrl := fmt.Sprintf(GetQyGroupMsgSendResultURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, cm.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetQyGroupMsgSendResult error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
 //发送新客户欢迎语
 type SendWelcomeMsgReq struct {
 	WelcomeCode string `json:"welcome_code"`

@@ -21,6 +21,7 @@ const (
 	BatchInviteURL = "https://qyapi.weixin.qq.com/cgi-bin/batch/invite?access_token=%s" //邀请成员
 	GetJoinCorpQrcodeURL = "https://qyapi.weixin.qq.com/cgi-bin/corp/get_join_qrcode?access_token=%s&size_type=%d"  //获取加入企业二维码
 	GetActiveStatURL = "https://qyapi.weixin.qq.com/cgi-bin/user/get_active_stat?access_token=%s"  //获取企业活跃成员数
+	GetUserIdURL = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserid?access_token=%s" //手机号获取userid
 )
 
 //Department 客户管理
@@ -526,3 +527,30 @@ func (du *DepartmentUser) GetActiveStat (accessToken string, req ActiveStatReq) 
 	}
 	return
 }
+
+//获取企业活跃成员数
+type GetUseridReq struct {
+	Mobile string `json:"mobile"`
+}
+type GetUseridRep struct {
+	util.WxError
+	Userid string `json:"userid"`
+}
+func (du *DepartmentUser) GetUseridByMobile (accessToken string, req GetUseridReq) (result *GetUseridRep, err error) {
+	qyUrl := fmt.Sprintf(GetUserIdURL, accessToken)
+
+	response, err := util.PostJSON(qyUrl, req, du.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetUseridByMobile error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+

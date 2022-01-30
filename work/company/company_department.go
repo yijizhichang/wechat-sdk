@@ -13,6 +13,9 @@ const (
 	UpdateDepartmentURL = "https://qyapi.weixin.qq.com/cgi-bin/department/update?access_token=%s"  //更新部门
 	DelDepartmentURL = "https://qyapi.weixin.qq.com/cgi-bin/department/delete?access_token=%s&id=%d"  //删除部门
 	GetDepartmentListURL = "https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=%s&id=%d"  //获取部门列表
+	GetDepartmentSimpleListURL = "https://qyapi.weixin.qq.com/cgi-bin/department/simplelist?access_token=%s&id=%d"  //获取子部门ID列表
+	GetDepartmentURL = "https://qyapi.weixin.qq.com/cgi-bin/department/get?access_token=%s&id=%d"  //获取单个部门详情
+
 )
 
 //Department 客户管理
@@ -123,6 +126,64 @@ func (d *Department) GetDepartmentList (accessToken string, id int32) (result *D
 	}
 	if result.ErrCode != 0 {
 		err = fmt.Errorf("GetDepartmentList error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+
+//获取子部门ID列表
+type DepartmentSimpleListRep struct {
+	util.WxError
+	DepartmentId []struct {
+		Id       int32 `json:"id"`
+		Parentid int32 `json:"parentid"`
+		Order    int32 `json:"order"`
+	} `json:"department_id"`
+}
+func (d *Department) GetDepartmentSimpleList (accessToken string, id int32) (result *DepartmentSimpleListRep, err error) {
+	qyUrl := fmt.Sprintf(GetDepartmentSimpleListURL, accessToken, id)
+
+	response, err := util.HTTPGet(qyUrl, d.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetDepartmentSimpleList error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
+	}
+	return
+}
+
+//获取单个部门详情
+type DepartmentRep struct {
+	util.WxError
+	Department struct {
+		Id               int32    `json:"id"`
+		Name             string   `json:"name"`
+		NameEn           string   `json:"name_en"`
+		DepartmentLeader []string `json:"department_leader"`
+		Parentid         int32    `json:"parentid"`
+		Order            int32    `json:"order"`
+	} `json:"department"`
+}
+func (d *Department) GetDepartment (accessToken string, id int32) (result *DepartmentRep, err error) {
+	qyUrl := fmt.Sprintf(GetDepartmentURL, accessToken, id)
+
+	response, err := util.HTTPGet(qyUrl, d.ProxyUrl)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetDepartment error : errcode=%d , errmsg=%s", result.ErrCode, result.ErrMsg)
 	}
 	return
 }
