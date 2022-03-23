@@ -87,7 +87,7 @@ func (m *MessageGroup) UpdateQyAppChat(accessToken string, req UpdateQyAppChatRe
 }
 
 //获取群聊会话
-type qyAppChatRep struct {
+type QyAppChatRep struct {
 	util.WxError
 	ChatInfo struct {
 		Chatid   string   `json:"chatid"`
@@ -96,7 +96,7 @@ type qyAppChatRep struct {
 		Userlist []string `json:"userlist"`
 	} `json:"chat_info"`
 }
-func (m *MessageGroup) GetQyAppChat(accessToken string, chatId string)(result *qyAppChatRep, err error){
+func (m *MessageGroup) GetQyAppChat(accessToken string, chatId string)(result *QyAppChatRep, err error){
 	qyUrl := fmt.Sprintf(GetQyAppChatURL, accessToken, chatId)
 
 	response, err := util.HTTPGet(qyUrl, m.ProxyUrl)
