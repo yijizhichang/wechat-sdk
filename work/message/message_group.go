@@ -40,7 +40,7 @@ type CreateQyAppChatRep struct {
 	util.WxError
 	Chatid  string `json:"chatid"`
 }
-func (m *Message) CreateQyAppChat(accessToken string, req CreateQyAppChatReq)(result *CreateQyAppChatRep, err error){
+func (m *MessageGroup) CreateQyAppChat(accessToken string, req CreateQyAppChatReq)(result *CreateQyAppChatRep, err error){
 	qyUrl := fmt.Sprintf(CreateQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -67,7 +67,7 @@ type UpdateQyAppChatReq struct {
 	AddUserList []string `json:"add_user_list"`
 	DelUserList []string `json:"del_user_list"`
 }
-func (m *Message) UpdateQyAppChat(accessToken string, req UpdateQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) UpdateQyAppChat(accessToken string, req UpdateQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(UpdateQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -96,7 +96,7 @@ type qyAppChatRep struct {
 		Userlist []string `json:"userlist"`
 	} `json:"chat_info"`
 }
-func (m *Message) GetQyAppChat(accessToken string, chatId string)(result *qyAppChatRep, err error){
+func (m *MessageGroup) GetQyAppChat(accessToken string, chatId string)(result *qyAppChatRep, err error){
 	qyUrl := fmt.Sprintf(GetQyAppChatURL, accessToken, chatId)
 
 	response, err := util.HTTPGet(qyUrl, m.ProxyUrl)
@@ -124,7 +124,7 @@ type SendTextQyAppChatReq struct {
 	} `json:"text"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendTextQyAppChat(accessToken string, req SendTextQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendTextQyAppChat(accessToken string, req SendTextQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -152,7 +152,7 @@ type SendImageQyAppChatReq struct {
 	} `json:"image"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendImageQyAppChat(accessToken string, req SendImageQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendImageQyAppChat(accessToken string, req SendImageQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -179,7 +179,7 @@ type SendVoiceQyAppChatReq struct {
 		MediaId string `json:"media_id"`
 	} `json:"voice"`
 }
-func (m *Message) SendVoiceQyAppChat(accessToken string, req SendVoiceQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendVoiceQyAppChat(accessToken string, req SendVoiceQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -209,7 +209,7 @@ type SendVideoQyAppChatReq struct {
 	} `json:"video"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendVideoQyAppChat(accessToken string, req SendVideoQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendVideoQyAppChat(accessToken string, req SendVideoQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -237,7 +237,7 @@ type SendFileQyAppChatReq struct {
 	} `json:"file"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendFileQyAppChat(accessToken string, req SendFileQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendFileQyAppChat(accessToken string, req SendFileQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -268,7 +268,7 @@ type SendTextCardQyAppChatReq struct {
 	} `json:"textcard"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendTextCardQyAppChat(accessToken string, req SendTextCardQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendTextCardQyAppChat(accessToken string, req SendTextCardQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -301,7 +301,7 @@ type SendNewsQyAppChatReq struct {
 	} `json:"news"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendNewsQyAppChat(accessToken string, req SendNewsQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendNewsQyAppChat(accessToken string, req SendNewsQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -336,7 +336,7 @@ type SendMpNewsQyAppChatReq struct {
 	} `json:"mpnews"`
 	Safe int32 `json:"safe"`
 }
-func (m *Message) SendMpNewsQyAppChat(accessToken string, req SendMpNewsQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendMpNewsQyAppChat(accessToken string, req SendMpNewsQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
@@ -363,7 +363,7 @@ type SendMarkdownQyAppChatReq struct {
 		Content string `json:"content"`
 	} `json:"markdown"`
 }
-func (m *Message) SendMarkdownQyAppChat(accessToken string, req SendMarkdownQyAppChatReq)(result *util.WxError, err error){
+func (m *MessageGroup) SendMarkdownQyAppChat(accessToken string, req SendMarkdownQyAppChatReq)(result *util.WxError, err error){
 	qyUrl := fmt.Sprintf(SendQyAppChatURL, accessToken)
 
 	response, err := util.PostJSON(qyUrl, req, m.ProxyUrl)
