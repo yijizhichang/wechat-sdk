@@ -21,3 +21,5 @@ gen### Go template
 *.out
 
 examples/debug/*
+/examples/test/
+/examples/cache/cache/
