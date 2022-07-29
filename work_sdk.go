@@ -13,6 +13,7 @@ import (
 	"github.com/yijizhichang/wechat-sdk/work/oauth2"
 	"github.com/yijizhichang/wechat-sdk/work/server"
 	"github.com/yijizhichang/wechat-sdk/work/tools"
+	"github.com/yijizhichang/wechat-sdk/work/webhook"
 	"net/http"
 	"sync"
 )
@@ -234,4 +235,9 @@ func (qw *QyWechat) GetLiving() *tools.Living {
 //日历
 func (qw *QyWechat) GetCalendar() *tools.Calendar {
 	return tools.NewCalendar(qw.Context)
+}
+
+//机器人管理
+func (qw *QyWechat) GetWebhook() *webhook.Webhook {
+	return webhook.NewWebhook(qw.Context)
 }
