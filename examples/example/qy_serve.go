@@ -21,7 +21,7 @@ import (
 func QyServe(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("QyServe 1111")
 	// 传入request和responseWriter
-	server := wxconf.QyWechatClint.GetQyServer(req, rw)
+	server := wxconf.QyWechatClient.GetQyServer(req, rw)
 	fmt.Println("QyServe 2222")
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *response.Reply {
@@ -33,8 +33,8 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 
 		fmt.Println("QyServe 3333")
 		fmt.Println("msg %+v", msg)
-		msgJson,_ := json.Marshal(msg)
-		fmt.Println("msgJson",string(msgJson))
+		msgJson, _ := json.Marshal(msg)
+		fmt.Println("msgJson", string(msgJson))
 
 		//根据微信回调时的消息类型，来相应获取对应消息明细
 		switch msg.MsgCommon.MsgType {
@@ -93,7 +93,7 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 			fmt.Println("图文消息：", reStr)
 			msgType = message.MsgTypeNews
 		default:
-			reStr =""
+			reStr = ""
 			msgType = message.MsgTypeNothing
 		}
 
@@ -116,12 +116,11 @@ func QyServe(rw http.ResponseWriter, req *http.Request) {
 	server.Send()
 }
 
-
 //与微信交互服务地址,sdk包返回需要给微信的内容，由应用发送给微信
 func QyResponseServe(rw http.ResponseWriter, req *http.Request) {
 
 	// 传入request和responseWriter
-	server := wxconf.QyWechatClint.GetQyResponseServer(req)
+	server := wxconf.QyWechatClient.GetQyResponseServer(req)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *response.Reply {
 		var reStr interface{}
@@ -211,7 +210,7 @@ func QyResponseServe(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(200)
 		//rw.Header().Set("Content-Type",contentType)
 		rw.Write([]byte(str))
-		fmt.Println("echostrExist is true",str,contentType)
+		fmt.Println("echostrExist is true", str, contentType)
 		return
 	}
 	//发送回复的消息
@@ -221,6 +220,5 @@ func QyResponseServe(rw http.ResponseWriter, req *http.Request) {
 	rw.WriteHeader(200)
 	rw.Write([]byte(str2))
 
-	fmt.Println("send to wx",str2,contentType2)
+	fmt.Println("send to wx", str2, contentType2)
 }
-

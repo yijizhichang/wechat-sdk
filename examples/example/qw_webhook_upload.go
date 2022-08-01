@@ -1,15 +1,15 @@
 /**
  * @Time : 2022/7/29 15:02
  * @Author : soupzhb@gmail.com
- * @File : webhook_upload.go
+ * @File : qw_webhook_upload.go
  * @Software: GoLand
  */
 
 package example
 
 import (
-	"../wxconf"
 	"fmt"
+	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
 	"io"
 	"net/http"
 	"os"

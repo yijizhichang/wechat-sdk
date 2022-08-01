@@ -216,28 +216,32 @@ type SendTemplateCardTextWebhookReq struct {
 			Title     string `json:"title"`
 			QuoteText string `json:"quote_text"`
 		} `json:"quote_area"`
-		SubTitleText          string `json:"sub_title_text"`
-		HorizontalContentList []struct {
-			Keyname string `json:"keyname"`
-			Value   string `json:"value"`
-			Type    int    `json:"type,omitempty"`
-			Url     string `json:"url,omitempty"`
-			MediaId string `json:"media_id,omitempty"`
-		} `json:"horizontal_content_list"`
-		JumpList []struct {
-			Type     int    `json:"type"`
-			Url      string `json:"url,omitempty"`
-			Title    string `json:"title"`
-			Appid    string `json:"appid,omitempty"`
-			Pagepath string `json:"pagepath,omitempty"`
-		} `json:"jump_list"`
-		CardAction struct {
+		SubTitleText          string                  `json:"sub_title_text"`
+		HorizontalContentList []HorizontalContentItem `json:"horizontal_content_list"`
+		JumpList              []JumpItem              `json:"jump_list"`
+		CardAction            struct {
 			Type     int    `json:"type"`
 			Url      string `json:"url"`
 			Appid    string `json:"appid"`
 			Pagepath string `json:"pagepath"`
 		} `json:"card_action"`
 	} `json:"template_card"`
+}
+
+type HorizontalContentItem struct {
+	Keyname string `json:"keyname"`
+	Value   string `json:"value"`
+	Type    int    `json:"type,omitempty"`
+	Url     string `json:"url,omitempty"`
+	MediaId string `json:"media_id,omitempty"`
+}
+
+type JumpItem struct {
+	Type     int    `json:"type"`
+	Url      string `json:"url,omitempty"`
+	Title    string `json:"title"`
+	Appid    string `json:"appid,omitempty"`
+	Pagepath string `json:"pagepath,omitempty"`
 }
 
 func (m *Webhook) SendTemplateCardTextMessage(webhook string, req SendTemplateCardTextWebhookReq) (result *util.WxError, err error) {
@@ -291,31 +295,36 @@ type SendTemplateCardNewsWebhookReq struct {
 			Title     string `json:"title"`
 			QuoteText string `json:"quote_text"`
 		} `json:"quote_area"`
-		VerticalContentList []struct {
-			Title string `json:"title"`
-			Desc  string `json:"desc"`
-		} `json:"vertical_content_list"`
-		HorizontalContentList []struct {
-			Keyname string `json:"keyname"`
-			Value   string `json:"value"`
-			Type    int    `json:"type,omitempty"`
-			Url     string `json:"url,omitempty"`
-			MediaId string `json:"media_id,omitempty"`
-		} `json:"horizontal_content_list"`
-		JumpList []struct {
-			Type     int    `json:"type"`
-			Url      string `json:"url,omitempty"`
-			Title    string `json:"title"`
-			Appid    string `json:"appid,omitempty"`
-			Pagepath string `json:"pagepath,omitempty"`
-		} `json:"jump_list"`
-		CardAction struct {
+		VerticalContentList   []VerticalContentNewsItem   `json:"vertical_content_list"`
+		HorizontalContentList []HorizontalContentNewsItem `json:"horizontal_content_list"`
+		JumpList              []JumpNewsItem              `json:"jump_list"`
+		CardAction            struct {
 			Type     int    `json:"type"`
 			Url      string `json:"url"`
 			Appid    string `json:"appid"`
 			Pagepath string `json:"pagepath"`
 		} `json:"card_action"`
 	} `json:"template_card"`
+}
+
+type VerticalContentNewsItem struct {
+	Title string `json:"title"`
+	Desc  string `json:"desc"`
+}
+type HorizontalContentNewsItem struct {
+	Keyname string `json:"keyname"`
+	Value   string `json:"value"`
+	Type    int    `json:"type,omitempty"`
+	Url     string `json:"url,omitempty"`
+	MediaId string `json:"media_id,omitempty"`
+}
+
+type JumpNewsItem struct {
+	Type     int    `json:"type"`
+	Url      string `json:"url,omitempty"`
+	Title    string `json:"title"`
+	Appid    string `json:"appid,omitempty"`
+	Pagepath string `json:"pagepath,omitempty"`
 }
 
 func (m *Webhook) SendTemplateCardNewsMessage(webhook string, req SendTemplateCardNewsWebhookReq) (result *util.WxError, err error) {

@@ -7,26 +7,29 @@ import (
 	"github.com/yijizhichang/wechat-sdk/examples/cache"
 	"github.com/yijizhichang/wechat-sdk/examples/example"
 	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
-	wxCache "github.com/yijizhichang/wechat-sdk/util/cache"
 	"net/http"
 )
 
 // 测试参数
 // go run example.go -appid='your appdi' -appsecret='your appsecret' -token='your token' -port='80'
+/* 测试公众号时打开对应参数
 var appid = flag.String("appid", "your AppID", "appid")
 var appsecret = flag.String("appsecret", "your AppSecret", "appsecret")
 var token = flag.String("token", "your Token", "token")
 var aeskey = flag.String("asekey", "your EncodingAesKey", "asekey")
 var port = flag.String("port", "80", "port")
+*/
 
-//qw
+//qw 测试企微时，打开对应参数
 // go run main.go -cropid='your cropid' -token='your token' -aeskey='your aeskey' -cropsecret='your cropsecret' -rpkey='your rpkey' -port='80'
 // go run main.go -cropid='111' -cropsecret='222' -rpkey='333'
 var cropid = flag.String("cropid", "your CorpID", "cropid")
 var cropsecret = flag.String("cropsecret", "your CorpSecret", "cropsecret")
 var rpkey = flag.String("rpkey", "your RasPrivateKey", "rpkey")
+var port = flag.String("port", "9999", "port")
 
 // 参数配置
+/*
 func getWxConfig(cacheModel wxCache.Cache) *wechat.Config {
 	config := &wechat.Config{
 		AppID:            *appid,     // 开发者ID(AppID)
@@ -43,13 +46,15 @@ func getWxConfig(cacheModel wxCache.Cache) *wechat.Config {
 	return config
 }
 
+*/
+
 func getQyWechatConfig(fileCache cache.FileClient) *wechat.QyConfig {
 	config := &wechat.QyConfig{
 		CorpID:           *cropid,     // 企业ID
 		CorpSecret:       *cropsecret, // 应用的凭证密钥; 每个应用有独立的secret，获取到的access_token只能本应用使用，所以每个应用的access_token应该分开来获取
 		RasPrivateKey:    *rpkey,      // 消息加密私钥
-		Token:            *token,      // 令牌(Token)
-		EncodingAESKey:   *aeskey,     // 消息加解密密钥 EncodingAESKey
+		Token:            "",          //*token,      // 令牌(Token)
+		EncodingAESKey:   "",          //*aeskey,     // 消息加解密密钥 EncodingAESKey
 		ThirdAccessToken: false,       //是用其他应用生成的access_token
 		Cache:            fileCache,   //缓存
 		ProxyUrl:         "",          //代理地址
@@ -119,16 +124,19 @@ func main() {
 	}
 	fileCache := cache.NewFileClient(file)
 	wxconf.QyWechatClient = wechat.NewQyWechat(getQyWechatConfig(fileCache))
-	fmt.Printf("qy param:", *cropid, *token, *aeskey, *cropsecret, *rpkey)
+	//fmt.Printf("qy param:", *cropid, *token, *aeskey, *cropsecret, *rpkey)
 
 	//测试
 	//example.QyAccessToken()  //获取企业access_token
 
-	token, err := wxconf.QyWechatClient.GetQyAccessToken(*cropsecret)
-	if err != nil {
-		fmt.Printf("GetQyAccessToken Err: %+v", err)
-	}
-	fmt.Println("token=%s", token)
+	/*
+		token, err := wxconf.QyWechatClient.GetQyAccessToken(*cropsecret)
+		if err != nil {
+			fmt.Printf("GetQyAccessToken Err: %+v", err)
+		}
+		fmt.Println("token=%s", token)
+
+	*/
 	//example.QyGetCustomerTagList(token)  //获取企业标签库
 	//example.QyCreateCustomerTag(token)  //创建企业标签
 	//example.QyUpdateCustomerTag(token)  //修改企业标签
