@@ -12,39 +12,35 @@ import (
 	"github.com/yijizhichang/wechat-sdk/examples/wxconf"
 )
 
-func QyGetDepartment(token string){
+func QyGetDepartment(token string) {
 
-	department := wxconf.QyWechatClint.GetDepartment()
-	res, err := department.GetDepartmentList(token,0)
+	department := wxconf.QyWechatClient.GetDepartment()
+	res, err := department.GetDepartmentList(token, 0)
 	if err != nil {
-		fmt.Printf("QyGetDepartment GetDepartmentList Err: %+v",err)
+		fmt.Printf("QyGetDepartment GetDepartmentList Err: %+v", err)
 	}
 
-	fmt.Printf("QyGetDepartment GetDepartmentList Res: %+v",res)
+	fmt.Printf("QyGetDepartment GetDepartmentList Res: %+v", res)
 }
 
+func QyGetDepartmentSimpleUserList(token string) {
 
-func QyGetDepartmentSimpleUserList(token string){
-
-	departmentUser := wxconf.QyWechatClint.GetDepartmentUser()
-	res, err := departmentUser.GetDepartmentSimpleUserList(token,5,0)
+	departmentUser := wxconf.QyWechatClient.GetDepartmentUser()
+	res, err := departmentUser.GetDepartmentSimpleUserList(token, 5, 0)
 	if err != nil {
-		fmt.Printf("QyGetDepartmentSimpleUserList GetDepartmentSimpleUserList Err: %+v",err)
+		fmt.Printf("QyGetDepartmentSimpleUserList GetDepartmentSimpleUserList Err: %+v", err)
 	}
 
-	fmt.Printf("QyGetDepartmentSimpleUserList GetDepartmentSimpleUserList Res: %+v",res)
+	fmt.Printf("QyGetDepartmentSimpleUserList GetDepartmentSimpleUserList Res: %+v", res)
 }
 
-func QyGetDepartmentUserList(token string){
+func QyGetDepartmentUserList(token string) {
 
-	departmentUser := wxconf.QyWechatClint.GetDepartmentUser()
-	res, err := departmentUser.GetDepartmentUserList(token,7,0)
+	departmentUser := wxconf.QyWechatClient.GetDepartmentUser()
+	res, err := departmentUser.GetDepartmentUserList(token, 7, 0)
 	if err != nil {
-		fmt.Printf("QyGetDepartmentUserList GetDepartmentUserList Err: %+v",err)
+		fmt.Printf("QyGetDepartmentUserList GetDepartmentUserList Err: %+v", err)
 	}
 
-	fmt.Printf("QyGetDepartmentUserList GetDepartmentUserList Res: %+v",res)
+	fmt.Printf("QyGetDepartmentUserList GetDepartmentUserList Res: %+v", res)
 }
-
-
-

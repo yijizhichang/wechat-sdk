@@ -6,6 +6,4 @@ import "github.com/yijizhichang/wechat-sdk"
 var WechatClient *wechat.Wechat
 
 //NewQyWechat
-var QyWechatClint *wechat.QyWechat
-
-
+var QyWechatClient *wechat.QyWechat
