@@ -82,9 +82,7 @@ func (m *Webhook) SendTextMessage(webhook string, req SendTextWebhookReq) (resul
 type SendMarkdownWebhookReq struct {
 	Msgtype  string `json:"msgtype"`
 	Markdown struct {
-		Content             string   `json:"content"`
-		MentionedList       []string `json:"mentioned_list"`
-		MentionedMobileList []string `json:"mentioned_mobile_list"`
+		Content string `json:"content"`
 	} `json:"markdown"`
 }
 
