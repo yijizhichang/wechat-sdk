@@ -18,7 +18,7 @@ const (
 	WebhookUploadMediaURL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/upload_media?key=%s&type=%s"
 )
 
-//webhook消息类型
+// webhook消息类型
 type WebhookMsgType string
 type WebhookCardType string
 
@@ -38,19 +38,19 @@ const (
 	WebhookCardTypeNews                 = "news_notice" //图文卡片
 )
 
-//Webhook 机器人消息
+// Webhook 机器人消息
 type Webhook struct {
 	*core.Context
 }
 
-//NewWebhook 实例化
+// NewWebhook 实例化
 func NewWebhook(context *core.Context) *Webhook {
 	m := new(Webhook)
 	m.Context = context
 	return m
 }
 
-//发送文本消息
+// 发送文本消息
 type SendTextWebhookReq struct {
 	Msgtype string `json:"msgtype"`
 	Text    struct {
@@ -78,11 +78,13 @@ func (m *Webhook) SendTextMessage(webhook string, req SendTextWebhookReq) (resul
 	return
 }
 
-//发送markdown类型消息
+// 发送markdown类型消息
 type SendMarkdownWebhookReq struct {
 	Msgtype  string `json:"msgtype"`
 	Markdown struct {
-		Content string `json:"content"`
+		Content             string   `json:"content"`
+		MentionedList       []string `json:"mentioned_list"`
+		MentionedMobileList []string `json:"mentioned_mobile_list"`
 	} `json:"markdown"`
 }
 
@@ -104,7 +106,7 @@ func (m *Webhook) SendMarkdownMessage(webhook string, req SendMarkdownWebhookReq
 	return
 }
 
-//发送图片类型
+// 发送图片类型
 type SendImageWebhookReq struct {
 	Msgtype string `json:"msgtype"`
 	Image   struct {
@@ -131,7 +133,7 @@ func (m *Webhook) SendImageMessage(webhook string, req SendImageWebhookReq) (res
 	return
 }
 
-//发送图文类型
+// 发送图文类型
 type SendNewsWebhookReq struct {
 	Msgtype string `json:"msgtype"`
 	News    struct {
@@ -164,7 +166,7 @@ func (m *Webhook) SendNewsMessage(webhook string, req SendNewsWebhookReq) (resul
 	return
 }
 
-//发送文件类型
+// 发送文件类型
 type SendFileWebhookReq struct {
 	Msgtype string `json:"msgtype"`
 	File    struct {
@@ -190,7 +192,7 @@ func (m *Webhook) SendFileMessage(webhook string, req SendFileWebhookReq) (resul
 	return
 }
 
-//发送模板卡片 文本通知
+// 发送模板卡片 文本通知
 type SendTemplateCardTextWebhookReq struct {
 	Msgtype      string `json:"msgtype"`
 	TemplateCard struct {
@@ -262,7 +264,7 @@ func (m *Webhook) SendTemplateCardTextMessage(webhook string, req SendTemplateCa
 	return
 }
 
-//发送模板卡片 图文通知
+// 发送模板卡片 图文通知
 type SendTemplateCardNewsWebhookReq struct {
 	Msgtype      string `json:"msgtype"`
 	TemplateCard struct {
@@ -345,7 +347,7 @@ func (m *Webhook) SendTemplateCardNewsMessage(webhook string, req SendTemplateCa
 	return
 }
 
-//上传文件
+// 上传文件
 type UploadWebhookMediaReq struct {
 	util.WxError
 	Type      string `json:"type"`
